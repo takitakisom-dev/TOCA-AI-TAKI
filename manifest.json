@@ -1,0 +1,17 @@
+{
+  "name": "PEDE AÍ - Peça sua música",
+  "short_name": "PEDE AÍ",
+  "description": "Peça músicas e mande caixinha via PIX pro músico",
+  "start_url": "/TOCA-AI-TAKI/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/138/138817.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
