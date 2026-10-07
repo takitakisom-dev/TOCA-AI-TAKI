@@ -1,3 +1,1 @@
-self.addEventListener('install', e=>self.skipWaiting());
-self.addEventListener('activate', e=>self.clients.claim());
-self.addEventListener('fetch', e=>{});
+{"name":"PEDE AI","short_name":"PEDE AI","start_url":"./","display":"standalone","background_color":"#060a14","theme_color":"#22c55e","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/138/138817.png","sizes":"512x512","type":"image/png"}]}
