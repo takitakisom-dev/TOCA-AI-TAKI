@@ -1,9 +1,0 @@
-{
-  "name": "PEDE AÍ",
-  "short_name": "PEDE AÍ",
-  "start_url": "./",
-  "display": "browser",
-  "background_color": "#0f172a",
-  "theme_color": "#22c55e",
-  "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/138/138817.png","sizes": "512x512","type": "image/png"}]
-}
