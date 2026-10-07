@@ -36,9 +36,6 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 <div class="top"><h1>🎵 PEDE AÍ</h1><small id="topSub"></small></div>
 <div id="alertTop" class="alertTop"></div>
 
-<!-- BOTAO INSTALAR APP - APARECE SOZINHO -->
-<button id="btnInstalar" class="btn-install" onclick="instalarApp()">📲 INSTALAR APP PEDE AÍ - 1 CLIQUE</button>
-
 <div id="vCli">
 <div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar música..." oninput="renderCli()"><div id="listaCli"></div><p id="syncInfoCli" style="font-size:9px;color:#475569;text-align:center;margin-top:8px">Sincronizando...</p></div>
 <div class="card" id="formPedido" style="display:none;border:3px solid #22c55e">
@@ -57,7 +54,11 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 <p id="pixRodapeCli" style="font-size:10px;color:#94a3b8;text-align:center;margin-top:6px"></p>
 </div>
 </div>
+
 <div id="vDono" style="display:none">
+<!-- BOTAO INSTALAR SO PRO DONO -->
+<button id="btnInstalarDono" class="btn-install" onclick="instalarApp()">📲 INSTALAR APP PEDE AÍ NO MEU CELULAR - 1 CLIQUE</button>
+
 <div class="card" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;text-align:center"><h2>💰 CAIXINHA HOJE</h2><div id="totalCaixa" style="font-size:34px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo">PIX não configurado</small></div>
 <div class="card" style="border:2px solid #22c55e;background:#052e16">
 <h3>⚙️ CONFIGURAR PIX</h3>
@@ -79,10 +80,9 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 <button class="btn btn-blue" style="width:100%" onclick="addMus()">+ ADICIONAR</button>
 <div id="listaDono" style="margin-top:12px"></div>
 </div>
-<div class="card"><div class="qrWrap"><div style="font-weight:900;font-size:12px;margin-bottom:6px">QR CODE MESA - PEDE AÍ</div><div id="qrcode" style="display:flex;justify-content:center"></div><p id="qrUrl" style="font-size:7px;word-break:break-all;margin-top:6px;color:#94a3b8"></p>
-<button id="btnInstalarDono" class="btn-install" style="display:none;margin:10px 0 0 0" onclick="instalarApp()">📲 INSTALAR APP NO MEU CELULAR</button>
-</div></div>
+<div class="card"><div class="qrWrap"><div style="font-weight:900;font-size:12px;margin-bottom:6px">QR CODE MESA - PEDE AÍ (cliente escaneia)</div><div id="qrcode" style="display:flex;justify-content:center"></div><p id="qrUrl" style="font-size:7px;word-break:break-all;margin-top:6px;color:#94a3b8"></p></div></div>
 </div>
+
 <div id="pixModal" class="pixModal"><div class="pixCard">
 <h2 style="color:#16a34a">✅ Pedido Enviado!</h2><p id="pixModalSub" style="font-size:13px"></p>
 <h3 id="pixValorTxt" style="font-size:34px;margin:8px 0;color:#16a34a">R$ 5,00</h3><p id="pixModalInfo" style="font-size:11px;color:#64748b"></p>
@@ -98,27 +98,28 @@ let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('btnInstalar').style.display='block';
-  let btnDono=document.getElementById('btnInstalarDono');
-  if(btnDono) btnDono.style.display='block';
+  // SO MOSTRA BOTAO SE FOR DONO
+  if(isDono){
+    let btnDono=document.getElementById('btnInstalarDono');
+    if(btnDono) btnDono.style.display='block';
+  }
 });
 function instalarApp(){
   if(deferredPrompt){
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(choice=>{
-      if(choice.outcome==='accepted'){showTop("✅ App instalado! Procure o ícone PEDE AÍ na sua tela!");document.getElementById('btnInstalar').style.display='none';}
+      if(choice.outcome==='accepted'){showTop("✅ App instalado! Procure o ícone PEDE AÍ na sua tela!");document.getElementById('btnInstalarDono').style.display='none';}
       deferredPrompt=null;
     });
   } else {
-    // iPhone ou já instalado
     if(/iPhone|iPad|iPod/.test(navigator.userAgent)){
-      alert("No iPhone: clique no botão compartilhar (quadrado com seta) > Adicionar à Tela de Início > Adicionar");
+      alert("No iPhone: botão compartilhar (quadrado com seta) > Adicionar à Tela de Início");
     } else {
-      alert("Para instalar: No Chrome clique nos 3 pontinhos > Instalar app ou Adicionar à tela inicial");
+      alert("Para instalar: 3 pontinhos > Instalar app");
     }
   }
 }
-window.addEventListener('appinstalled', ()=>{document.getElementById('btnInstalar').style.display='none';showTop("✅ PEDE AÍ instalado com sucesso!");});
+window.addEventListener('appinstalled', ()=>{let b=document.getElementById('btnInstalarDono');if(b)b.style.display='none';showTop("✅ PEDE AÍ DONO instalado!");});
 
 function cleanPixKey(k){return k.replace(/[^0-9a-zA-Z@._+-]/g,"").trim()}
 function cleanName(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Z0-9 ]/gi," ").toUpperCase().trim().substring(0,25)||"MUSICO"}
@@ -126,7 +127,7 @@ function cleanCity(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").r
 let PIX_KEY=(localStorage.getItem("taki_pix_key")||"").trim();
 let PIX_NAME=localStorage.getItem("taki_pix_name")||"";
 let PIX_CITY=localStorage.getItem("taki_pix_city")||"";
-const TOPIC="pedeai-taki-30499462882";const TOPIC_REP=TOPIC+"-REP-V15";const TOPIC_PED=TOPIC+"-PED-V15";
+const TOPIC="pedeai-taki-30499462882";const TOPIC_REP=TOPIC+"-REP-V16";const TOPIC_PED=TOPIC+"-PED-V16";
 const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
 let rep=JSON.parse(localStorage.getItem("taki_rep_final")||"[]");let peds=JSON.parse(localStorage.getItem("taki_peds_final")||"[]");
 let sel=null;let caixa=0;let editId=null;let ultimoPix="";
@@ -161,7 +162,6 @@ function ativaSom(){try{document.getElementById("beep").play().then(()=>{documen
 let pollInt=null;function startPolling(){if(pollInt)clearInterval(pollInt);pollInt=setInterval(async()=>{try{let r=await fetch("https://ntfy.sh/"+TOPIC_PED+"/json?poll=1");let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);lines.forEach(line=>{try{let j=JSON.parse(line);if(j.message){let p=JSON.parse(j.message);if(p.musica&&!peds.find(x=>x.id===p.id)){peds.push(p);save();document.getElementById("beep").play().catch(()=>{});showTop("🔔 NOVO! "+p.musica+" - R$"+(p.caixa||0))}}}catch(e){}})}catch(e){}},3000)}
 function limparTudo(){if(confirm("Limpar pedidos?")){peds=[];save()}}
 renderAll();fetchRep();fetchConfig();if(isDono)startPolling();else setInterval(fetchRep,5000);setInterval(fetchConfig,5000);
-if(window.matchMedia('(display-mode: standalone)').matches){document.getElementById('btnInstalar').style.display='none';}
 </script>
 </body>
 </html>
