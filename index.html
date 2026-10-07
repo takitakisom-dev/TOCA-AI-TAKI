@@ -2,118 +2,107 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PEDE AI V37</title>
+<title>PEDE AI - FINAL</title>
 <link id="manifestLink" rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#22c55e">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#0f172a;color:#fff}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}body{background:#0f172a;color:#fff}
 .top{background:linear-gradient(135deg,#22c55e,#7c3aed);padding:16px;text-align:center}
 .card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:14px;margin:10px}
 .inp{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin:6px 0;font-size:16px}
 .btn{padding:14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
-.btn-blue{background:#2563eb;color:#fff;flex:1}
-.btn-green{background:#16a34a;color:#fff;width:100%;padding:16px;border-radius:12px;margin-top:8px;font-size:17px}
-.btn-red{background:#ef4444;color:#fff;width:100%;padding:16px;border-radius:12px;margin-top:8px}
-.music{padding:14px;border-radius:12px;border:1px solid #334155;background:#0f172a;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
+.btn-blue{background:#2563eb;color:#fff}.btn-green{background:#16a34a;color:#fff;width:100%;padding:16px;border-radius:12px;margin-top:8px}
+.music{padding:14px;border-radius:12px;border:1px solid #334155;background:#0f172a;margin:8px 0;display:flex;justify-content:space-between}
 .cal{padding:14px;border-radius:12px;border:2px solid #334155;background:#0f172a;text-align:center;font-weight:900;cursor:pointer;flex:1}
 .cal.on{border-color:#22c55e;background:#dcfce7;color:#14532d}
 .alertTop{position:fixed;top:10px;left:10px;right:10px;background:#16a34a;color:#fff;padding:18px;border-radius:14px;font-weight:900;z-index:9999;display:none;text-align:center}
 .pixModal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px}
 .pixCard{background:#fff;color:#0f172a;border-radius:20px;padding:20px;max-width:380px;width:100%;text-align:center}
 .pixCode{word-break:break-all;background:#f1f5f9;border:2px dashed #22c55e;border-radius:10px;padding:12px;font-size:11px;margin:10px 0;text-align:left}
-.showON{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:18px}
-.showOFF{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:18px}
 </style>
 </head>
 <body>
-<div class="top"><h1>🎵 PEDE AÍ</h1><small id="topSub">V37 - TÓPICO ÚNICO</small></div>
+<div class="top"><h1>🎵 PEDE AÍ</h1><small id="topSub">V38 FINAL - NÃO MUDA MAIS</small></div>
 <div id="alertTop" class="alertTop"></div>
 <div id="vCli">
 <div class="card" id="cardStatusCli" style="display:none;text-align:center;font-weight:900;padding:20px;border-radius:16px"></div>
-<div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar..." oninput="renderCli()"><div id="listaCli"></div><small id="debugCli" style="font-size:10px;color:#94a3b8"></small></div>
+<div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar..." oninput="renderCli()"><div id="listaCli"></div></div>
 <div class="card" id="formPedido" style="display:none;border:3px solid #22c55e">
-<h3 id="musicaSelTxt" style="color:#22c55e"></h3><small id="cantorSelTxt"></small>
-<input id="nomeCli" class="inp" placeholder="Seu nome"><input id="recadoCli" class="inp" placeholder="Recado">
-<p style="font-weight:800;margin:12px 0 8px">💰 Caixinha?</p>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+<h3 id="musicaSelTxt" style="color:#22c55e"></h3><input id="nomeCli" class="inp" placeholder="Seu nome"><input id="recadoCli" class="inp" placeholder="Recado">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
 <div class="cal" id="c2" onclick="setCaixa(2)">R$2</div><div class="cal" id="c5" onclick="setCaixa(5)">R$5</div><div class="cal" id="c10" onclick="setCaixa(10)">R$10</div>
 </div>
-<div style="display:flex;gap:6px;margin-top:8px"><input id="outroValor" type="number" class="inp" style="flex:1;margin:0" placeholder="Outro valor" oninput="setCaixaCustom(this.value)"><button class="btn-blue" style="flex:0 0 70px" onclick="aplicarOutro()">OK</button></div>
 <p id="pixPreview" style="color:#22c55e;text-align:center;margin-top:8px;font-weight:800;display:none"></p>
 <button class="btn-green" id="btnEnviar" onclick="enviar()">ENVIAR PEDIDO</button>
 </div>
 </div>
 <div id="vDono" style="display:none">
 <div class="card" style="border:3px solid #22c55e;background:#052e16;text-align:center">
-<h2>🎤 CONTROLE - V37 ÚNICO</h2>
+<h2>🎤 DONO - V38 FINAL</h2>
 <div id="showStatusBox" style="margin:10px 0"></div>
-<button id="btnToggleShow" class="btn-green" style="font-size:20px;padding:20px" onclick="toggleShow()">LIBERAR</button>
-<button class="btn" style="width:100%;margin-top:8px;background:#fff;color:#000;padding:18px;font-size:16px" onclick="forcarEnvio()">🚀 FORÇAR ENVIAR TUDO PRO TABLET DO CLIENTE - CLICA AQUI</button>
-<p id="statusForcar" style="font-size:11px;margin-top:6px;color:#86efac"></p>
+<button id="btnToggleShow" class="btn-green" onclick="toggleShow()">LIBERAR SHOW</button>
+<button class="btn" style="width:100%;margin-top:10px;background:#fff;color:#000;padding:18px" onclick="forcarEnvio()">🚀 CLICA AQUI PRA MANDAR TUDO PRO TABLET DO CLIENTE</button>
+<p id="statusForcar" style="font-size:11px;color:#86efac;margin-top:6px"></p>
 </div>
-<div class="card" style="border:3px solid #fff;background:#fff;color:#000;text-align:center">
-<h2>🖨️ QR CLIENTE - SEM?dono</h2>
-<div id="qrcode" style="display:flex;justify-content:center;margin:10px 0"></div>
-<p id="qrLink" style="font-size:10px;color:#000;word-break:break-all;font-weight:900"></p>
-<p style="font-size:10px;color:#ef4444">↑ Esse link NÃO pode ter?dono=TAKI123 no final!</p>
+<div class="card" style="background:#fff;color:#000;text-align:center"><h3>QR CLIENTE</h3><div id="qrcode" style="display:flex;justify-content:center;margin:10px 0"></div><p id="qrLink" style="font-size:10px;word-break:break-all;font-weight:900"></p></div>
+<div class="card"><h3>⚙️ MEU PIX</h3><input id="cfgPixKey" class="inp" placeholder="Chave PIX"><input id="cfgPixName" class="inp" placeholder="Nome"><input id="cfgPixCity" class="inp" placeholder="Cidade"><button class="btn btn-green" onclick="salvarPixConfig()">💾 SALVAR PIX</button><p id="pixStatus" style="font-size:11px;color:#86efac"></p></div>
+<div class="card"><h3>🎼 Repertório - Quantas músicas você tem no seu celular de dono? <span id="qtdDono"></span></h3><div style="display:flex;gap:8px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1" placeholder="Cantor"></div><button class="btn btn-blue" style="width:100%;background:#2563eb;color:#fff;padding:14px;border-radius:10px" onclick="addMus()">+ ADICIONAR</button><div id="listaDono" style="margin-top:10px"></div></div>
+<div class="card"><h3>🔔 PEDIDOS</h3><div id="listaPedidos"></div></div>
 </div>
-<div class="card" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;text-align:center"><h2>💰 CAIXINHA</h2><div id="totalCaixa" style="font-size:34px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo"></small><br><small id="statusDono" style="background:#000;color:#22c55e;padding:8px 14px;border-radius:99px;font-weight:800;margin-top:10px;display:inline-block">⚠️ Ative o alarme</small></div>
-<div class="card" style="border:3px solid #ef4444;background:#1a0a0a">
-<h3>🚨 ALARME</h3>
-<button class="btn btn-green" style="background:#22c55e;color:#000;font-size:16px;padding:18px;margin-top:8px" onclick="ativaSom()">🔊 ATIVAR ALARME</button>
-<p id="debugSync" style="font-size:10px;color:#94a3b8;margin-top:8px;background:#0f172a;padding:8px;border-radius:6px">Aguardando...</p>
-</div>
-<div class="card"><h3>🔔 PEDIDOS <span id="contadorPedidos" style="background:#22c55e;color:#000;padding:2px 8px;border-radius:99px">0</span></h3><div id="listaPedidos" style="margin-top:10px"></div></div>
-<div class="card" style="border:2px solid #22c55e;background:#052e16">
-<h3>⚙️ MEU PIX - SALVA AQUI QUE VAI PRO TABLET</h3>
-<input id="cfgPixKey" class="inp" placeholder="Chave PIX"><input id="cfgPixName" class="inp" placeholder="Nome"><input id="cfgPixCity" class="inp" placeholder="Cidade">
-<button class="btn btn-green" onclick="salvarPixConfig()">💾 SALVAR E ENVIAR PRO TABLET</button>
-<button class="btn btn-blue" style="width:100%;margin-top:8px;background:#f59e0b;color:#000" onclick="testarPix()">💰 TESTAR</button>
-<p id="pixStatus" style="font-size:11px;margin-top:8px;color:#86efac"></p>
-</div>
-<div class="card"><h3>🎼 Repertório - Adiciona aqui e clica no botão 🚀 lá em cima</h3><div style="display:flex;gap:8px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1.5" placeholder="Cantor"></div><button class="btn btn-blue" style="width:100%" onclick="addMus()">+ ADICIONAR</button><div id="listaDono" style="margin-top:12px"></div></div>
-</div>
-<div id="pixModal" class="pixModal"><div class="pixCard"><h2 style="color:#16a34a">✅ Enviado!</h2><h3 id="pixValorTxt" style="font-size:32px;color:#16a34a"></h3><p id="pixInfoTxt" style="font-size:12px;color:#334155;font-weight:700"></p><div id="pixQr" style="display:flex;justify-content:center;margin:14px 0"></div><div id="pixCopiaCola" class="pixCode"></div><button class="btn-green" onclick="copiarPix()">📋 COPIAR</button><button class="btn" style="width:100%;margin-top:8px;background:#e2e8f0;color:#333" onclick="fecharPix()">Fechar</button></div></div>
+<div id="pixModal" class="pixModal"><div class="pixCard"><h2 style="color:#16a34a">✅ Pedido enviado!</h2><h3 id="pixValorTxt" style="font-size:32px;color:#16a34a"></h3><div id="pixQr" style="display:flex;justify-content:center;margin:14px 0"></div><div id="pixCopiaCola" class="pixCode"></div><button class="btn-green" onclick="copiarPix()">📋 COPIAR</button><button class="btn" style="width:100%;margin-top:8px;background:#e2e8f0;color:#333" onclick="fecharPix()">Fechar</button></div></div>
 <audio id="audioAlarme" preload="auto" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3"></audio>
 <script>
 const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
 if(isDono){document.getElementById('manifestLink').href='manifest-dono.json';}else{document.getElementById('manifestLink').href='manifest-cliente.json';}
-let alarmeAtivo=false,eventSource=null;let PIX_KEY=localStorage.getItem("taki_pix_key")||"";let PIX_NAME=localStorage.getItem("taki_pix_name")||"";let PIX_CITY=localStorage.getItem("taki_pix_city")||"";let showAberto=localStorage.getItem("show_aberto")!=="0";
-const TOPIC="pedeai-taki-UNICO-TAKI123-NUNCA-MUDA";const TOPIC_REP=TOPIC+"-REP";const TOPIC_PED=TOPIC+"-PED";const TOPIC_CFG=TOPIC+"-CFG";const TOPIC_SHOW=TOPIC+"-SHOW";
-let rep=JSON.parse(localStorage.getItem("rep_unico")||"[]");if(rep.length===0){rep=[{id:1,musica:"METADE",cantor:"ADRIANA"}];}
-let peds=JSON.parse(localStorage.getItem("peds_unico")||"[]");let sel=null,caixa=0,ultimoPix="";
+let PIX_KEY=localStorage.getItem("taki_pix_key")||"";let PIX_NAME=localStorage.getItem("taki_pix_name")||"";let PIX_CITY=localStorage.getItem("taki_pix_city")||"";
+let showAberto=localStorage.getItem("show_aberto")!=="0";
+const TOPIC="pedeai-taki-OFICIAL-FINAL-NAO-MUDA-MAIS";const TOPIC_REP=TOPIC+"-REP";const TOPIC_CFG=TOPIC+"-CFG";const TOPIC_SHOW=TOPIC+"-SHOW";const TOPIC_PED=TOPIC+"-PED";
+// Pega de TODOS os lugares antigos onde salvou antes
+function pegaTodasMusicasAntigas(){
+ let todas=[];
+ ["rep_fixo","rep_fixo36","rep_unico","rep_fixo32","rep_v33","rep"].forEach(k=>{
+  try{let arr=JSON.parse(localStorage.getItem(k)||"[]"); if(Array.isArray(arr)) todas=todas.concat(arr);}catch(e){}
+ });
+ let uniq={}; todas.forEach(r=>{ if(r.musica) uniq[r.musica]=r; });
+ let final=Object.values(uniq);
+ if(final.length>0) return final;
+ return [{id:1,musica:"METADE",cantor:"ADRIANA"}];
+}
+let rep=pegaTodasMusicasAntigas();
+localStorage.setItem("rep_oficial",JSON.stringify(rep));
+let peds=JSON.parse(localStorage.getItem("peds_oficial")||"[]");let sel=null,caixa=0,ultimoPix="";
 function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)crc=(crc&0x8000)?(crc<<1)^0x1021:crc<<1}return(crc&0xFFFF).toString(16).toUpperCase().padStart(4,'0')}
 function fmt(id,v){return id+String(v.length).padStart(2,'0')+v}
-function genPix(k,amt,name,city,tx){try{let ck=String(k).trim().replace(/\s+/g,'');if(!ck)return "";let cn=String(name||"MUSICO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,25)||"MUSICO";let cc=String(city||"SAO PAULO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,15)||"SAO PAULO";let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",ck);let a=amt>0?fmt("54",Number(amt).toFixed(2)):"";let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",cn)+fmt("60",cc)+fmt("62",fmt("05",tx.substring(0,20)));p+="6304";return p+crc16(p);}catch(e){return "";}}
-function save(){localStorage.setItem("rep_unico",JSON.stringify(rep));localStorage.setItem("peds_unico",JSON.stringify(peds));renderAll();}
-async function forcarEnvio(){let s=document.getElementById("statusForcar");s.innerText="🚀 Enviando...";try{await fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});await fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:PIX_KEY,name:PIX_NAME,city:PIX_CITY})});await fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto})});s.innerText="✅ ENVIADO! Rep: "+rep.length+" músicas | PIX: "+(PIX_KEY||"VAZIO")+" | Agora atualiza o tablet puxando pra baixo!";showTop("✅ Enviado pro tablet!");}catch(e){s.innerText="❌ Erro: "+e;}}
-function salvarPixConfig(){let k=document.getElementById("cfgPixKey").value.trim().replace(/\s/g,'');let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();if(!k){alert("Digite PIX!");return;}localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{document.getElementById("pixStatus").innerText="✅ PIX SALVO E ENVIADO: "+k;showTop("✅ PIX enviado pro tablet!");forcarEnvio();renderAll();});}
-function testarPix(){if(!PIX_KEY){alert("Salve PIX!");return;}let t=genPix(PIX_KEY,5,PIX_NAME,PIX_CITY,"TESTE");ultimoPix=t;document.getElementById("pixValorTxt").innerText="R$ 5,00";document.getElementById("pixInfoTxt").innerText=PIX_KEY;document.getElementById("pixCopiaCola").innerText=t;document.getElementById("pixQr").innerHTML="";new QRCode(document.getElementById("pixQr"),{text:t,width:220,height:220});document.getElementById("pixModal").style.display="flex";}
-async function fetchConfig(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_CFG+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let txt=await r.text();let lines=txt.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let cfg=JSON.parse(last.message);PIX_KEY=String(cfg.key||"").trim();PIX_NAME=cfg.name||"";PIX_CITY=cfg.city||"";localStorage.setItem("taki_pix_key",PIX_KEY);localStorage.setItem("taki_pix_name",PIX_NAME);localStorage.setItem("taki_pix_city",PIX_CITY);renderAll();}}}catch(e){}}
-async function fetchShow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_SHOW+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let txt=await r.text();let lines=txt.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let st=JSON.parse(last.message);showAberto=!!st.aberto;localStorage.setItem("show_aberto",showAberto?"1":"0");renderAll();}}}catch(e){}}
+function genPix(k,amt,name,city,tx){let ck=String(k).trim().replace(/\s+/g,'');if(!ck)return "";let cn=String(name||"MUSICO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,25)||"MUSICO";let cc=String(city||"SAO PAULO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,15)||"SAO PAULO";let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",ck);let a=amt>0?fmt("54",Number(amt).toFixed(2)):"";let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",cn)+fmt("60",cc)+fmt("62",fmt("05",tx.substring(0,20)));p+="6304";return p+crc16(p);}
+function save(){localStorage.setItem("rep_oficial",JSON.stringify(rep));localStorage.setItem("peds_oficial",JSON.stringify(peds));renderAll();}
+async function forcarEnvio(){
+ let s=document.getElementById("statusForcar");s.innerText="Enviando "+rep.length+" músicas e PIX "+PIX_KEY+"...";
+ try{
+  await fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});
+  await fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:PIX_KEY,name:PIX_NAME,city:PIX_CITY})});
+  s.innerText="✅ ENVIADO! Agora vai no tablet e arrasta a tela pra baixo pra atualizar! Deve aparecer "+rep.length+" músicas e PIX "+PIX_KEY;
+  showTop("✅ Enviado! Atualiza o tablet!");
+ }catch(e){s.innerText="Erro: "+e}
+}
+function salvarPixConfig(){let k=document.getElementById("cfgPixKey").value.trim().replace(/\s/g,'');let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();if(!k){alert("Digite PIX!");return;}localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{document.getElementById("pixStatus").innerText="✅ PIX salvo: "+k;forcarEnvio();renderAll();});}
 function toggleShow(){showAberto=!showAberto;localStorage.setItem("show_aberto",showAberto?"1":"0");fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto})});renderAll();}
-function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m.toUpperCase(),cantor:c.toUpperCase()});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)}).then(()=>showTop("✅ Adicionado! Agora clica no 🚀 pra enviar pro tablet"));renderAll();}
+function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m.toUpperCase(),cantor:c.toUpperCase()});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});renderAll();}
 function delMus(id){rep=rep.filter(r=>r.id!==id);save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
-async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let txt=await r.text();let lines=txt.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote)&&remote.length>0){rep=remote;localStorage.setItem("rep_unico",JSON.stringify(rep));renderAll();}}}}catch(e){}}
-function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='text-align:center;padding:20px'>Sem músicas</p>";let s=document.getElementById("cardStatusCli");if(!showAberto){s.style.display="block";s.style.background="#ef4444";s.innerHTML="🔴 SHOW PAUSADO";}else{s.style.display="block";s.style.background="#22c55e";s.style.color="#000";s.innerHTML="🟢 SHOW LIBERADO!";}let prev=document.getElementById("pixPreview");if(caixa>0){prev.style.display="block";prev.innerText=PIX_KEY?"✅ PIX R$"+caixa+" para: "+PIX_KEY:"❌ PIX sem configurar - avise o músico!";}else{prev.style.display="none";}document.getElementById("btnEnviar").innerText=caixa>0&&PIX_KEY?"ENVIAR + R$"+caixa:"ENVIAR";document.getElementById("btnEnviar").disabled=!showAberto;document.getElementById("debugCli").innerText="Tópico: "+TOPIC+" | Músicas: "+rep.length+" | PIX: "+(PIX_KEY||"ZERADO")+" | Atualiza a cada 2s";}
-function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;document.getElementById("pixDonoInfo").innerText=PIX_KEY?"✅ PIX: "+PIX_KEY:"❌ SEM PIX";let box=document.getElementById("showStatusBox");let btn=document.getElementById("btnToggleShow");if(showAberto){box.innerHTML='<div class="showON">🟢 LIBERADO</div>';btn.innerText='🔴 PAUSAR';btn.style.background='#ef4444';}else{box.innerHTML='<div class="showOFF">🔴 PAUSADO</div>';btn.innerText='🟢 LIBERAR';btn.style.background='#22c55e';btn.style.color='#000';}document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><button style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="delMus(${r.id})">🗑️</button></div>`).join("");document.getElementById("totalCaixa").innerText="R$ "+peds.reduce((s,p)=>s+(p.caixa||0),0)+",00";document.getElementById("contadorPedidos").innerText=peds.length;}
-function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText="DONO V37 ÚNICO - "+rep.length+" músicas - "+TOPIC;try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:220,height:220});document.getElementById("qrLink").innerText=base;}catch(e){}}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=rep.length+" músicas - V37 ÚNICO";}renderCli();if(isDono)renderDono();}
-function escolhe(id){sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";}
-function setCaixa(v){caixa=v;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));let el=document.getElementById("c"+v);if(el)el.classList.add("on");renderCli();}
-function setCaixaCustom(v){let n=parseInt(v)||0;caixa=n;renderCli();}
-function aplicarOutro(){renderCli();}
+async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let txt=await r.text();let lines=txt.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote) && remote.length>0){if(remote.length>=rep.length){rep=remote;localStorage.setItem("rep_oficial",JSON.stringify(rep));renderAll();}}}}}catch(e){}}
+async function fetchConfig(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_CFG+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let txt=await r.text();let lines=txt.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let cfg=JSON.parse(last.message);if(cfg.key){PIX_KEY=String(cfg.key).trim();PIX_NAME=cfg.name||"";PIX_CITY=cfg.city||"";localStorage.setItem("taki_pix_key",PIX_KEY);localStorage.setItem("taki_pix_name",PIX_NAME);localStorage.setItem("taki_pix_city",PIX_CITY);renderAll();}}}}catch(e){}}
+async function fetchShow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_SHOW+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let txt=await r.text();let lines=txt.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let st=JSON.parse(last.message);showAberto=!!st.aberto;localStorage.setItem("show_aberto",showAberto?"1":"0");renderAll();}}}catch(e){}}
+function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='text-align:center;padding:20px'>Sem músicas</p>";let s=document.getElementById("cardStatusCli");if(!showAberto){s.style.display="block";s.style.background="#ef4444";s.innerHTML="🔴 PAUSADO";}else{s.style.display="block";s.style.background="#22c55e";s.style.color="#000";s.innerHTML="🟢 LIBERADO!";}let prev=document.getElementById("pixPreview");if(caixa>0){prev.style.display="block";prev.innerText=PIX_KEY?"✅ PIX R$"+caixa+" para: "+PIX_KEY:"❌ PIX sem configurar";}else{prev.style.display="none";}document.getElementById("btnEnviar").innerText=caixa>0&&PIX_KEY?"ENVIAR + R$"+caixa:"ENVIAR";}
+function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;document.getElementById("qtdDono").innerText="("+rep.length+" encontradas no seu celular!)";let box=document.getElementById("showStatusBox");box.innerHTML=showAberto?'<div style="background:#22c55e;color:#000;padding:12px;border-radius:10px;font-weight:900">🟢 LIBERADO</div>':'<div style="background:#ef4444;padding:12px;border-radius:10px">🔴 PAUSADO</div>';document.getElementById("btnToggleShow").innerText=showAberto?"🔴 PAUSAR":"🟢 LIBERAR";document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><button style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="delMus(${r.id})">🗑️</button></div>`).join("");document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:2px solid #22c55e;border-radius:10px;padding:10px;margin:6px 0"><b>${p.musica}</b> R$${p.caixa||0} - ${p.nome}</div>`).join("")||"Sem pedidos";}
+function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText="DONO - "+rep.length+" músicas - FINAL";try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:200,height:200});document.getElementById("qrLink").innerText=base;}catch(e){}}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=rep.length+" músicas - FINAL";}renderCli();if(isDono)renderDono();}
+function escolhe(id){sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("formPedido").style.display="block";}
+function setCaixa(v){caixa=v;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));document.getElementById("c"+v)?.classList.add("on");renderCli();}
 function showTop(t){let el=document.getElementById("alertTop");el.innerText=t;el.style.display="block";setTimeout(()=>el.style.display="none",4000)}
-function enviar(){let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel)return;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(ped)});if(caixa>0){if(!PIX_KEY){alert("Músico sem PIX configurado! Pedido enviado sem PIX.");fecharPix();return;}let code=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now());ultimoPix=code;document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixInfoTxt").innerText=PIX_KEY;document.getElementById("pixCopiaCola").innerText=code;document.getElementById("pixQr").innerHTML="";new QRCode(document.getElementById("pixQr"),{text:code,width:220,height:220});document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Enviado!");fecharPix();}}
+function enviar(){let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel)return;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(ped)});if(caixa>0){if(!PIX_KEY){alert("Sem PIX!");fecharPix();return;}let code=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now());ultimoPix=code;document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixCopiaCola").innerText=code;document.getElementById("pixQr").innerHTML="";new QRCode(document.getElementById("pixQr"),{text:code,width:200,height:200});document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Enviado!");fecharPix();}}
 function copiarPix(){navigator.clipboard.writeText(ultimoPix).then(()=>showTop("✅ Copiado!"));}
-function fecharPix(){document.getElementById("pixModal").style.display="none";document.getElementById("formPedido").style.display="none";setCaixa(0);sel=null;}
-function ativaSom(){alarmeAtivo=true;document.getElementById("audioAlarme").play().then(()=>{document.getElementById("audioAlarme").pause();}).catch(()=>{});document.getElementById("statusDono").innerText="🔊 ATIVO";document.getElementById("statusDono").style.background="#22c55e";document.getElementById("statusDono").style.color="#000";showTop("🔊 Ativo!");startEventSource();}
-function startEventSource(){if(eventSource)eventSource.close();try{eventSource=new EventSource("https://ntfy.sh/"+TOPIC_PED+"/sse?since=10m");eventSource.onmessage=e=>{try{let o=JSON.parse(e.data);if(o.message){let ped=JSON.parse(o.message);if(!peds.find(x=>x.id===ped.id)){peds.push(ped);save();document.getElementById("audioAlarme").play();showTop("🔔 NOVO! "+ped.musica);}}}catch(err){}};eventSource.onopen=()=>{document.getElementById("debugSync").innerText="✅ AO VIVO! Tópico: "+TOPIC_PED+" | PIX: "+(PIX_KEY||"ZERADO");}}catch(e){}}
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+function fecharPix(){document.getElementById("pixModal").style.display="none";document.getElementById("formPedido").style.display="none";sel=null;caixa=0;}
 renderAll();fetchRep();fetchConfig();fetchShow();
-setInterval(fetchRep,2000);setInterval(fetchConfig,2000);setInterval(fetchShow,3000);
-if(isDono){startEventSource();}
+setInterval(fetchRep,2000);setInterval(fetchConfig,2000);
 </script>
 </body>
 </html>
