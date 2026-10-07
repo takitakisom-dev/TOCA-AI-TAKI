@@ -1,17 +1,17 @@
 {
-  "name": "PEDE AÍ - Peça sua música",
-  "short_name": "PEDE AÍ",
-  "description": "Peça músicas e mande caixinha via PIX pro músico",
-  "start_url": "/TOCA-AI-TAKI/",
+  "name": "PEDE AÍ - DONO - Peça sua música",
+  "short_name": "PEDE AÍ DONO",
+  "description": "Painel do músico - PEDE AÍ",
+  "start_url": "/TOCA-AI-TAKI/?dono=TAKI123",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#22c55e",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/138/138817.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }
