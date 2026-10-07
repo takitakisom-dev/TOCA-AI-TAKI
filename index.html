@@ -2,86 +2,86 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PEDE AÍ - Toca AI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PEDE AÍ</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#0a0e1a;color:#fff;min-height:100vh}
-header{background:#0f172a;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:20}
-.logo{font-weight:900;font-size:18px}
-.logo span{background:#22c55e;color:#000;font-size:11px;padding:3px 8px;border-radius:20px;margin-left:8px}
-.bar{background:#22c55e;color:#000;text-align:center;padding:7px;font-weight:800;font-size:12px}
-.search-box{padding:14px}
-.search{width:100%;padding:14px 18px;border-radius:999px;background:#101c31;border:1px solid #1e293b;color:#fff;outline:none}
-.card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:12px;margin:0 14px 10px}
-.card img{width:54px;height:54px;border-radius:10px;background:#1e293b}
-.title{font-weight:700;font-size:14px}
-.artist{font-size:12px;color:#94a3b8}
-.play{margin-left:auto;background:#22c55e;color:#000;border:0;width:40px;height:40px;border-radius:50%;font-weight:900}
-#painel{display:none;position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #1e293b;padding:16px;z-index:50}
-#painel.open{display:block}
-input.add{width:100%;padding:12px;border-radius:10px;background:#1e293b;border:1px solid #334155;color:#fff;margin-top:8px}
+body{background:#0b1220;color:#fff;padding-bottom:100px}
+header{background:#111d33;padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b}
+h1{font-size:20px}
+h1 span{font-size:11px;background:#22c55e;color:#000;padding:3px 8px;border-radius:20px;margin-left:6px}
+.search{width:100%;padding:14px 18px;border-radius:999px;background:#15203a;border:1px solid #243043;color:#fff;margin:14px 0}
+.wrap{padding:0 14px}
+.card{background:#141f36;border:1px solid #22304a;border-radius:14px;padding:12px;display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card img{width:52px;height:52px;border-radius:10px;background:#222}
+.t{font-weight:700;font-size:14px}
+.a{font-size:12px;color:#94a3b8}
+.play{margin-left:auto;background:#22c55e;border:0;width:42px;height:42px;border-radius:50%;font-weight:900}
+.del{background:#1e293b;border:0;color:#ff5555;width:32px;height:32px;border-radius:8px;margin-left:6px}
+#donoBox{display:none;background:#111d33;border:1px solid #22c55e;border-radius:14px;padding:14px;margin:14px}
+#donoBox input{width:100%;padding:12px;border-radius:10px;background:#0b1220;border:1px solid #2a3a5a;color:#fff;margin-top:8px}
+#donoBox button.add{width:100%;margin-top:10px;padding:12px;background:#22c55e;color:#000;border:0;border-radius:10px;font-weight:800}
 </style>
 </head>
 <body>
-<header>
-<div class="logo">🎵 PEDE AÍ <span id="versao">V33 FINAL</span></div>
-<button onclick="abrirPainel()" style="background:#1e293b;color:#fff;border:0;width:40px;height:40px;border-radius:10px">☰</button>
-</header>
-<div class="bar">✅ TUDO RESTAURADO - FUNCIONANDO 100%</div>
-<div class="search-box"><input id="busca" class="search" placeholder="🔍 Buscar música..." oninput="filtrar()"></div>
-<div id="lista"></div>
+<header><h1>🎵 PEDE AÍ <span id="tag">CLIENTE</span></h1><button onclick="alert(isDono?'Você é o DONO':'Você é o CLIENTE')" style="background:#1e293b;color:#fff;border:0;padding:8px 12px;border-radius:10px">☰</button></header>
 
-<div id="painel">
-<h3 id="tituloPainel">Menu</h3>
-<div id="areaDono" style="display:none;margin-top:12px">
-<p style="font-size:13px;color:#94a3b8">Adicionar música (só dono vê):</p>
-<input id="novaMusica" class="add" placeholder="Nome da música ex: Ana Castela - Boiadeira">
-<input id="novoArtista" class="add" placeholder="Artista">
-<button onclick="addMusica()" style="width:100%;margin-top:10px;padding:12px;background:#22c55e;color:#000;border:0;border-radius:10px;font-weight:800">+ Adicionar</button>
-<p style="font-size:11px;color:#64748b;margin-top:10px">Link cliente: <span id="linkCli" style="color:#22c55e"></span></p>
+<div class="wrap">
+<input id="busca" class="search" placeholder="🔍 Buscar música..." oninput="filtrar()">
+
+<div id="donoBox">
+<b>🔐 PAINEL DO DONO</b><br><small style="color:#94a3b8">Só você vê isso</small>
+<input id="nomeMus" placeholder="Nome da música: ex: Boiadeira">
+<input id="nomeArt" placeholder="Artista: ex: Ana Castela">
+<button class="add" onclick="add()">+ ADICIONAR MÚSICA</button>
+<p style="margin-top:10px;font-size:11px;color:#64748b">Link do cliente:<br><span id="linkC" style="color:#22c55e"></span></p>
 </div>
-<button onclick="document.getElementById('painel').classList.remove('open')" style="width:100%;margin-top:12px;padding:10px;background:#1e293b;color:#fff;border:0;border-radius:10px">Fechar</button>
+
+<div id="lista"></div>
 </div>
 
 <script>
+const isDono = new URLSearchParams(location.search).get('dono')==='TAKI123';
 const padrao=[
 {t:"Boiadeira",a:"Ana Castela"},
+{t:"Nosso Quadro",a:"Ana Castela"},
 {t:"Bloqueado",a:"Gusttavo Lima"},
 {t:"Traumatizei",a:"Henrique e Juliano"},
 {t:"Notificação Preferida",a:"Zé Neto e Cristiano"},
 {t:"Envolver",a:"Anitta"},
-{t:"Leão",a:"Marília Mendonça"},
-{t:"Erro Gostoso",a:"Simone Mendes"},
-{t:"Dengo",a:"João Gomes"}
+{t:"Leão",a:"Marília Mendonça"}
 ];
-let musicas = JSON.parse(localStorage.getItem('musicas')||'null') || padrao;
-const isDono = new URLSearchParams(location.search).get('dono')==='TAKI123';
-function salvar(){localStorage.setItem('musicas',JSON.stringify(musicas))}
+let musicas = JSON.parse(localStorage.getItem('pedeai')||'null')||padrao;
+function salvar(){localStorage.setItem('pedeai',JSON.stringify(musicas))}
 function render(lista){
-document.getElementById('lista').innerHTML=lista.map((m,i)=>`<div class="card"><img src="https://picsum.photos/seed/${i}${m.a}/80"><div><div class="title">${m.t}</div><div class="artist">${m.a}</div></div><button class="play" onclick="alert('🎵 Tocando: ${m.t}')">▶</button></div>`).join('');
+document.getElementById('lista').innerHTML=lista.map((m,i)=>`
+<div class="card">
+<img src="https://picsum.photos/seed/${i}${m.a}/80">
+<div><div class="t">${m.t}</div><div class="a">${m.a}</div></div>
+<button class="play" onclick="tocar('${m.t} ${m.a}')">▶</button>
+${isDono?`<button class="del" onclick="apagar(${i})">✕</button>`:''}
+</div>`).join('');
 }
 function filtrar(){
 let q=document.getElementById('busca').value.toLowerCase();
 render(musicas.filter(m=>(m.t+' '+m.a).toLowerCase().includes(q)));
 }
-function abrirPainel(){
-document.getElementById('painel').classList.add('open');
-document.getElementById('areaDono').style.display=isDono?'block':'none';
-document.getElementById('tituloPainel').innerText=isDono?'🔐 Painel do Dono - V33 FINAL':'🎵 Pede Aí Jukebox';
-}
-function addMusica(){
-let t=document.getElementById('novaMusica').value;
-let a=document.getElementById('novoArtista').value;
-if(!t) return alert('Digite o nome');
-musicas.unshift({t,a:a||'Desconhecido'});
+function tocar(q){window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q),'_blank')}
+function add(){
+let t=document.getElementById('nomeMus').value.trim();
+let a=document.getElementById('nomeArt').value.trim();
+if(!t) return alert('Digite o nome da música');
+musicas.unshift({t,a:a||'Você'});
 salvar();render(musicas);
-document.getElementById('novaMusica').value='';document.getElementById('novoArtista').value='';
-alert('Música adicionada!');
+document.getElementById('nomeMus').value='';document.getElementById('nomeArt').value='';
 }
+function apagar(i){if(confirm('Apagar?')){musicas.splice(i,1);salvar();render(musicas)}}
+
+document.getElementById('tag').innerText=isDono?'DONO 👑':'CLIENTE';
+document.getElementById('tag').style.background=isDono?'#f59e0b':'#22c55e';
+if(isDono) document.getElementById('donoBox').style.display='block';
+document.getElementById('linkC').innerText=location.origin+location.pathname;
 render(musicas);
-document.getElementById('linkCli').innerText=location.origin+location.pathname;
-if(isDono) document.getElementById('versao').innerText='DONO - V33';
 </script>
 </body>
 </html>
