@@ -2,34 +2,66 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>PEDE AÍ V31 PRO - NOVO</title>
-<script> // DESTROI CACHE ANTIGO
-if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(r=>r.forEach(reg=>reg.unregister()));}
-if(window.caches){caches.keys().then(k=>k.forEach(n=>caches.delete(n)));}
-localStorage.setItem("versao","V31");
-</script>
+<title>PEDE AI V32 PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Outfit',system-ui}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
 body{background:#060a14;color:#fff}
-.top{position:sticky;top:0;z-index:50;background:rgba(6,10,20,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;font-size:22px;letter-spacing:-1px}
-.logo span{background:linear-gradient(135deg,#22c55e,#a3e635);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.ver{font-size:10px;background:#22c55e;color:#000;padding:3px 8px;border-radius:99px;font-weight:900;margin-left:8px}
-.menuBtn{width:44px;height:44px;border-radius:12px;background:#1e293b;border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:20px}
-.drawer{position:fixed;inset:0;z-index:100;display:none}.drawer.open{display:block}
-.drawerBg{position:absolute;inset:0;background:rgba(0,0,0,0.7)}
-.drawerPanel{position:absolute;top:0;right:0;width:88%;max-width:380px;height:100%;background:#0f172a;border-left:1px solid rgba(255,255,255,0.1);padding:20px;overflow:auto}
-.card{background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:16px;margin:12px}
-.card-premium{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid rgba(34,197,94,0.2)}
-.inp{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:#fff;margin:6px 0}
-.btn{padding:14px;border-radius:14px;border:none;font-weight:800;cursor:pointer}
-.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;width:100%;padding:18px;font-size:16px}
-.btn-dark{background:#1e293b;color:#fff;border:1px solid rgba(255,255,255,0.1);flex:1}
-.music{padding:16px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);margin:8px 0;display:flex;justify-content:space-between}
-.cal{padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);text-align:center;font-weight:800;cursor:pointer;flex:1}
-.cal
+.top{background:#0f172a;padding:14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:10}
+.card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:14px;margin:10px}
+.inp{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin:6px 0}
+.btn{padding:14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+.btn-green{background:#22c55e;color:#000;width:100%}
+.btn-dark{background:#334155;color:#fff}
+.music{padding:14px;border-radius:12px;background:#0f172a;border:1px solid #334155;margin:8px 0;display:flex;justify-content:space-between}
+.cal{padding:12px;border-radius:10px;border:1px solid #334155;background:#0f172a;text-align:center;flex:1;cursor:pointer}
+.cal.on{background:#22c55e;color:#000}
+</style>
+</head>
+<body>
+<div class="top"><div>🎵 <b>PEDE AÍ</b> <span style="background:#22c55e;color:#000;padding:2px 8px;border-radius:99px;font-size:10px;margin-left:6px">V32 PRO NOVO</span></div><button onclick="alert('Menu: Repertório, PIX e QR no painel dono. Clique em PAINEL DONO.')" style="background:#1e293b;border:none;color:#fff;padding:8px 12px;border-radius:8px">☰</button></div>
+<div id="vCli" style="padding:10px">
+<div style="background:#22c55e;color:#000;text-align:center;padding:8px;border-radius:99px;font-weight:900;font-size:11px">✅ V32 PRO - SE TÁ VENDO ISSO ATUALIZOU!</div>
+<input id="busca" class="inp" placeholder="🔍 Buscar música..." oninput="renderCli()" style="margin-top:10px;border-radius:99px">
+<div id="cardStatusCli" style="display:none;margin-top:10px;padding:12px;border-radius:12px;text-align:center;font-weight:800"></div>
+<div id="listaCli" style="margin-top:10px"></div>
+<div id="formPedido" style="display:none" class="card"><h3 id="musicaSelTxt" style="color:#22c55e"></h3><input id="nomeCli" class="inp" placeholder="Seu nome"><input id="recadoCli" class="inp" placeholder="Recado"><div style="display:flex;gap:6px;margin-top:8px"><div class="cal" id="c2" onclick="setCaixa(2)">R$2</div><div class="cal" id="c5" onclick="setCaixa(5)">R$5</div><div class="cal" id="c10" onclick="setCaixa(10)">R$10</div></div><button class="btn btn-green" id="btnEnviar" onclick="enviar()" style="margin-top:10px">ENVIAR PEDIDO</button></div>
+</div>
+<div id="vDono" style="display:none;padding:10px">
+<div style="background:#22c55e;color:#000;text-align:center;padding:8px;border-radius:99px;font-weight:900;font-size:11px">✅ V32 PRO NOVO - VISUAL PREMIUM</div>
+<div id="showStatusBox" style="margin-top:10px"></div><button id="btnToggleShow" class="btn btn-green" style="padding:18px;font-size:18px;margin-top:8px" onclick="toggleShow()">INICIAR SHOW</button>
+<div class="card"><b>CAIXINHA HOJE</b><div id="totalCaixa" style="font-size:26px;font-weight:900">R$ 0,00</div><small id="statusDono">Alarme off</small><button onclick="ativaSom()" style="margin-top:8px" class="btn btn-dark">🔊 Ativar som</button> <button onclick="ativarNotificacao()" class="btn btn-dark">🔔 Notificação</button></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><h3>🔔 Pedidos</h3><button onclick="limparTudo()" style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px">🗑️ Limpar tudo</button></div><div id="listaPedidos"></div></div>
+<div class="card"><h3>⚙️ Meu PIX</h3><input id="cfgPixKey" class="inp" placeholder="Chave PIX"><input id="cfgPixName" class="inp" placeholder="Nome"><input id="cfgPixCity" class="inp" placeholder="Cidade"><button class="btn btn-green" onclick="salvarPix()">Salvar PIX</button></div>
+<div class="card"><h3>🎼 Repertório</h3><div style="display:flex;gap:6px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1" placeholder="Cantor"></div><button class="btn btn-dark" style="width:100%" onclick="addMus()">+ Adicionar</button><div id="listaDono"></div><div style="background:#fff;border-radius:12px;padding:10px;margin-top:10px;text-align:center"><div id="qrcode" style="display:flex;justify-content:center"></div><small id="qrLink" style="color:#000;font-size:8px;word-break:break-all"></small></div></div>
+</div>
+<audio id="audioAlarme" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=notification-sound-7062.mp3"></audio>
+<script>
+let PIX_KEY=localStorage.getItem("taki_pix_key")||"",PIX_NAME=localStorage.getItem("taki_pix_name")||"",PIX_CITY=localStorage.getItem("taki_pix_city")||"";
+let showAberto=localStorage.getItem("show_aberto")==="1";
+const TOPIC="pedeai-taki-V32-FINAL"; const TOPIC_REP=TOPIC+"-REP",TOPIC_PED=TOPIC+"-PED",TOPIC_CFG=TOPIC+"-CFG",TOPIC_SHOW=TOPIC+"-SHOW";
+const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
+let rep=JSON.parse(localStorage.getItem("rep_v32")||"[]"); if(!rep.length) rep=[{id:1,musica:"METADE",cantor:"Adriana Calcanhoto"},{id:2,musica:"AINDA É CEDO",cantor:"Legião Urbana"}];
+let peds=JSON.parse(localStorage.getItem("peds_v32")||"[]"), sel=null, caixa=0, eventSource=null;
+function save(){localStorage.setItem("rep_v32",JSON.stringify(rep));localStorage.setItem("peds_v32",JSON.stringify(peds));renderAll();}
+function salvarPix(){let k=document.getElementById("cfgPixKey").value.trim();let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();if(!k)return alert("PIX!");PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{alert("Salvo!");renderAll();});}
+async function fetchConfig(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_CFG+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let j=JSON.parse(lines[lines.length-1]);if(j.message){let cfg=JSON.parse(j.message);if(cfg.key){PIX_KEY=cfg.key;PIX_NAME=cfg.name;PIX_CITY=cfg.city;localStorage.setItem("taki_pix_key",PIX_KEY);renderAll();}}}}catch(e){}}
+async function fetchShow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_SHOW+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let j=JSON.parse(lines[lines.length-1]);if(j.message){let st=JSON.parse(j.message);showAberto=!!st.aberto;localStorage.setItem("show_aberto",showAberto?"1":"0");renderAll();}}}}catch(e){}
+function toggleShow(){showAberto=!showAberto;localStorage.setItem("show_aberto",showAberto?"1":"0");fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto})});renderAll();}
+function addMus(){let m=document.getElementById("novaMusica").value.trim(),c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m,cantor:c});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
+async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let j=JSON.parse(lines[lines.length-1]);if(j.message){let remote=JSON.parse(j.message);if(Array.isArray(remote)&&remote.length){rep=remote;localStorage.setItem("rep_v32",JSON.stringify(rep));renderAll();}}}}catch(e){}}
+function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase(),f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="opacity:.5">${r.cantor}</small></div><span>›</span></div>`).join("")||"<p style='text-align:center;opacity:.4;padding:20px'>Nenhuma</p>";let box=document.getElementById("cardStatusCli");if(!showAberto){box.style.display="block";box.style.background="#ef4444";box.innerHTML="🔴 SHOW PAUSADO";document.getElementById("formPedido").style.display="none";}else{box.style.display="block";box.style.background="#22c55e";box.style.color="#000";box.innerHTML="🟢 SHOW LIBERADO - PODE PEDIR!";}document.getElementById("btnEnviar").disabled=!showAberto;if(!showAberto)document.getElementById("btnEnviar").innerText="⛔ PAUSADO";}
+function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;let box=document.getElementById("showStatusBox"),btn=document.getElementById("btnToggleShow");if(showAberto){box.innerHTML='<div style="background:#22c55e;color:#000;padding:10px;border-radius:10px;text-align:center;font-weight:900">🟢 SHOW LIBERADO - QR ATIVO!</div>';btn.innerText='🔴 PAUSAR SHOW';btn.style.background='#ef4444';btn.style.color='#fff';}else{box.innerHTML='<div style="background:#ef4444;color:#fff;padding:10px;border-radius:10px;text-align:center;font-weight:900">🔴 SHOW PAUSADO</div>';btn.innerText='🟢 INICIAR SHOW';btn.style.background='#22c55e';btn.style.color='#000';}document.getElementById("totalCaixa").innerText="R$ "+peds.reduce((s,p)=>s+(p.caixa||0),0)+",00";document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:8px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><button onclick="delMus(${r.id})" style="background:#ef4444;color:#fff;border:none;padding:4px 8px;border-radius:6px">🗑️</button></div>`).join("");document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:1px solid #22c55e;border-radius:10px;padding:10px;margin:6px 0"><b>${p.musica}</b> ${p.caixa?'<span style="background:#22c55e;color:#000;padding:2px 6px;border-radius:99px">R$'+p.caixa+'</span>':''}<br>${p.nome}: ${p.recado}<br><small style="opacity:.5">${new Date(p.data).toLocaleString()}</small></div>`).join("")||"Nenhum pedido";try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:location.href.split("?")[0],width:140,height:140});document.getElementById("qrLink").innerText=location.href.split("?")[0];}catch(e){}}
+function renderAll(){if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";}renderCli();if(isDono)renderDono();}
+function escolhe(id){if(!showAberto)return alert("Show pausado!");sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("formPedido").style.display="block";}
+function setCaixa(v){caixa=v;document.querySelectorAll(".cal").forEach(e=>e.classList.remove("on"));let el=document.getElementById("c"+v);if(el)el.classList.add("on");}
+function delMus(id){rep=rep.filter(r=>r.id!==id);save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
+function enviar(){if(!showAberto)return;let nome=document.getElementById("nomeCli").value.trim()||"Anônimo",rec=document.getElementById("recadoCli").value.trim()||"";if(!sel)return;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(ped)});alert("✅ Pedido enviado: "+sel.musica);document.getElementById("formPedido").style.display="none";}
+function limparTudo(){if(confirm("Limpar tudo?")){peds=[];save();}}
+function ativaSom(){let a=document.getElementById("audioAlarme");a.volume=1;a.play().then(()=>{a.pause();a.currentTime=0;a.play();}).catch(()=>{});document.getElementById("statusDono").innerText="🔊 Ativo";if('vibrate' in navigator)navigator.vibrate([500,200,500]);startSSE();}
+function startSSE(){if(eventSource)eventSource.close();eventSource=new EventSource("https://ntfy.sh/"+TOPIC_PED+"/sse");eventSource.onmessage=e=>{try{let outer=JSON.parse(e.data);if(outer.message){let ped=JSON.parse(outer.message);if(ped.musica&&!peds.find(x=>x.id===ped.id)){peds.push(ped);save();document.getElementById("audioAlarme").play().catch(()=>{});}}}catch{}};}
+function ativarNotificacao(){Notification.requestPermission().then(p=>{if(p==="granted"){alert("Notificação ativada!");}else{alert("Permita notificação!");}});}
+renderAll();fetchRep();fetchConfig();fetchShow();if(isDono)startSSE();
+</script>
+</body>
+</html>
