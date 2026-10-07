@@ -1,257 +1,169 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PEDE AI</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>PEDE AÍ - Profissional</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#22c55e">
+<meta name="theme-color" content="#0f172a">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#0f172a;color:#fff}
-.top{background:linear-gradient(135deg,#22c55e,#7c3aed);padding:16px;text-align:center}
-.card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:14px;margin:10px}
-.inp{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin:6px 0;font-size:16px}
-.btn{padding:14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
-.btn-blue{background:#2563eb;color:#fff;flex:1}
-.btn-green{background:#16a34a;color:#fff;width:100%;padding:16px;border-radius:12px;margin-top:8px;font-size:17px}
-.btn-ghost{background:#0f172a;border:1px dashed #475569;color:#94a3b8;flex:1}
-.btn-red{background:#ef4444;color:#fff;width:100%;padding:16px;border-radius:12px;margin-top:8px;font-size:15px}
-.music{padding:14px;border-radius:12px;border:1px solid #334155;background:#0f172a;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
-.cal{padding:14px;border-radius:12px;border:2px solid #334155;background:#0f172a;text-align:center;font-weight:900;cursor:pointer;flex:1}
-.cal.on{border-color:#22c55e;background:#dcfce7;color:#14532d}
-.alertTop{position:fixed;top:10px;left:10px;right:10px;background:#16a34a;color:#fff;padding:18px;border-radius:14px;font-weight:900;z-index:9999;display:none;text-align:center}
-.qrWrap{background:#fff;border-radius:18px;padding:14px;text-align:center;color:#0f172a}
-.pixModal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px}
-.pixCard{background:#fff;color:#0f172a;border-radius:20px;padding:20px;max-width:380px;width:100%;text-align:center}
-.pixCode{word-break:break-all;background:#f1f5f9;border:2px dashed #22c55e;border-radius:10px;padding:12px;font-size:11px;margin:10px 0;text-align:left}
-#installBtn{display:none;background:#f59e0b;color:#000;padding:16px;border-radius:12px;font-weight:900;width:100%;border:none;margin:10px 0;cursor:pointer}
-.showON{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:18px}
-.showOFF{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:18px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Outfit',system-ui}
+body{background:#060a14;color:#fff;overflow-x:hidden}
+.top{position:sticky;top:0;z-index:50;background:rgba(6,10,20,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;letter-spacing:-1px;font-size:22px;display:flex;align-items:center;gap:8px}
+.logo span{background:linear-gradient(135deg,#22c55e,#a3e635);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.menuBtn{width:44px;height:44px;border-radius:12px;background:#1e293b;border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:20px}
+.drawer{position:fixed;inset:0;z-index:100;display:none}
+.drawer.open{display:block}
+.drawerBg{position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px)}
+.drawerPanel{position:absolute;top:0;right:0;width:88%;max-width:380px;height:100%;background:#0f172a;border-left:1px solid rgba(255,255,255,0.1);padding:20px;overflow:auto;animation:slideIn.3s ease}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.card{background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:16px;margin:12px;backdrop-filter:blur(12px)}
+.card-premium{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid rgba(34,197,94,0.2)}
+.inp{width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);color:#fff;margin:6px 0;font-size:15px;outline:none}
+.inp:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,0.2)}
+.btn{padding:14px 18px;border-radius:14px;border:none;font-weight:800;cursor:pointer;transition:.2s}
+.btn:active{transform:scale(.97)}
+.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;box-shadow:0 8px 20px rgba(34,197,94,0.3)}
+.btn-dark{background:#1e293b;color:#fff;border:1px solid rgba(255,255,255,0.1)}
+.btn-red{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;width:100%}
+.music{padding:16px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);margin:8px 0;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+.music:active{transform:scale(.98);background:rgba(255,255,255,0.08)}
+.cal{padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.3);text-align:center;font-weight:800;cursor:pointer}
+.cal.on{border-color:#22c55e;background:#22c55e;color:#000;box-shadow:0 4px 12px rgba(34,197,94,0.4)}
+.pedidoCard{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border:1px solid rgba(34,197,94,0.25);border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 10px 30px rgba(0,0,0,0.4);animation:pop.4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.8) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.pill{background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#22c55e;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:800}
+.alertTop{position:fixed;top:16px;left:16px;right:16px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;padding:16px;border-radius:16px;font-weight:800;z-index:9999;display:none;text-align:center;box-shadow:0 10px 30px rgba(34,197,94,0.5)}
+.showON{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;padding:14px;border-radius:14px;text-align:center;font-weight:900}
+.showOFF{background:linear-gradient(135deg,#ef4444,#991b1b);color:#fff;padding:14px;border-radius:14px;text-align:center;font-weight:900}
+.qrWrap{background:#fff;border-radius:20px;padding:18px;text-align:center;color:#0f172a}
+.pixModal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px}
+.pixCard{background:#fff;color:#0f172a;border-radius:24px;padding:24px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
 </style>
 </head>
 <body>
-<div class="top"><h1>🎵 PEDE AÍ</h1><small id="topSub"></small></div>
+<div class="top">
+<div class="logo">🎵 <span>PEDE AÍ</span> <small id="topSub" style="font-size:10px;font-weight:400;opacity:.6;margin-left:6px"></small></div>
+<div style="display:flex;gap:8px"><button id="btnMenu" class="menuBtn" onclick="toggleMenu()">☰</button></div>
+</div>
 <div id="alertTop" class="alertTop"></div>
 
+<div class="drawer" id="drawer"><div class="drawerBg" onclick="toggleMenu()"></div><div class="drawerPanel">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h3 style="font-weight:900">Menu</h3><button class="menuBtn" onclick="toggleMenu()">✕</button></div>
+<div id="menuContent"></div>
+</div></div>
+
+<!-- CLIENTE -->
 <div id="vCli">
-<div class="card" id="cardStatusCli" style="display:none;text-align:center;font-weight:900;padding:20px;border-radius:16px"></div>
-<div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar música..." oninput="renderCli()"><div id="listaCli"></div></div>
-<div class="card" id="formPedido" style="display:none;border:3px solid #22c55e">
-<h3 id="musicaSelTxt" style="color:#22c55e"></h3><small id="cantorSelTxt"></small>
-<input id="nomeCli" class="inp" placeholder="Seu nome"><input id="recadoCli" class="inp" placeholder="Recado">
-<p style="font-weight:800;margin:12px 0 8px">💰 Caixinha?</p>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-<div class="cal" id="c2" onclick="setCaixa(2)">R$2</div><div class="cal" id="c5" onclick="setCaixa(5)">R$5</div><div class="cal" id="c10" onclick="setCaixa(10)">R$10</div>
+<div style="padding:16px">
+<div style="position:relative"><input id="busca" class="inp" style="padding-left:44px;border-radius:99px" placeholder="Buscar música ou cantor..." oninput="renderCli()"><span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.5">🔍</span></div>
+<div id="cardStatusCli" style="display:none;margin-top:12px;border-radius:16px;padding:16px;text-align:center;font-weight:800"></div>
+<div id="listaCli" style="margin-top:12px"></div>
 </div>
-<div style="display:flex;gap:6px;margin-top:8px"><input id="outroValor" type="number" class="inp" style="flex:1;margin:0" placeholder="Outro: 20,50,100" oninput="setCaixaCustom(this.value)"><button class="btn-blue" style="flex:0 0 70px" onclick="aplicarOutro()">OK</button></div>
-<p id="pixPreview" style="color:#22c55e;text-align:center;margin-top:8px;font-weight:800"></p>
-<button class="btn-green" id="btnEnviar" onclick="enviar()">ENVIAR PEDIDO</button>
+<div id="formPedido" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid rgba(255,255,255,0.1);border-radius:24px 24px 0 0;padding:20px;z-index:40;box-shadow:0 -10px 40px rgba(0,0,0,0.6)">
+<div style="width:40px;height:4px;background:rgba(255,255,255,0.2);border-radius:99px;margin:0 auto 16px"></div>
+<h3 id="musicaSelTxt" style="color:#22c55e;font-size:22px;font-weight:900"></h3><small id="cantorSelTxt" style="opacity:.6"></small>
+<input id="nomeCli" class="inp" placeholder="Seu nome" style="margin-top:14px"><input id="recadoCli" class="inp" placeholder="Recado pra banda (opcional)">
+<p style="font-weight:800;margin:16px 0 8px;font-size:13px;letter-spacing:1px;opacity:.7">CAIXINHA OPCIONAL</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><div class="cal" id="c2" onclick="setCaixa(2)">R$2</div><div class="cal" id="c5" onclick="setCaixa(5)">R$5</div><div class="cal" id="c10" onclick="setCaixa(10)">R$10</div></div>
+<div style="display:flex;gap:8px;margin-top:10px"><input id="outroValor" type="number" class="inp" style="flex:1;margin:0" placeholder="Outro valor" oninput="setCaixaCustom(this.value)"><button class="btn btn-dark" onclick="aplicarOutro()">OK</button></div>
+<p id="pixPreview" style="color:#22c55e;text-align:center;margin-top:10px;font-weight:800"></p>
+<button class="btn btn-green" id="btnEnviar" style="width:100%;margin-top:12px;padding:18px;font-size:16px" onclick="enviar()">ENVIAR PEDIDO 🎵</button>
+<button class="btn btn-dark" style="width:100%;margin-top:8px" onclick="document.getElementById('formPedido').style.display='none'">Cancelar</button>
 </div>
-</div>
-
-<div id="vDono" style="display:none">
-<button id="installBtn" onclick="instalarApp()">📲 INSTALAR APP PEDE AÍ</button>
-
-<div class="card" style="border:3px solid #22c55e;background:#052e16;text-align:center">
-<h2>🎤 CONTROLE DO SHOW</h2>
-<div id="showStatusBox" style="margin:10px 0"></div>
-<button id="btnToggleShow" class="btn-green" style="font-size:20px;padding:20px" onclick="toggleShow()">🔴 INICIAR SHOW - LIBERAR PEDIDOS</button>
-<p style="font-size:11px;color:#86efac;margin-top:8px">Quando estiver PAUSADO, o cliente vê "Músico não está aceitando pedidos agora"<br>Quando INICIAR SHOW, libera tudo!</p>
 </div>
 
-<div class="card" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;text-align:center"><h2>💰 CAIXINHA HOJE</h2><div id="totalCaixa" style="font-size:34px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo"></small><br><small id="statusDono" style="background:#000;color:#22c55e;padding:8px 14px;border-radius:99px;font-weight:800;margin-top:10px;display:inline-block">⚠️ Ative o alarme abaixo</small></div>
-
-<div class="card" style="border:3px solid #ef4444;background:#1a0a0a">
-<h3>🚨 ALARME QUE TOCA NO WHATSAPP</h3>
-<button class="btn btn-green" style="background:#22c55e;color:#000;font-size:16px;padding:18px;margin-top:8px" onclick="ativaSom()">🔊 ATIVAR ALARME FORTE - CLIQUE AQUI</button>
-<button class="btn btn-blue" style="background:#f59e0b;color:#000;margin-top:8px;padding:18px" onclick="ativarNotificacao()">🔔 ATIVAR NOTIFICAÇÃO QUE TOCA FORA DO APP</button>
-<p id="debugSync" style="font-size:10px;color:#94a3b8;margin-top:8px;background:#0f172a;padding:6px;border-radius:6px">Aguardando...</p>
+<!-- DONO - SÓ PEDIDOS NA FRENTE -->
+<div id="vDono" style="display:none;padding-bottom:40px">
+<div style="margin:12px"><div id="showStatusBox"></div><button id="btnToggleShow" class="btn btn-green" style="width:100%;padding:20px;font-size:18px;margin-top:10px" onclick="toggleShow()">🟢 INICIAR SHOW</button></div>
+<div class="card card-premium" style="display:flex;justify-content:space-between;align-items:center">
+<div><small style="opacity:.6;letter-spacing:1px">CAIXINHA HOJE</small><div id="totalCaixa" style="font-size:28px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo" style="opacity:.6;font-size:10px"></small></div>
+<div style="text-align:right"><small id="statusDono" style="background:#000;color:#22c55e;padding:6px 10px;border-radius:99px;font-size:10px;font-weight:800">Alarme off</small><br><button class="btn btn-dark" style="margin-top:8px;padding:10px 14px;font-size:12px" onclick="ativaSom()">🔊 Ativar som</button></div>
+</div>
+<div style="padding:0 12px;display:flex;justify-content:space-between;align-items:center;margin-top:16px"><h3 style="font-weight:900;letter-spacing:-0.5px">🔔 Pedidos ao vivo</h3><button class="btn btn-dark" style="padding:8px 12px;font-size:11px" onclick="limparTudo()">🗑️ Limpar</button></div>
+<div id="listaPedidos" style="padding:0 12px"></div>
+<div class="card" style="text-align:center;opacity:.6;margin-top:20px"><small id="debugSync">Conectado - aguardando pedidos</small><br><button class="btn btn-dark" style="margin-top:8px;padding:8px 12px;font-size:11px" onclick="ativarNotificacao()">🔔 Ativar notificação fora do app</button></div>
 </div>
 
-<div class="card"><h3>🔔 PEDIDOS QUE CHEGARAM</h3>
-<div style="display:flex;gap:8px;margin-bottom:8px"><button class="btn-red" onclick="limparTudo()">🗑️ LIMPAR TODO HISTÓRICO DE PEDIDOS</button></div>
-<div id="listaPedidos"></div></div>
-
-<div class="card" style="border:2px solid #22c55e;background:#052e16"><h3>⚙️ MEU PIX</h3><input id="cfgPixKey" class="inp" placeholder="Chave PIX"><input id="cfgPixName" class="inp" placeholder="Nome no banco"><input id="cfgPixCity" class="inp" placeholder="Cidade"><button class="btn btn-green" onclick="salvarPixConfig()">💾 SALVAR MEU PIX</button></div>
-<div class="card"><h3>🎼 Repertório</h3><div style="display:flex;gap:8px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1.5" placeholder="Cantor"></div><button class="btn btn-blue" style="width:100%" onclick="addMus()">+ ADICIONAR</button><div id="listaDono" style="margin-top:12px"></div></div>
-<div class="card"><div class="qrWrap"><div style="font-weight:900">QR CODE CLIENTE</div><div id="qrcode" style="display:flex;justify-content:center;margin-top:8px"></div><p id="qrLink" style="font-size:8px;color:#64748b;word-break:break-all"></p></div></div>
-</div>
-
-<div id="pixModal" class="pixModal"><div class="pixCard"><h2 style="color:#16a34a">✅ Pedido enviado!</h2><h3 id="pixValorTxt" style="font-size:32px;color:#16a34a"></h3><p id="pixInfoTxt" style="font-size:12px;color:#334155;font-weight:700"></p><div id="pixQr" style="display:flex;justify-content:center;margin:14px 0"></div><div id="pixCopiaCola" class="pixCode"></div><button class="btn-green" onclick="copiarPix()">📋 COPIAR PIX</button><button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="fecharPix()">Fechar</button></div></div>
-
+<div id="pixModal" class="pixModal"><div class="pixCard"><div style="width:60px;height:60px;background:#dcfce7;border-radius:99px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px">✅</div><h2 style="font-weight:900">Pedido enviado!</h2><h3 id="pixValorTxt" style="font-size:36px;color:#16a34a;font-weight:900;margin:8px 0"></h3><p id="pixInfoTxt" style="font-size:12px;opacity:.6"></p><div id="pixQr" style="display:flex;justify-content:center;margin:16px 0"></div><div id="pixCopiaCola" style="word-break:break-all;background:#f1f5f9;border:2px dashed #22c55e;border-radius:12px;padding:12px;font-size:11px;text-align:left;max-height:120px;overflow:auto"></div><button class="btn btn-green" style="width:100%;margin-top:12px" onclick="copiarPix()">📋 COPIAR PIX</button><button class="btn btn-dark" style="width:100%;margin-top:8px" onclick="fecharPix()">Fechar</button></div></div>
 <audio id="audioAlarme" preload="auto" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=notification-sound-7062.mp3"></audio>
 
 <script>
-let deferredPrompt=null;let audioCtx=null;let alarmeAtivo=false;let notifAtiva=false;
-window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='block';});
-function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted'){document.getElementById('installBtn').style.display='none';}deferredPrompt=null;});}else{alert("iPhone: Compartilhar > Adicionar à Tela de Início\nAndroid: 3 pontinhos > Instalar App");}}
+let drawerOpen=false;function toggleMenu(){drawerOpen=!drawerOpen;document.getElementById('drawer').classList.toggle('open',drawerOpen);if(drawerOpen)buildMenu();}
+function buildMenu(){
+ let base=location.href.split("?")[0];
+ let isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
+ if(!isDono){document.getElementById('menuContent').innerHTML=`<div class="card"><p style="opacity:.6;font-size:13px">Cliente - ${rep.length} músicas disponíveis<br>Peça sua música favorita!</p></div>`;return;}
+ document.getElementById('menuContent').innerHTML=`
+ <button class="btn btn-dark" style="width:100%;margin-bottom:12px" onclick="instalarApp()">📲 Instalar App no celular</button>
+ <div class="card"><h4 style="font-weight:800;margin-bottom:10px">⚙️ MEU PIX</h4><input id="cfgPixKeyM" class="inp" placeholder="Chave PIX" value="${PIX_KEY}"><input id="cfgPixNameM" class="inp" placeholder="Nome no banco" value="${PIX_NAME}"><input id="cfgPixCityM" class="inp" placeholder="Cidade" value="${PIX_CITY}"><button class="btn btn-green" style="width:100%;margin-top:8px" onclick="salvarPixMenu()">💾 Salvar PIX</button><small style="opacity:.5;font-size:10px;display:block;margin-top:6px">Esse PIX aparece pro cliente copiar quando ele mandar caixinha</small></div>
+ <div class="card"><h4 style="font-weight:800;margin-bottom:10px">🎼 Repertório (${rep.length})</h4><div style="display:flex;gap:8px"><input id="novaMusicaM" class="inp" style="flex:2" placeholder="Música"><input id="novoCantorM" class="inp" style="flex:1" placeholder="Cantor"></div><button class="btn btn-dark" style="width:100%" onclick="addMusMenu()">+ Adicionar</button><div id="listaDonoM" style="margin-top:12px;max-height:300px;overflow:auto">${rep.map(r=>`<div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small style="opacity:.5">${r.cantor}</small></div><div><button class="btn btn-dark" style="padding:6px 8px" onclick="editMus(${r.id})">✏️</button><button class="btn btn-dark" style="padding:6px 8px;background:#ef444422" onclick="delMus(${r.id})">🗑️</button></div></div>`).join("")}</div></div>
+ <div class="card"><h4 style="font-weight:800">QR Code Cliente</h4><div class="qrWrap" style="margin-top:10px"><div id="qrcodeM" style="display:flex;justify-content:center"></div><p style="font-size:8px;word-break:break-all;margin-top:8px;opacity:.6">${base}</p></div></div>
+ <div class="card"><h4>🧪 Debug</h4><p id="debugSyncM" style="font-size:10px;opacity:.5;word-break:break-all"></p><button class="btn btn-dark" style="width:100%;margin-top:8px" onclick="forcarBusca()">🔄 Buscar pedidos agora</button></div>
+ `;
+ try{document.getElementById("qrcodeM").innerHTML="";new QRCode(document.getElementById("qrcodeM"),{text:base,width:160,height:160});}catch(e){}
+}
 
+let deferredPrompt=null;let audioCtx=null;let alarmeAtivo=false;let notifAtiva=false;
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;});
+function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();}else{alert("iPhone: Compartilhar > Adicionar à Tela de Início\nAndroid: 3 pontinhos > Instalar app");}}
 function initAudio(){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
 function tocarAlarmeForte(){
- try{
-  document.getElementById("audioAlarme").currentTime=0;
-  document.getElementById("audioAlarme").volume=1;
-  document.getElementById("audioAlarme").play().catch(()=>{});
- }catch(e){}
- try{
-  if(!audioCtx)initAudio();
-  if(audioCtx){
-   for(let i=0;i<5;i++){setTimeout(()=>{let o=audioCtx.createOscillator();let g=audioCtx.createGain();o.type='square';o.frequency.value=900+i*80;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(1,g.currentTime);g.gain.exponentialRampToValueAtTime(0.01,g.currentTime+0.4);o.start();o.stop(g.currentTime+0.4);},i*350);}
-  }
-  if(navigator.vibrate)navigator.vibrate([600,200,600,200,900]);
-  document.body.style.background="#22c55e";setTimeout(()=>document.body.style.background="#0f172a",150);
-  setTimeout(()=>{document.body.style.background="#22c55e";setTimeout(()=>document.body.style.background="#0f172a",150);},300);
- }catch(e){}
+ try{document.getElementById("audioAlarme").currentTime=0;document.getElementById("audioAlarme").volume=1;document.getElementById("audioAlarme").play().catch(()=>{});}catch(e){}
+ try{if(!audioCtx)initAudio();if(audioCtx){for(let i=0;i<5;i++){setTimeout(()=>{let o=audioCtx.createOscillator();let g=audioCtx.createGain();o.type='square';o.frequency.value=900+i*80;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(1,g.currentTime);g.gain.exponentialRampToValueAtTime(0.01,g.currentTime+0.4);o.start();o.stop(g.currentTime+0.4);},i*350);} }if(navigator.vibrate)navigator.vibrate([600,200,600,200,900]);document.body.style.background="#22c55e";setTimeout(()=>document.body.style.background="#060a14",150);}catch(e){}
 }
-async function ativarNotificacao(){
- try{
-  let perm=await Notification.requestPermission();
-  if(perm!=='granted'){alert("Permita notificações!");return;}
-  notifAtiva=true;localStorage.setItem("notif_ativa","1");
-  if('serviceWorker' in navigator){
-   let reg=await navigator.serviceWorker.ready;
-   reg.showNotification("🔔 PEDE AÍ ATIVADO!",{body:"Vai tocar mesmo no WhatsApp! Pedidos liberados: "+(showAberto?"SIM":"NÃO"),vibrate:[500,150,500],requireInteraction:true});
-  }
-  document.getElementById("debugSync").innerText="✅ Notificação ativada! Pode ir pro WhatsApp!";
-  showTop("🔔 Ativado!");
- }catch(e){alert(e);}
-}
-function notificarPedido(ped){
- if(!notifAtiva)return;
- try{
-  navigator.serviceWorker.ready.then(reg=>{
-   reg.showNotification("🔔 NOVO PEDIDO! "+ped.musica,{body:ped.nome+": "+ped.recado+" - R$"+(ped.caixa||0),vibrate:[500,150,500,150,800],requireInteraction:true,tag:"pedido"});
-  });
- }catch(e){}
-}
+async function ativarNotificacao(){try{let perm=await Notification.requestPermission();if(perm!=='granted'){alert("Permita notificações!");return;}notifAtiva=true;localStorage.setItem("notif_ativa","1");let reg=await navigator.serviceWorker.ready;reg.showNotification("🔔 PEDE AÍ ATIVADO!",{body:"Vai tocar mesmo no WhatsApp!",vibrate:[500,150,500],requireInteraction:true});showTop("🔔 Notificação ativada!");}catch(e){}}
+function notificarPedido(ped){if(!notifAtiva)return;try{navigator.serviceWorker.ready.then(reg=>{reg.showNotification("🔔 NOVO PEDIDO! "+ped.musica,{body:ped.nome+": "+ped.recado+" - R$"+(ped.caixa||0),vibrate:[500,150,500,150,800],requireInteraction:true,tag:"pedido"});});}catch(e){}}
 
 let PIX_KEY=localStorage.getItem("taki_pix_key")||"";let PIX_NAME=localStorage.getItem("taki_pix_name")||"";let PIX_CITY=localStorage.getItem("taki_pix_city")||"";
 let showAberto=localStorage.getItem("show_aberto")==="1";
-const TOPIC="pedeai-taki-V29-SHOW";const TOPIC_REP=TOPIC+"-REP";const TOPIC_PED=TOPIC+"-PED";const TOPIC_CFG=TOPIC+"-CFG";const TOPIC_SHOW=TOPIC+"-SHOW";
+const TOPIC="pedeai-taki-V30-PRO";const TOPIC_REP=TOPIC+"-REP";const TOPIC_PED=TOPIC+"-PED";const TOPIC_CFG=TOPIC+"-CFG";const TOPIC_SHOW=TOPIC+"-SHOW";
 const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
-let rep=JSON.parse(localStorage.getItem("rep_v29")||"[]");if(rep.length===0){rep=[{id:1,musica:"METADE",cantor:"Adriana Calcanhoto"},{id:2,musica:"AINDA É CEDO",cantor:"LEGIÃO URBANA"}];}
-let peds=JSON.parse(localStorage.getItem("peds_v29")||"[]");let sel=null,caixa=0,ultimoPix="";let eventSource=null;
+let rep=JSON.parse(localStorage.getItem("rep_v30")||"[]");if(rep.length===0){rep=[{id:1,musica:"METADE",cantor:"Adriana Calcanhoto"},{id:2,musica:"AINDA É CEDO",cantor:"LEGIÃO URBANA"}];}
+let peds=JSON.parse(localStorage.getItem("peds_v30")||"[]");let sel=null,caixa=0,ultimoPix="";let eventSource=null;
 
 function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)crc=(crc&0x8000)?(crc<<1)^0x1021:crc<<1}return(crc&0xFFFF).toString(16).toUpperCase().padStart(4,'0')}
 function fmt(id,v){return id+String(v.length).padStart(2,'0')+v}
 function genPix(k,amt,name,city,tx){try{let ck=String(k).trim();let cn=String(name||"MUSICO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,25)||"MUSICO";let cc=String(city||"BRASIL").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,15)||"BRASIL";let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",ck);let a=amt>0?fmt("54",Number(amt).toFixed(2)):"";let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",cn)+fmt("60",cc)+fmt("62",fmt("05",tx.substring(0,20)));p+="6304";return p+crc16(p);}catch(e){return ""}}
-function save(){localStorage.setItem("rep_v29",JSON.stringify(rep));localStorage.setItem("peds_v29",JSON.stringify(peds));renderAll();}
-function salvarPixConfig(){let k=document.getElementById("cfgPixKey").value.trim();let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();if(!k){alert("Digite PIX!");return;}localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{alert("✅ PIX SALVO!");renderAll();});}
+function save(){localStorage.setItem("rep_v30",JSON.stringify(rep));localStorage.setItem("peds_v30",JSON.stringify(peds));renderAll();}
+function salvarPixMenu(){let k=document.getElementById("cfgPixKeyM").value.trim();let n=document.getElementById("cfgPixNameM").value.trim();let c=document.getElementById("cfgPixCityM").value.trim();if(!k){alert("Digite PIX!");return;}PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{alert("✅ PIX SALVO!");renderAll();});}
+function salvarPixConfig(){salvarPixMenu();}
 async function fetchConfig(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_CFG+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let cfg=JSON.parse(last.message);if(cfg.key){PIX_KEY=cfg.key;PIX_NAME=cfg.name;PIX_CITY=cfg.city;localStorage.setItem("taki_pix_key",PIX_KEY);localStorage.setItem("taki_pix_name",PIX_NAME);localStorage.setItem("taki_pix_city",PIX_CITY);renderAll();}}}}catch(e){}}
 async function fetchShowStatus(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_SHOW+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let st=JSON.parse(last.message);showAberto=!!st.aberto;localStorage.setItem("show_aberto",showAberto?"1":"0");renderAll();}}}catch(e){}}
-
-function toggleShow(){
- showAberto=!showAberto;
- localStorage.setItem("show_aberto",showAberto?"1":"0");
- fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto,hora:Date.now()})});
- renderAll();
- if(showAberto){tocarAlarmeForte();showTop("🟢 SHOW INICIADO! Pedidos liberados!");}
- else{showTop("🔴 SHOW PAUSADO! Pedidos bloqueados");}
-}
-
-function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m,cantor:c});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
-function editMus(id){let r=rep.find(x=>x.id===id);let nm=prompt("Editar música:",r.musica);if(nm===null)return;let nc=prompt("Cantor:",r.cantor);if(nc===null)return;r.musica=nm.trim();r.cantor=nc.trim();save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
-function delMus(id){if(!confirm("Apagar?"))return;rep=rep.filter(r=>r.id!==id);save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
-async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote)&&remote.length>0){rep=remote;localStorage.setItem("rep_v29",JSON.stringify(rep));renderAll();}}}}catch(e){}}
-
-function renderCli(){
- let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));
- document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='text-align:center;padding:20px;color:#64748b'>Nenhuma música</p>";
-
- let statusBox=document.getElementById("cardStatusCli");
- if(!showAberto){
-  statusBox.style.display="block";statusBox.style.background="#ef4444";statusBox.innerHTML="🔴 SHOW PAUSADO<br><small>O músico não está aceitando pedidos agora.<br>Mas já libera! Fique de olho!</small>";
-  document.getElementById("formPedido").style.display="none";
- }else{
-  statusBox.style.display="block";statusBox.style.background="#22c55e";statusBox.style.color="#000";statusBox.innerHTML="🟢 SHOW LIBERADO! PEDE AÍ! 🎵<br><small>QR Code liberado, pode pedir sua música!</small>";
- }
-
- document.getElementById("pixPreview").style.display=caixa>0?"block":"none";
- if(caixa>0){document.getElementById("pixPreview").innerText=PIX_KEY?"✓ R$ "+caixa:"✓ R$ "+caixa;}
- document.getElementById("btnEnviar").innerText=caixa>0&&PIX_KEY?"ENVIAR + PAGAR R$"+caixa:"ENVIAR PEDIDO";
- document.getElementById("btnEnviar").disabled=!showAberto;
- if(!showAberto)document.getElementById("btnEnviar").innerText="⛔ PEDIDOS PAUSADOS NO MOMENTO";
-}
-
+function toggleShow(){showAberto=!showAberto;localStorage.setItem("show_aberto",showAberto?"1":"0");fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto})});renderAll();if(showAberto){tocarAlarmeForte();showTop("🟢 SHOW LIBERADO!");}else{showTop("🔴 SHOW PAUSADO!");}}
+function addMusMenu(){let m=document.getElementById("novaMusicaM").value.trim();let c=document.getElementById("novoCantorM").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m,cantor:c});document.getElementById("novaMusicaM").value="";document.getElementById("novoCantorM").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});buildMenu();}
+function addMus(){addMusMenu();}
+function editMus(id){let r=rep.find(x=>x.id===id);let nm=prompt("Editar música:",r.musica);if(nm===null)return;let nc=prompt("Cantor:",r.cantor);if(nc===null)return;r.musica=nm.trim();r.cantor=nc.trim();save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});buildMenu();}
+function delMus(id){if(!confirm("Apagar?"))return;rep=rep.filter(r=>r.id!==id);save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});buildMenu();}
+async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote)&&remote.length>0){rep=remote;localStorage.setItem("rep_v30",JSON.stringify(rep));renderAll();}}}}catch(e){}}
+function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b style="letter-spacing:-0.3px">${r.musica}</b><br><small style="opacity:.5">${r.cantor}</small></div><span style="opacity:.3">›</span></div>`).join("")||"<p style='text-align:center;padding:40px;opacity:.4'>Nenhuma música encontrada</p>";let box=document.getElementById("cardStatusCli");if(!showAberto){box.style.display="block";box.style.background="#ef4444";box.innerHTML="🔴 SHOW PAUSADO<br><small style='font-weight:400'>O músico não está aceitando pedidos agora</small>";document.getElementById("formPedido").style.display="none";}else{box.style.display="block";box.style.background="#22c55e";box.style.color="#000";box.innerHTML="🟢 SHOW AO VIVO! Peça sua música 🎵";}document.getElementById("pixPreview").style.display=caixa>0?"block":"none";if(caixa>0)document.getElementById("pixPreview").innerText=PIX_KEY?"✓ R$ "+caixa:"✓ R$ "+caixa;document.getElementById("btnEnviar").innerText=caixa>0&&PIX_KEY?"ENVIAR + PAGAR R$"+caixa:"ENVIAR PEDIDO";document.getElementById("btnEnviar").disabled=!showAberto;}
 function renderDono(){
- document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;
- document.getElementById("pixDonoInfo").innerText=PIX_KEY?"✅ PIX: "+PIX_KEY:"❌ Configure PIX";
-
+ document.getElementById("pixDonoInfo").innerText=PIX_KEY?"PIX: "+PIX_KEY:"Configure no menu ☰";
  let box=document.getElementById("showStatusBox");let btn=document.getElementById("btnToggleShow");
- if(showAberto){box.innerHTML='<div class="showON">🟢 SHOW LIBERADO - CLIENTES PODEM PEDIR!</div>';btn.innerText='🔴 PAUSAR PEDIDOS';btn.style.background='#ef4444';}
- else{box.innerHTML='<div class="showOFF">🔴 SHOW PAUSADO - CLIENTES NÃO PODEM PEDIR</div>';btn.innerText='🟢 INICIAR SHOW - LIBERAR PEDIDOS';btn.style.background='#22c55e';btn.style.color='#000';}
-
- document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><div><button style="background:#334155;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="editMus(${r.id})">✏️</button><button style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px;margin-left:4px" onclick="delMus(${r.id})">🗑️</button></div></div>`).join("");
+ if(showAberto){box.innerHTML='<div class="showON">🟢 SHOW LIBERADO - QR ATIVO!</div>';btn.innerText='🔴 PAUSAR SHOW';btn.style.background='linear-gradient(135deg,#ef4444,#991b1b)';}
+ else{box.innerHTML='<div class="showOFF">🔴 SHOW PAUSADO - CLIENTES VEEM AVISO</div>';btn.innerText='🟢 INICIAR SHOW - LIBERAR QR';btn.style.background='linear-gradient(135deg,#22c55e,#16a34a)';btn.style.color='#000';}
  let tot=peds.reduce((s,p)=>s+(p.caixa||0),0);document.getElementById("totalCaixa").innerText="R$ "+tot+",00";
- document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:3px solid #22c55e;border-radius:12px;padding:12px;margin:8px 0"><b style="color:#22c55e;font-size:18px">🔔 ${p.musica}</b> ${p.caixa>0?`<span style="background:#22c55e;color:#000;padding:4px 10px;border-radius:999px;font-weight:900">R$${p.caixa}</span>`:``}<br>👤 <b>${p.nome}</b>: "${p.recado}"<br><small>${new Date(p.data).toLocaleString('pt-BR')}</small></div>`).join("")||"<p style='color:#64748b;text-align:center;padding:20px'>Nenhum pedido ainda - Clique em INICIAR SHOW pra liberar!</p>";
+ document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div class="pedidoCard"><div style="display:flex;justify-content:space-between;align-items:start"><div><b style="font-size:18px;letter-spacing:-0.5px">${p.musica}</b><br><small style="opacity:.6">${p.cantor}</small></div>${p.caixa>0?`<span class="pill">R$ ${p.caixa}</span>`:`<span style="opacity:.3;font-size:11px">SEM CAIXINHA</span>`}</div><div style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:12px"><b>${p.nome}</b><br><span style="opacity:.8">"${p.recado}"</span></div><small style="opacity:.4;font-size:10px;margin-top:8px;display:block">${new Date(p.data).toLocaleString('pt-BR')}</small></div>`).join("")||`<div style="text-align:center;padding:40px;opacity:.4"><div style="font-size:40px">🎵</div><p style="margin-top:10px">Nenhum pedido ainda<br><small>Clique em INICIAR SHOW pra liberar o QR</small></p></div>`;
 }
-
-function renderAll(){
- let base=location.href.split("?")[0];
- if(isDono){
-  document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";
-  document.getElementById("topSub").innerText="PAINEL DONO - V29 CONTROLE DE SHOW";
-  try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:180,height:180});document.getElementById("qrLink").innerText=base;}catch(e){}
- }else{
-  document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";
-  document.getElementById("topSub").innerText=rep.length+" músicas";
- }
- renderCli();if(isDono)renderDono();
-}
-
-function escolhe(id){
- if(!showAberto){alert("🔴 O músico pausou os pedidos no momento! Já já ele libera de novo!");return;}
- sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";document.getElementById("formPedido").scrollIntoView({behavior:"smooth"});
-}
+function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText="PAINEL PRO - V30";document.getElementById("btnMenu").style.display="block";}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=rep.length+" músicas";document.getElementById("btnMenu").style.display="none";}renderCli();if(isDono)renderDono();}
+function escolhe(id){if(!showAberto){alert("🔴 Show pausado no momento!");return;}sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";}
 function setCaixa(v){caixa=v;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));let el=document.getElementById("c"+v);if(el)el.classList.add("on");document.getElementById("outroValor").value="";renderCli();}
 function setCaixaCustom(v){let num=parseInt(v)||0;if(num>0){caixa=num;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));renderCli();}else if(v===""){caixa=0;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));renderCli();}}
-function aplicarOutro(){let v=document.getElementById("outroValor").value;setCaixaCustom(v);if(caixa>0)showTop("✅ R$"+caixa+"!");}
-function showTop(t){let el=document.getElementById("alertTop");el.innerText=t;el.style.display="block";setTimeout(()=>el.style.display="none",4000)}
+function aplicarOutro(){let v=document.getElementById("outroValor").value;setCaixaCustom(v);}
+function showTop(t){let el=document.getElementById("alertTop");el.innerText=t;el.style.display="block";setTimeout(()=>el.style.display="none",3500)}
 async function syncPed(p){try{await fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(p)});}catch(e){}}
-function enviar(){
- if(!showAberto){alert("Pedidos pausados!");return;}
- let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel){alert("Escolha música!");return;}
- let btn=document.getElementById("btnEnviar");btn.innerText="⏳ Enviando...";btn.disabled=true;
- let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();syncPed(ped);
- setTimeout(()=>{btn.disabled=false;renderCli();if(caixa>0&&PIX_KEY){ultimoPix=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now().toString().slice(-6));document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixInfoTxt").innerText=PIX_KEY+" - "+PIX_NAME;document.getElementById("pixCopiaCola").innerText=ultimoPix;document.getElementById("pixQr").innerHTML="";try{new QRCode(document.getElementById("pixQr"),{text:ultimoPix,width:200,height:200})}catch(e){}document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Pedido enviado! "+sel.musica);document.getElementById("formPedido").style.display="none";document.getElementById("nomeCli").value="";document.getElementById("recadoCli").value="";setCaixa(0);document.getElementById("outroValor").value="";}},700);
-}
+function enviar(){if(!showAberto){alert("Pausado!");return;}let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel){alert("Escolha música!");return;}let btn=document.getElementById("btnEnviar");btn.innerText="⏳ Enviando...";btn.disabled=true;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();syncPed(ped);setTimeout(()=>{btn.disabled=false;renderCli();if(caixa>0&&PIX_KEY){ultimoPix=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now().toString().slice(-6));document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixInfoTxt").innerText=PIX_KEY+" - "+PIX_NAME;document.getElementById("pixCopiaCola").innerText=ultimoPix;document.getElementById("pixQr").innerHTML="";try{new QRCode(document.getElementById("pixQr"),{text:ultimoPix,width:200,height:200})}catch(e){}document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Pedido enviado! "+sel.musica);document.getElementById("formPedido").style.display="none";document.getElementById("nomeCli").value="";document.getElementById("recadoCli").value="";setCaixa(0);document.getElementById("outroValor").value="";}},700);}
 function copiarPix(){navigator.clipboard.writeText(ultimoPix).then(()=>alert("✅ PIX COPIADO!")).catch(()=>{prompt("Copie:",ultimoPix);})}
 function fecharPix(){document.getElementById("pixModal").style.display="none";document.getElementById("formPedido").style.display="none";document.getElementById("nomeCli").value="";document.getElementById("recadoCli").value="";setCaixa(0);document.getElementById("outroValor").value="";}
-function ativaSom(){
- initAudio();
- // Desbloqueia áudio - precisa de interação
- document.getElementById("audioAlarme").play().then(()=>{document.getElementById("audioAlarme").pause();document.getElementById("audioAlarme").currentTime=0;}).catch(()=>{});
- tocarAlarmeForte();alarmeAtivo=true;localStorage.setItem("alarme_ativo","1");
- showTop("🔊 ALARME ATIVADO! PIM-PIM-PIM-PIM!");
- document.getElementById("statusDono").innerText="🔊 ALARME ATIVO - Tocando alto!";
- document.getElementById("statusDono").style.background="#22c55e";document.getElementById("statusDono").style.color="#000";
- startEventSource();
-}
-function startEventSource(){
- if(eventSource)eventSource.close();
- try{
-  eventSource=new EventSource("https://ntfy.sh/"+TOPIC_PED+"/sse");
-  eventSource.onmessage=(e)=>{
-   try{
-    let outer=JSON.parse(e.data);if(outer.message){let ped=JSON.parse(outer.message);if(ped.musica&&ped.id&&!peds.find(x=>x.id===ped.id)){peds.push(ped);save();tocarAlarmeForte();notificarPedido(ped);showTop("🔔 NOVO! "+ped.musica+" R$"+(ped.caixa||0));document.getElementById("statusDono").innerText="🔔 NOVO! "+ped.musica;}}
-   }catch(err){}
-  };
-  eventSource.onopen=()=>{document.getElementById("debugSync").innerText="✅ Ao vivo! Vai tocar mesmo no WhatsApp! "+new Date().toLocaleTimeString();};
-  eventSource.onerror=()=>{setTimeout(startEventSource,3000);};
- }catch(e){setInterval(fetchPedidosNow,2000);}
-}
+function ativaSom(){initAudio();document.getElementById("audioAlarme").play().then(()=>{document.getElementById("audioAlarme").pause();document.getElementById("audioAlarme").currentTime=0;}).catch(()=>{});tocarAlarmeForte();alarmeAtivo=true;localStorage.setItem("alarme_ativo","1");showTop("🔊 Alarme ativado!");document.getElementById("statusDono").innerText="🔊 Ativo";document.getElementById("statusDono").style.background="#22c55e";document.getElementById("statusDono").style.color="#000";startEventSource();}
+function startEventSource(){if(eventSource)eventSource.close();try{eventSource=new EventSource("https://ntfy.sh/"+TOPIC_PED+"/sse");eventSource.onmessage=(e)=>{try{let outer=JSON.parse(e.data);if(outer.message){let ped=JSON.parse(outer.message);if(ped.musica&&ped.id&&!peds.find(x=>x.id===ped.id)){peds.push(ped);save();tocarAlarmeForte();notificarPedido(ped);showTop("🔔 NOVO! "+ped.musica+" R$"+(ped.caixa||0));}}}catch(err){}};eventSource.onopen=()=>{document.getElementById("debugSync").innerText="✅ Ao vivo! "+new Date().toLocaleTimeString();let dm=document.getElementById("debugSyncM");if(dm)dm.innerText="✅ Ao vivo!";};eventSource.onerror=()=>{setTimeout(startEventSource,3000);};}catch(e){setInterval(fetchPedidosNow,2000);}}
 async function fetchPedidosNow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_PED+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);lines.forEach(line=>{try{let j=JSON.parse(line);if(j.message){let p=JSON.parse(j.message);if(p.musica&&p.id&&!peds.find(x=>x.id===p.id)){peds.push(p);save();if(alarmeAtivo){tocarAlarmeForte();notificarPedido(p);}showTop("🔔 NOVO! "+p.musica);}}}catch(e){}})}catch(e){}}
 function forcarBusca(){fetchPedidosNow();}
-function limparTudo(){
- if(confirm("🗑️ TEM CERTEZA que quer limpar TODO o histórico de pedidos?\n\nIsso apaga todos os pedidos da tela e zera a caixinha!\n\nNão tem como voltar!")){
-  if(confirm("Confirma mesmo? Limpar tudo?")){
-   peds=[];save();showTop("🗑️ Histórico limpo!");renderAll();
-  }
- }
-}
+function limparTudo(){if(confirm("🗑️ Limpar TODO histórico?")){if(confirm("Tem certeza? Zera caixinha também!")){peds=[];save();showTop("🗑️ Limpo!");}}}
 
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>console.log("SW ok")).catch(e=>{});}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>{}).catch(()=>{});}
 if(localStorage.getItem("notif_ativa")==="1"){notifAtiva=true;}
 renderAll();fetchRep();fetchConfig();fetchShowStatus();
 if(isDono){startEventSource();setInterval(fetchShowStatus,3000);}else{setInterval(fetchRep,3000);setInterval(fetchConfig,3000);setInterval(fetchShowStatus,3000);}
