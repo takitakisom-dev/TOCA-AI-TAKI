@@ -2,12 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TOCA AI TAKI - PIX EM BRANCO</title>
+<title>PEDE AI - Musico</title>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
 body{background:#0f172a;color:#fff;min-height:100vh}
-.top{background:linear-gradient(135deg,#7c3aed,#2563eb);padding:16px;text-align:center}
+.top{background:linear-gradient(135deg,#22c55e,#7c3aed);padding:16px;text-align:center}
 .card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:14px;margin:10px}
 .inp{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin:6px 0;font-size:16px}
 .btn{padding:14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
@@ -19,15 +19,15 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 .cal.on{border-color:#22c55e;background:#dcfce7;color:#14532d}
 .alertTop{position:fixed;top:10px;left:10px;right:10px;background:#16a34a;color:#fff;padding:18px;border-radius:14px;font-weight:900;z-index:9999;display:none;text-align:center}
 .qrWrap{background:#fff;border-radius:18px;padding:14px;text-align:center;color:#0f172a}
-.pixModal{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px}
+.pixModal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 .pixCard{background:#fff;color:#0f172a;border-radius:20px;padding:20px;max-width:400px;width:100%;text-align:center}
-.pixCode{word-break:break-all;background:#f1f5f9;border:1px dashed #94a3b8;border-radius:10px;padding:10px;font-size:9px;margin:10px 0;text-align:left}
+.pixCode{word-break:break-all;background:#f1f5f9;border:2px dashed #22c55e;border-radius:10px;padding:12px;font-size:10px;margin:10px 0;text-align:left}
 .itemRep{padding:12px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .alertPix{background:#fef3c7;border:2px solid #f59e0b;color:#92400e;padding:12px;border-radius:12px;margin:10px 0;font-weight:800;text-align:center}
 </style>
 </head>
 <body>
-<div class="top"><h1>🎵 TOCA AI TAKI</h1><small id="topSub"></small></div>
+<div class="top"><h1>🎵 PEDE AÍ</h1><small id="topSub"></small></div>
 <div id="alertTop" class="alertTop"></div>
 
 <div id="vCli">
@@ -43,7 +43,7 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 <div style="margin-top:10px;display:flex;gap:6px;align-items:center"><span style="font-size:12px">Outro:</span><input id="outroValor" class="inp" style="flex:1;margin:0" type="number" placeholder="Ex: 30" oninput="setCaixaCustom(this.value)"><span style="font-size:12px">reais</span></div>
 <p id="pixPreview" style="font-size:12px;color:#22c55e;text-align:center;margin-top:8px;display:none;font-weight:800"></p>
 </div>
-<div id="areaSemPix" style="display:none" class="alertPix">💰 Gorjeta indisponível - Músico ainda não configurou o PIX</div>
+<div id="areaSemPix" style="display:none" class="alertPix">💰 Gorjeta indisponível - Músico ainda não configurou PIX</div>
 <button class="btn-green" id="btnEnviar" onclick="enviar()">🎵 ENVIAR PEDIDO</button>
 <p id="pixRodapeCli" style="font-size:10px;color:#94a3b8;text-align:center;margin-top:6px"></p>
 </div>
@@ -52,32 +52,28 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 <div id="vDono" style="display:none">
 <div class="card" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;text-align:center"><h2>💰 CAIXINHA HOJE</h2><div id="totalCaixa" style="font-size:34px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo">PIX não configurado</small><div id="statusSync" style="font-size:10px;margin-top:6px;background:#0003;padding:6px;border-radius:99px">🟢 Online</div></div>
 
-<div class="card" style="border:2px solid #f59e0b;background:#1c1917">
-<h3>⚙️ CONFIGURAR MEU PIX (EM BRANCO PRO MÚSICO PREENCHER)</h3>
-<div id="alertaPixVazio" class="alertPix">⚠️ SEU PIX ESTÁ EM BRANCO! Preencha abaixo para receber gorjetas!</div>
-<p style="font-size:11px;color:#fde68a;margin:6px 0">👉 Deixe em branco para o músico preencher quando você vender! Quando ele preencher, toda gorjeta cai direto no PIX dele!</p>
-<label style="font-size:11px;font-weight:800;margin-top:8px;display:block">CHAVE PIX (CPF, Celular, Email ou Aleatória) *:</label>
-<input id="cfgPixKey" class="inp" placeholder="Ex: 11999999999 ou seu CPF - DEIXE EM BRANCO PARA VENDER">
-<label style="font-size:11px;font-weight:800;margin-top:6px;display:block">NOME QUE APARECE NO BANCO:</label>
-<input id="cfgPixName" class="inp" placeholder="Ex: JOAO SILVA - DEIXE EM BRANCO">
-<label style="font-size:11px;font-weight:800;margin-top:6px;display:block">CIDADE:</label>
-<input id="cfgPixCity" class="inp" placeholder="Ex: CARAGUATATUBA">
+<div class="card" style="border:2px solid #22c55e;background:#052e16">
+<h3>⚙️ CONFIGURAR MEU PIX - PEDE AÍ</h3>
+<div id="alertaPixVazio" class="alertPix">⚠️ SEU PIX ESTÁ EM BRANCO! Preencha para receber!</div>
+<p style="font-size:11px;color:#86efac;margin:6px 0">Deixe em branco pra vender! Músico preenche o dele.</p>
+<input id="cfgPixKey" class="inp" placeholder="Chave PIX: CPF, celular ou aleatória - DEIXE EM BRANCO PRA VENDER">
+<input id="cfgPixName" class="inp" placeholder="Nome: Ex: JOAO SILVA">
+<input id="cfgPixCity" class="inp" placeholder="Cidade: Ex: CARAGUATATUBA">
 <button class="btn btn-green" style="margin-top:10px" onclick="salvarPixConfig()">💾 SALVAR MEU PIX</button>
-<button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="limparPixConfig()">🗑️ DEIXAR EM BRANCO (para vender)</button>
-<p style="font-size:10px;color:#a8a29e;margin-top:8px">Modelo de venda: Entrega em branco, músico preenche em 30 segundos e já começa a receber!</p>
+<button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="limparPixConfig()">🗑️ DEIXAR EM BRANCO (venda)</button>
 </div>
 
-<div class="card"><div style="display:flex;gap:8px"><button class="btn btn-blue" onclick="ativaSom()">🔊 Ativar Som</button><button class="btn btn-ghost" onclick="limparTudo()">🗑️ Limpar pedidos</button></div><div id="listaPedidos" style="margin-top:10px"></div></div>
+<div class="card"><div style="display:flex;gap:8px"><button class="btn btn-blue" onclick="ativaSom()">🔊 Ativar Som</button><button class="btn btn-ghost" onclick="limparTudo()">🗑️ Limpar</button></div><div id="listaPedidos" style="margin-top:10px"></div></div>
 
 <div class="card">
-<h3>🎼 CADASTRO - MÚSICA + CANTOR + LÁPIS ✏️</h3>
+<h3>🎼 CADASTRO MÚSICA + CANTOR + ✏️ LÁPIS</h3>
 <div style="display:flex;gap:8px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1.5" placeholder="Cantor"></div>
 <div id="editBox" style="display:none;border:2px solid #f59e0b;border-radius:12px;padding:10px;margin:10px 0;background:#fef3c7"><p style="font-size:12px;font-weight:800;color:#92400e">✏️ EDITANDO:</p><div style="display:flex;gap:8px"><input id="editMusica" class="inp" style="flex:2"><input id="editCantor" class="inp" style="flex:1.5"></div><div style="display:flex;gap:8px"><button class="btn btn-green" onclick="salvarEdit()">💾 SALVAR</button><button class="btn btn-ghost" onclick="cancelEdit()">Cancelar</button></div></div>
-<button class="btn btn-blue" style="width:100%" onclick="addMus()">+ ADICIONAR MÚSICA + CANTOR</button>
+<button class="btn btn-blue" style="width:100%" onclick="addMus()">+ ADICIONAR</button>
 <div id="listaDono" style="margin-top:12px"></div>
 </div>
 
-<div class="card"><div class="qrWrap"><div style="font-weight:900;font-size:12px;margin-bottom:6px">QR CODE PARA MESA - SÓ CLIENTE</div><div id="qrcode" style="display:flex;justify-content:center"></div><p id="qrUrl" style="font-size:7px;word-break:break-all;margin-top:6px;color:#94a3b8"></p></div></div>
+<div class="card"><div class="qrWrap"><div style="font-weight:900;font-size:12px;margin-bottom:6px">QR CODE MESA - PEDE AÍ</div><div id="qrcode" style="display:flex;justify-content:center"></div><p id="qrUrl" style="font-size:7px;word-break:break-all;margin-top:6px;color:#94a3b8"></p></div></div>
 </div>
 
 <div id="pixModal" class="pixModal"><div class="pixCard">
@@ -88,70 +84,63 @@ body{background:#0f172a;color:#fff;min-height:100vh}
 <button class="btn-green" onclick="copiarPix()">📋 COPIAR CÓDIGO PIX</button>
 <button class="btn btn-blue" style="width:100%;margin-top:8px;padding:14px;background:#000;color:#fff" onclick="copiarPix()">🏦 ABRIR MEU BANCO E COLAR</button>
 <button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="fecharPix()">Já paguei / Fechar</button>
+<p style="font-size:10px;color:#94a3b8;margin-top:8px">Cole no PIX Copia e Cola do seu banco. Valor já vem preenchido!</p>
 </div></div>
 
 <audio id="beep" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=notification-sound-7062.mp3"></audio>
 <script>
-let PIX_KEY=localStorage.getItem("taki_pix_key")||""; // AGORA EM BRANCO
+function cleanPixKey(k){return k.replace(/[^0-9a-zA-Z@._+-]/g,"").trim()}
+function cleanName(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Z0-9 ]/gi," ").toUpperCase().trim().substring(0,25) || "MUSICO"}
+function cleanCity(s){return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Z0-9 ]/gi," ").toUpperCase().trim().substring(0,15) || "BRASIL"}
+
+let PIX_KEY=(localStorage.getItem("taki_pix_key")||"").trim();
 let PIX_NAME=localStorage.getItem("taki_pix_name")||"";
 let PIX_CITY=localStorage.getItem("taki_pix_city")||"";
-const TOPIC="takitakisom-dev-toca-gera";
+const TOPIC="pedeai-geral-2024";
 const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
 let rep=JSON.parse(localStorage.getItem("taki_rep_final")||"[]");let peds=JSON.parse(localStorage.getItem("taki_peds_final")||"[]");
 let sel=null;let caixa=0;let editId=null;let ultimoPix="";
+
 function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)crc=(crc&0x8000)?(crc<<1)^0x1021:crc<<1}return(crc&0xFFFF).toString(16).toUpperCase().padStart(4,'0')}
 function fmt(id,v){return id+String(v.length).padStart(2,'0')+v}
-function genPix(k,amt,name,city,tx){let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",k);let a=amt>0?fmt("54",amt.toFixed(2)):"";let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",name.substring(0,25).toUpperCase())+fmt("60",city.substring(0,15).toUpperCase())+fmt("62",fmt("05",tx));p+="6304";return p+crc16(p)}
+function genPix(k,amt,name,city,tx){
+ try{
+  let key=cleanPixKey(k); let n=cleanName(name); let c=cleanCity(city);
+  let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",key);
+  let a=amt>0?fmt("54",amt.toFixed(2)):"";
+  let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",n)+fmt("60",c)+fmt("62",fmt("05",tx));
+  p+="6304"; return p+crc16(p);
+ }catch(e){console.log(e); return "" }
+}
 function save(){localStorage.setItem("taki_rep_final",JSON.stringify(rep));localStorage.setItem("taki_peds_final",JSON.stringify(peds));renderAll()}
 function salvarPixConfig(){
  let k=document.getElementById("cfgPixKey").value.trim();let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();
- if(!k){alert("⚠️ Digite sua chave PIX para receber gorjetas!\n\nPode ser CPF, celular, email ou chave aleatória");return}
+ if(!k){alert("Digite sua chave PIX!");return}
  localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n||"MUSICO");localStorage.setItem("taki_pix_city",c||"BRASIL");
- PIX_KEY=k;PIX_NAME=n||"MUSICO";PIX_CITY=c||"BRASIL";
- alert("✅ PIX SALVO COM SUCESSO!\n\nAgora toda gorjeta vai direto pra:\n"+k+" - "+n+"\n\nPronto para receber!");
+ PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;
+ alert("✅ PIX SALVO: "+k+"\nAgora gorjeta cai direto pra você!");
  renderAll();
 }
 function limparPixConfig(){
- if(confirm("Deixar PIX em branco para vender para outro músico?\n\nIsso vai apagar seu PIX atual e deixar vazio para o próximo preencher.")){
-  localStorage.removeItem("taki_pix_key");localStorage.removeItem("taki_pix_name");localStorage.removeItem("taki_pix_city");
-  PIX_KEY="";PIX_NAME="";PIX_CITY="";
-  document.getElementById("cfgPixKey").value="";document.getElementById("cfgPixName").value="";document.getElementById("cfgPixCity").value="";
-  alert("✅ PIX DEIXADO EM BRANCO!\n\nAgora está pronto para vender! O próximo músico vai preencher o dele.");
-  renderAll();
- }
+ if(confirm("Deixar em branco pra vender?")){localStorage.removeItem("taki_pix_key");localStorage.removeItem("taki_pix_name");localStorage.removeItem("taki_pix_city");PIX_KEY="";PIX_NAME="";PIX_CITY="";document.getElementById("cfgPixKey").value="";document.getElementById("cfgPixName").value="";document.getElementById("cfgPixCity").value="";renderAll();}
 }
-function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return alert("Digite música!");rep.push({id:Date.now(),musica:m,cantor:c||""});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();syncRep()}
+function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m,cantor:c});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();syncRep()}
 function delMus(id){if(confirm("Apagar?")){rep=rep.filter(r=>r.id!==id);save();syncRep()}}
-function editMus(id){let r=rep.find(x=>x.id===id);editId=id;document.getElementById("editBox").style.display="block";document.getElementById("editMusica").value=r.musica;document.getElementById("editCantor").value=r.cantor;document.getElementById("editBox").scrollIntoView({behavior:"smooth"})}
+function editMus(id){let r=rep.find(x=>x.id===id);editId=id;document.getElementById("editBox").style.display="block";document.getElementById("editMusica").value=r.musica;document.getElementById("editCantor").value=r.cantor;}
 function salvarEdit(){let m=document.getElementById("editMusica").value.trim();let c=document.getElementById("editCantor").value.trim();let r=rep.find(x=>x.id===editId);if(r&&m){r.musica=m;r.cantor=c;save();syncRep();cancelEdit()}}
 function cancelEdit(){editId=null;document.getElementById("editBox").style.display="none"}
-function renderCli(){
- let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));
- document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='color:#64748b;font-size:12px;padding:10px;text-align:center'>Nenhuma música ainda</p>";
- if(!PIX_KEY){document.getElementById("areaGorjeta").style.display="none";document.getElementById("areaSemPix").style.display="block";document.getElementById("pixRodapeCli").innerText="PIX em configuração pelo músico";document.getElementById("btnEnviar").innerText="🎵 ENVIAR PEDIDO";}
- else{document.getElementById("areaGorjeta").style.display="block";document.getElementById("areaSemPix").style.display="none";document.getElementById("pixRodapeCli").innerText="PIX: "+PIX_KEY+" - "+PIX_NAME;}
-}
-function renderDono(){
- document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;
- if(!PIX_KEY){document.getElementById("alertaPixVazio").style.display="block";document.getElementById("pixDonoInfo").innerText="⚠️ PIX EM BRANCO - Configure abaixo";}else{document.getElementById("alertaPixVazio").style.display="none";document.getElementById("pixDonoInfo").innerText="PIX ATUAL: "+PIX_KEY+" - "+PIX_NAME;}
- document.getElementById("listaDono").innerHTML=rep.map(r=>`<div class="itemRep"><div style="flex:1"><b>${r.musica}</b><br><small style="background:#334155;padding:2px 8px;border-radius:99px;font-size:11px">${r.cantor||"sem cantor"}</small></div><div style="display:flex;gap:6px"><button onclick="editMus(${r.id})" style="background:#f59e0b;color:#000;border:none;padding:8px 12px;border-radius:8px;font-weight:800">✏️ EDITAR</button><button onclick="delMus(${r.id})" style="background:#ef4444;color:#fff;border:none;padding:8px 10px;border-radius:8px">🗑️</button></div></div>`).join("")||"Vazio";
- let tot=peds.reduce((s,p)=>s+parseInt(p.caixa||0),0);document.getElementById("totalCaixa").innerText="R$ "+tot+",00";document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:1px solid #334155;border-radius:12px;padding:10px;margin:8px 0"><b>🎵 ${p.musica}</b> - ${p.cantor} ${p.caixa>0?`<span style="background:#dcfce7;color:#14532d;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:800">R$${p.caixa}</span>`:``}<br><small>👤 ${p.nome} → "${p.recado}"<br>${new Date(p.data).toLocaleString("pt-BR")}</small></div>`).join("")||"Nenhum pedido";
-}
-function renderAll(){
- let base=location.href.split("?")[0];
- if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText=PIX_KEY?"MODO DONO - PIX: "+PIX_KEY+" - Música+C Cantor+Lápis":"MODO DONO - CONFIGURE SEU PIX EM BRANCO";document.getElementById("qrUrl").innerText=base;try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:180,height:180})}catch(e){}}
- else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=PIX_KEY?"Peça música + Caixinha PIX "+PIX_KEY:"Peça sua música - Taki Som";}
- renderCli();if(isDono)renderDono();
-}
-function escolhe(id){sel=rep.find(r=>r.id===id);if(!sel)return;document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";document.getElementById("formPedido").scrollIntoView({behavior:"smooth"})}
-function setCaixa(v){if(!PIX_KEY&&v>0){alert("⚠️ Músico ainda não configurou PIX para receber gorjeta!");setCaixa(0);return}caixa=v;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));let el=document.getElementById("c"+v);if(el)el.classList.add("on");document.getElementById("outroValor").value="";updatePreview()}
-function setCaixaCustom(v){let num=parseInt(v)||0;if(!PIX_KEY&&num>0){alert("⚠️ PIX não configurado!");document.getElementById("outroValor").value="";setCaixa(0);return}if(num>0){caixa=num;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));updatePreview()}else if(v===""){setCaixa(0)}}
+function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='color:#64748b;font-size:12px;padding:10px;text-align:center'>Nenhuma música</p>";if(!PIX_KEY){document.getElementById("areaGorjeta").style.display="none";document.getElementById("areaSemPix").style.display="block";document.getElementById("pixRodapeCli").innerText="PIX em configuração";}else{document.getElementById("areaGorjeta").style.display="block";document.getElementById("areaSemPix").style.display="none";document.getElementById("pixRodapeCli").innerText="PIX: "+PIX_KEY+" - "+PIX_NAME;}}
+function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;if(!PIX_KEY){document.getElementById("alertaPixVazio").style.display="block";document.getElementById("pixDonoInfo").innerText="⚠️ PIX EM BRANCO";}else{document.getElementById("alertaPixVazio").style.display="none";document.getElementById("pixDonoInfo").innerText="PIX: "+PIX_KEY+" - "+PIX_NAME;}document.getElementById("listaDono").innerHTML=rep.map(r=>`<div class="itemRep"><div style="flex:1"><b>${r.musica}</b><br><small style="background:#334155;padding:2px 8px;border-radius:99px;font-size:11px">${r.cantor||"sem cantor"}</small></div><div style="display:flex;gap:6px"><button onclick="editMus(${r.id})" style="background:#f59e0b;color:#000;border:none;padding:8px 12px;border-radius:8px;font-weight:800">✏️ EDITAR</button><button onclick="delMus(${r.id})" style="background:#ef4444;color:#fff;border:none;padding:8px 10px;border-radius:8px">🗑️</button></div></div>`).join("")||"Vazio";let tot=peds.reduce((s,p)=>s+parseInt(p.caixa||0),0);document.getElementById("totalCaixa").innerText="R$ "+tot+",00";document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:1px solid #334155;border-radius:12px;padding:10px;margin:8px 0"><b>🎵 ${p.musica}</b> - ${p.cantor} ${p.caixa>0?`<span style="background:#dcfce7;color:#14532d;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:800">R$${p.caixa}</span>`:``}<br><small>👤 ${p.nome} → "${p.recado}"<br>${new Date(p.data).toLocaleString("pt-BR")}</small></div>`).join("")||"Nenhum pedido";}
+function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText=PIX_KEY?"PEDE AÍ - DONO - PIX: "+PIX_KEY:"PEDE AÍ - DONO - CONFIGURE PIX";document.getElementById("qrUrl").innerText=base;try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:180,height:180})}catch(e){}}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=PIX_KEY?"PEDE AÍ - Gorjeta PIX "+PIX_KEY:"PEDE AÍ - Peça sua música";}renderCli();if(isDono)renderDono();}
+function escolhe(id){sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";document.getElementById("formPedido").scrollIntoView({behavior:"smooth"})}
+function setCaixa(v){if(!PIX_KEY&&v>0){alert("Músico não configurou PIX!");setCaixa(0);return}caixa=v;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));let el=document.getElementById("c"+v);if(el)el.classList.add("on");document.getElementById("outroValor").value="";updatePreview()}
+function setCaixaCustom(v){let num=parseInt(v)||0;if(!PIX_KEY&&num>0){alert("PIX não configurado!");document.getElementById("outroValor").value="";setCaixa(0);return}if(num>0){caixa=num;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));updatePreview()}else if(v===""){setCaixa(0)}}
 function updatePreview(){let prev=document.getElementById("pixPreview");let btn=document.getElementById("btnEnviar");if(caixa>0&&PIX_KEY){prev.style.display="block";prev.innerText="✓ Vai abrir PIX de R$ "+caixa+",00 para "+PIX_NAME+" - "+PIX_KEY;btn.innerText="🎵 ENVIAR + PAGAR R$"+caixa+" NO PIX";btn.style.background="#22c55e"}else{prev.style.display="none";btn.innerText="🎵 ENVIAR PEDIDO";btn.style.background="#16a34a"}}
 function showTop(t){let el=document.getElementById("alertTop");el.innerText=t;el.style.display="block";setTimeout(()=>el.style.display="none",4000)}
 async function syncRep(){try{await fetch("https://ntfy.sh/"+TOPIC+"-rep",{method:"POST",body:JSON.stringify(rep)})}catch(e){}}
 async function syncPed(p){try{await fetch("https://ntfy.sh/"+TOPIC,{method:"POST",headers:{"Title":"NOVO PEDIDO! "+p.musica},body:JSON.stringify(p)})}catch(e){}}
 function enviar(){
- if(caixa>0&&!PIX_KEY){alert("Músico ainda não configurou PIX! Pedido sem gorjeta.");caixa=0}
+ if(caixa>0&&!PIX_KEY){caixa=0}
  let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"Sem recado";
  if(!sel){alert("Escolha música!");return}
  let btn=document.getElementById("btnEnviar");btn.innerText="⏳ Enviando...";btn.disabled=true;
@@ -160,19 +149,22 @@ function enviar(){
  setTimeout(()=>{
   btn.disabled=false;updatePreview();
   if(caixa>0&&PIX_KEY){
-   ultimoPix=genPix(PIX_KEY,caixa,PIX_NAME||"MUSICO",PIX_CITY||"BRASIL","TAKI"+Date.now().toString().slice(-6));
-   document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixCopiaCola").innerText=ultimoPix;
+   ultimoPix=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now().toString().slice(-6));
+   if(!ultimoPix){alert("Erro ao gerar PIX. Verifique sua chave PIX no modo dono!");return}
+   document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";
+   document.getElementById("pixCopiaCola").innerText=ultimoPix;
    document.getElementById("pixModalInfo").innerHTML="PIX: <b>"+PIX_KEY+"</b><br>"+PIX_NAME+" - "+PIX_CITY;
    document.getElementById("pixModalSub").innerText="Obrigado! Sua caixinha para "+PIX_NAME+":";
-   document.getElementById("pixQr").innerHTML="";new QRCode(document.getElementById("pixQr"),{text:ultimoPix,width:200,height:200});
+   document.getElementById("pixQr").innerHTML="";
+   try{new QRCode(document.getElementById("pixQr"),{text:ultimoPix,width:200,height:200});}catch(e){document.getElementById("pixQr").innerHTML="<p style='font-size:10px;color:red'>QR erro, use copia e cola abaixo</p>"}
    document.getElementById("pixModal").style.display="flex";
    try{navigator.clipboard.writeText(ultimoPix)}catch(e){}
   } else {
    showTop("✅ Enviado! "+sel.musica);document.getElementById("formPedido").style.display="none";
   }
- },700);
+ },600);
 }
-function copiarPix(){navigator.clipboard.writeText(ultimoPix).then(()=>alert("✅ PIX COPIADO!\n\nVai pra: "+PIX_KEY+" - "+PIX_NAME+"\n\nAbra seu banco > PIX > Copia e Cola > Cole R$ "+caixa+",00")).catch(()=>{prompt("Copie:",ultimoPix)})}
+function copiarPix(){if(!ultimoPix){alert("Nenhum PIX gerado!");return}navigator.clipboard.writeText(ultimoPix).then(()=>alert("✅ CÓDIGO PIX COPIADO!\n\nVai pra: "+PIX_KEY+"\n\n1. Abra seu banco\n2. PIX > Pix Copia e Cola\n3. Cole e pague R$"+caixa+",00")).catch(()=>{prompt("Copie este código no seu banco:",ultimoPix)})}
 function fecharPix(){document.getElementById("pixModal").style.display="none";document.getElementById("formPedido").style.display="none";showTop("✅ Pedido enviado!")}
 function ativaSom(){try{document.getElementById("beep").play().then(()=>{document.getElementById("beep").pause();showTop("🔊 Som ativado!")})}catch(e){};startPolling()}
 let pollInt=null;function startPolling(){if(pollInt)clearInterval(pollInt);pollInt=setInterval(async()=>{try{let r=await fetch("https://ntfy.sh/"+TOPIC+"/json?poll=1");let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);lines.forEach(line=>{try{let j=JSON.parse(line);if(j.message){let p=JSON.parse(j.message);if(p.musica&&!peds.find(x=>x.id===p.id)){peds.push(p);save();document.getElementById("beep").play().catch(()=>{});showTop("🔔 NOVO! "+p.musica+" - R$"+(p.caixa||0))}}}catch(e){}})}catch(e){}},3000)}
