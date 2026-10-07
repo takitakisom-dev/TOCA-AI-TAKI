@@ -1,15 +1,9 @@
 {
-  "name": "Pede Aí - Toca AI",
-  "short_name": "Pede Aí",
-  "start_url": ".",
+  "name": "PEDE AÍ - DONO",
+  "short_name": "PEDE AÍ DONO",
+  "start_url": "./?dono=TAKI123",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#22c55e",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/138/138817.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/138/138817.png","sizes": "512x512","type": "image/png"}]
 }
