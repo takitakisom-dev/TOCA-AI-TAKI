@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PEDE AI FINAL</title>
+<link id="manifestLink" rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22c55e">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}body{background:#0f172a;color:#fff}
+.top{background:linear-gradient(135deg,#22c55e,#7c3aed);padding:16px;text-align:center}
+.card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:14px;margin:10px}
+.inp{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin:6px 0;font-size:16px}
+.btn{padding:14px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+.btn-green{background:#16a34a;color:#fff;width:100%;padding:16px;border-radius:12px;margin-top:8px}
+.music{padding:14px;border-radius:12px;border:1px solid #334155;background:#0f172a;margin:8px 0;display:flex;justify-content:space-between}
+.cal{padding:14px;border-radius:12px;border:2px solid #334155;background:#0f172a;text-align:center;font-weight:900;cursor:pointer;flex:1}
+.cal.on{border-color:#22c55e;background:#dcfce7;color:#14532d}
+.alertTop{position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;padding:18px;border-radius:14px;font-weight:900;z-index:9999;display:none;width:90%;text-align:center}
+.pixModal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px}
+.pixCard{background:#fff;color:#0f172a;border-radius:20px;padding:20px;max-width:380px;width:100%;text-align:center}
+.pixCode{word-break:break-all;background:#f1f5f9;border:2px dashed #22c55e;border-radius:10px;padding:12px;font-size:11px;margin:10px 0;text-align:left}
+</style>
+</head>
+<body>
+<div class="top"><h1>🎵 PEDE AÍ</h1><small id="topSub">FINAL - CLIENTE NÃO INSTALA</small></div>
+<div id="alertTop" class="alertTop"></div>
+
+<div id="vCli">
+<div class="card" id="cardStatusCli" style="display:none;text-align:center;font-weight:900;padding:20px;border-radius:16px"></div>
+<div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar música..." oninput="renderCli()"><div id="listaCli"></div></div>
+<div class="card" id="formPedido" style="display:none;border:3px solid #22c55e">
+<h3 id="musicaSelTxt" style="color:#22c55e"></h3><small id="cantorSelTxt"></small>
+<input id="nomeCli" class="inp" placeholder="Seu nome"><input id="recadoCli" class="inp" placeholder="Oferecer pra alguém">
+<p style="font-weight:800;margin:12px 0 8px">💰 Gorjeta? (opcional)</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+<div class="cal" id="c2" onclick="setCaixa(2)">R$2</div><div class="cal" id="c5" onclick="setCaixa(5)">R$5</div><div class="cal" id="c10" onclick="setCaixa(10)">R$10</div>
+</div>
+<p id="pixPreview" style="color:#22c55e;text-align:center;margin-top:8px;font-weight:800;display:none"></p>
+<button class="btn-green" id="btnEnviar" onclick="enviar()">ENVIAR PEDIDO</button>
+</div>
+</div>
+
+<div id="vDono" style="display:none">
+<div class="card" style="border:3px solid #22c55e;background:#052e16;text-align:center">
+<h2>🎤 SEU CELULAR - DONO INSTALADO</h2>
+<div id="showStatusBox" style="margin:10px 0"></div>
+<button id="btnToggleShow" class="btn-green" onclick="toggleShow()">LIBERAR SHOW</button>
+<button class="btn" style="width:100%;margin-top:12px;background:#fff;color:#000;padding:20px;font-size:16px" onclick="forcarEnvio()">🚀 ENVIAR TUDO PRO TABLET DO CLIENTE - CLICA AQUI</button>
+<p id="statusForcar" style="font-size:11px;color:#86efac;margin-top:8px"></p>
+</div>
+<div class="card" style="background:#fff;color:#000;text-align:center">
+<h3>🖨️ QR DA MESA - CLIENTE NÃO INSTALA</h3>
+<p style="font-size:11px;color:#64748b">Esse QR abre SEM?dono - é pra imprimir e deixar na mesa</p>
+<div id="qrcode" style="display:flex;justify-content:center;margin:10px 0"></div>
+<p id="qrLink" style="font-size:11px;word-break:break-all;font-weight:900;color:#000"></p>
+</div>
+<div class="card" style="border:3px solid #ef4444;background:#1a0a0a;text-align:center">
+<h3>🔔 ALARME - CLICA PRA TOCAR</h3>
+<button class="btn-green" style="background:#22c55e;color:#000" onclick="ativaSom()">🔊 ATIVAR ALARME - TOCA ALARME E RECEBE PEDIDO</button>
+<p id="debugSync" style="font-size:10px;color:#94a3b8;margin-top:8px"></p>
+</div>
+<div class="card" style="border:2px solid #22c55e;background:#052e16">
+<h3>⚙️ MEU PIX - SALVA UMA VEZ</h3>
+<input id="cfgPixKey" class="inp" placeholder="Chave PIX: 30499462882"><input id="cfgPixName" class="inp" placeholder="Nome: TAKI"><input id="cfgPixCity" class="inp" placeholder="Cidade: SAO PAULO">
+<button class="btn-green" onclick="salvarPixConfig()">💾 SALVAR PIX E MANDAR PRO TABLET</button>
+<p id="pixStatus" style="font-size:11px;color:#86efac;margin-top:6px"></p>
+</div>
+<div class="card"><h3>🎼 Repertório <span id="qtdDono"></span></h3><div style="display:flex;gap:8px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1" placeholder="Cantor"></div><button class="btn" style="width:100%;background:#2563eb;color:#fff;padding:14px;border-radius:10px" onclick="addMus()">+ ADICIONAR</button><div id="listaDono" style="margin-top:10px"></div></div>
+<div class="card"><h3>🔔 PEDIDOS</h3><div id="listaPedidos"></div></div>
+</div>
+
+<div id="pixModal" class="pixModal"><div class="pixCard"><h2 style="color:#16a34a">✅ Enviado!</h2><h3 id="pixValorTxt" style="font-size:28px;color:#16a34a"></h3><p id="pixInfoTxt" style="font-size:12px"></p><div id="pixQr" style="display:flex;justify-content:center;margin:14px 0"></div><div id="pixCopiaCola" class="pixCode"></div><button class="btn-green" onclick="copiarPix()">📋 COPIAR CÓDIGO PIX</button><button class="btn" style="width:100%;margin-top:8px;background:#e2e8f0;color:#333" onclick="fecharPix()">Fechar</button></div></div>
+<audio id="audioAlarme" preload="auto" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3"></audio>
+<script>
+const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
+document.getElementById('manifestLink').href=isDono?'manifest-dono.json':'manifest-cliente.json';
+let PIX_KEY=localStorage.getItem("taki_pix_key")||"";let PIX_NAME=localStorage.getItem("taki_pix_name")||"";let PIX_CITY=localStorage.getItem("taki_pix_city")||"";
+let showAberto=localStorage.getItem("show_aberto")!=="0";
+const TOPIC="pedeai-taki-FINAL-OFICIAL-2026";const TOPIC_REP=TOPIC+"-REP";const TOPIC_CFG=TOPIC+"-CFG";const TOPIC_SHOW=TOPIC+"-SHOW";const TOPIC_PED=TOPIC+"-PED";
+function pegaAntigas(){let todas=[];["rep_fixo","rep_fixo36","rep_unico","rep_oficial","rep_fixo32","rep_v33","rep"].forEach(k=>{try{let a=JSON.parse(localStorage.getItem(k)||"[]");if(Array.isArray(a))todas=todas.concat(a);}catch{}});let uniq={};todas.forEach(r=>{if(r.musica)uniq[r.musica.trim().toUpperCase()]=r;});let f=Object.values(uniq);return f.length?f:[{id:1,musica:"METADE",cantor:"ADRIANA"}];}
+let rep=pegaAntigas();let peds=JSON.parse(localStorage.getItem("peds_final")||"[]");let sel=null,caixa=0,ultimoPix="",eventSource=null;
+function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)crc=(crc&0x8000)?(crc<<1)^0x1021:crc<<1}return(crc&0xFFFF).toString(16).toUpperCase().padStart(4,'0')}
+function fmt(id,v){return id+String(v.length).padStart(2,'0')+v}
+function genPix(k,amt,name,city,tx){let ck=String(k).trim().replace(/\s+/g,'');if(!ck)return"";let cn=String(name||"TAKI").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,25)||"TAKI";let cc=String(city||"SAO PAULO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,15)||"SAO PAULO";let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",ck);let a=amt>0?fmt("54",Number(amt).toFixed(2)):"";let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",cn)+fmt("60",cc)+fmt("62",fmt("05",tx.substring(0,20)));p+="6304";return p+crc16(p);}
+function save(){localStorage.setItem("rep_final",JSON.stringify(rep));localStorage.setItem("peds_final",JSON.stringify(peds));localStorage.setItem("rep_oficial",JSON.stringify(rep));renderAll();}
+async function forcarEnvio(){let s=document.getElementById("statusForcar");s.innerText="Enviando "+rep.length+" músicas | PIX "+(PIX_KEY||"VAZIO")+"...";try{await fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});await fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:PIX_KEY,name:PIX_NAME,city:PIX_CITY})});await fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto})});s.innerText="✅ ENVIADO! Rep: "+rep.length+" | PIX: "+PIX_KEY+" - Agora fecha o tablet e abre de novo!";showTop("✅ Enviado! Atualiza o tablet");}catch(e){s.innerText="Erro: "+e}}
+function salvarPixConfig(){let k=document.getElementById("cfgPixKey").value.trim().replace(/\s/g,'');let n=document.getElementById("cfgPixName").value.trim()||"TAKI";let c=document.getElementById("cfgPixCity").value.trim()||"SAO PAULO";if(!k){alert("Digite PIX");return;}localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{document.getElementById("pixStatus").innerText="✅ PIX salvo e enviado: "+k;forcarEnvio();renderAll();});}
+function toggleShow(){showAberto=!showAberto;localStorage.setItem("show_aberto",showAberto?"1":"0");fetch("https://ntfy.sh/"+TOPIC_SHOW,{method:"POST",body:JSON.stringify({aberto:showAberto})});renderAll();}
+function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m.toUpperCase(),cantor:c.toUpperCase()});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});renderAll();}
+function delMus(id){rep=rep.filter(r=>r.id!==id);save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
+async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let ls=t.trim().split("\n").filter(l=>l);if(ls.length){let last=JSON.parse(ls[ls.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote)&&remote.length>0&&remote.length>=rep.length){rep=remote;save();}}}}catch{}}
+async function fetchConfig(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_CFG+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let ls=t.trim().split("\n").filter(l=>l);if(ls.length){let last=JSON.parse(ls[ls.length-1]);if(last.message){let cfg=JSON.parse(last.message);if(cfg.key){PIX_KEY=String(cfg.key).trim();PIX_NAME=cfg.name||"";PIX_CITY=cfg.city||"";localStorage.setItem("taki_pix_key",PIX_KEY);localStorage.setItem("taki_pix_name",PIX_NAME);localStorage.setItem("taki_pix_city",PIX_CITY);renderAll();}}}}catch{}}
+async function fetchShow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_SHOW+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let ls=t.trim().split("\n").filter(l=>l);if(ls.length){let last=JSON.parse(ls[ls.length-1]);if(last.message){let st=JSON.parse(last.message);showAberto=!!st.aberto;localStorage.setItem("show_aberto",showAberto?"1":"0");renderAll();}}}}catch{}}
+function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='text-align:center;padding:20px'>Sem músicas</p>";let s=document.getElementById("cardStatusCli");s.style.display="block";s.style.background=showAberto?"#22c55e":"#ef4444";s.style.color=showAberto?"#000":"#fff";s.innerHTML=showAberto?"🟢 SHOW LIBERADO! PEDE AÍ!":"🔴 SHOW PAUSADO";let prev=document.getElementById("pixPreview");if(caixa>0){prev.style.display="block";prev.innerText=PIX_KEY?"✅ PIX R$"+caixa+" para: "+PIX_KEY:"❌ PIX sem configurar - avise o músico!";}else{prev.style.display="none";}document.getElementById("btnEnviar").disabled=!showAberto;}
+function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;document.getElementById("qtdDono").innerText="("+rep.length+" músicas recuperadas do seu celular)";document.getElementById("showStatusBox").innerHTML=showAberto?'<div style="background:#22c55e;color:#000;padding:12px;border-radius:10px;font-weight:900">🟢 LIBERADO</div>':'<div style="background:#ef4444;padding:12px;border-radius:10px">🔴 PAUSADO</div>';document.getElementById("btnToggleShow").innerText=showAberto?"🔴 PAUSAR":"🟢 LIBERAR";document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><button style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="delMus(${r.id})">🗑️</button></div>`).join("");document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:2px solid #22c55e;border-radius:10px;padding:10px;margin:6px 0"><b>${p.musica}</b> R$${p.caixa||0} - ${p.nome}</div>`).join("")||"Sem pedidos";}
+function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText="DONO INSTALADO - "+rep.length+" músicas";try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:200,height:200});document.getElementById("qrLink").innerText=base;}catch{}}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=rep.length+" músicas - CLIENTE NÃO INSTALA";}renderCli();if(isDono)renderDono();}
+function escolhe(id){if(!showAberto){alert("Show pausado");return;}sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";document.getElementById("formPedido").scrollIntoView({behavior:"smooth"});}
+function setCaixa(v){caixa=v;document.querySelectorAll(".cal").forEach(e=>e.classList.remove("on"));document.getElementById("c"+v)?.classList.add("on");renderCli();}
+function showTop(t){let e=document.getElementById("alertTop");e.innerText=t;e.style.display="block";setTimeout(()=>e.style.display="none",4000)}
+function enviar(){let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel)return;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(ped)});if(caixa>0){if(!PIX_KEY){alert("Músico sem PIX configurado! Mas pedido enviado.");fecharPix();return;}let code=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now());ultimoPix=code;document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixInfoTxt").innerText=PIX_KEY+" - "+PIX_NAME;document.getElementById("pixCopiaCola").innerText=code;document.getElementById("pixQr").innerHTML="";new QRCode(document.getElementById("pixQr"),{text:code,width:220,height:220});document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Enviado! "+sel.musica);fecharPix();}}
+function copiarPix(){navigator.clipboard.writeText(ultimoPix).then(()=>showTop("✅ Copiado!"));}
+function fecharPix(){document.getElementById("pixModal").style.display="none";document.getElementById("formPedido").style.display="none";sel=null;caixa=0;document.querySelectorAll(".cal").forEach(e=>e.classList.remove("on"));}
+function ativaSom(){let a=document.getElementById("audioAlarme");a.volume=1;a.play().then(()=>{a.pause();a.currentTime=0;document.getElementById("debugSync").innerText="✅ Alarme ativado! Som vai tocar quando chegar pedido";showTop("🔊 Alarme ativado!");startEventSource();}).catch(()=>{alert("Clica de novo no botão pra ativar o som!");});}
+function startEventSource(){if(eventSource)eventSource.close();eventSource=new EventSource("https://ntfy.sh/"+TOPIC_PED+"/sse?since=10m");eventSource.onmessage=e=>{try{let o=JSON.parse(e.data);if(o.message){let ped=JSON.parse(o.message);if(!peds.find(x=>x.id===ped.id)){peds.push(ped);save();document.getElementById("audioAlarme").play();showTop("🔔 NOVO PEDIDO! "+ped.musica);}}}catch{}};eventSource.onopen=()=>{document.getElementById("debugSync").innerText="✅ AO VIVO! Esperando pedidos...";};}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+renderAll();fetchRep();fetchConfig();fetchShow();setInterval(fetchRep,2000);setInterval(fetchConfig,2000);setInterval(fetchShow,3000);
+if(isDono)startEventSource();
+</script>
+</body>
+</html>
