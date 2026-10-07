@@ -5,7 +5,6 @@
 <title>PEDE AI</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#22c55e">
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
@@ -25,6 +24,7 @@ body{background:#0f172a;color:#fff}
 .pixModal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px}
 .pixCard{background:#fff;color:#0f172a;border-radius:20px;padding:20px;max-width:380px;width:100%;text-align:center}
 .pixCode{word-break:break-all;background:#f1f5f9;border:2px dashed #22c55e;border-radius:10px;padding:12px;font-size:11px;margin:10px 0;text-align:left;max-height:140px;overflow:auto}
+#installBtn{display:none;background:#f59e0b;color:#000;padding:16px;border-radius:12px;font-weight:900;width:100%;border:none;margin:10px 0;cursor:pointer}
 </style>
 </head>
 <body>
@@ -32,11 +32,11 @@ body{background:#0f172a;color:#fff}
 <div id="alertTop" class="alertTop"></div>
 
 <div id="vCli">
-<div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar música..." oninput="renderCli()"><div id="listaCli"></div><p id="statusPixCli" style="font-size:9px;color:#94a3b8;text-align:center;margin-top:6px"></p></div>
+<div class="card"><input id="busca" class="inp" placeholder="🔍 Buscar música..." oninput="renderCli()"><div id="listaCli"></div></div>
 <div class="card" id="formPedido" style="display:none;border:3px solid #22c55e">
 <h3 id="musicaSelTxt" style="color:#22c55e"></h3><small id="cantorSelTxt"></small>
 <input id="nomeCli" class="inp" placeholder="Seu nome"><input id="recadoCli" class="inp" placeholder="Recado">
-<p style="font-weight:800;margin:12px 0 8px">💰 Caixinha? (opcional)</p>
+<p style="font-weight:800;margin:12px 0 8px">💰 Caixinha?</p>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
 <div class="cal" id="c2" onclick="setCaixa(2)">R$2</div><div class="cal" id="c5" onclick="setCaixa(5)">R$5</div><div class="cal" id="c10" onclick="setCaixa(10)">R$10</div>
 </div>
@@ -47,12 +47,20 @@ body{background:#0f172a;color:#fff}
 </div>
 
 <div id="vDono" style="display:none">
-<div class="card" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;text-align:center"><h2>💰 CAIXINHA HOJE</h2><div id="totalCaixa" style="font-size:34px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo"></small><br><small id="statusDono" style="background:#000;color:#22c55e;padding:8px 14px;border-radius:99px;font-weight:800;margin-top:10px;display:inline-block;font-size:12px">⚠️ CLIQUE EM ATIVAR ALARME</small></div>
-<div class="card" style="border:3px solid #22c55e;background:#052e16"><h3>🔊 ALARME DE PEDIDO</h3><p style="font-size:11px;color:#86efac;margin:6px 0">Você PRECISA clicar uma vez pra liberar o som alto, senão o celular bloqueia!</p><div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-green" style="background:#22c55e;color:#000;font-size:16px;padding:18px" onclick="ativaSom()">🔊 ATIVAR ALARME FORTE</button></div>
-<div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-blue" onclick="forcarBusca()">🔄 BUSCAR PEDIDOS AGORA</button><button class="btn btn-ghost" onclick="limparTudo()">🗑️ Limpar</button></div>
-<p id="debugSync" style="font-size:10px;color:#94a3b8;margin-top:8px;background:#0f172a;padding:6px;border-radius:6px"></p></div>
-<div class="card" style="border:2px solid #22c55e;background:#052e16"><h3>⚙️ MEU PIX</h3><input id="cfgPixKey" class="inp" placeholder="Sua chave PIX"><input id="cfgPixName" class="inp" placeholder="Seu nome no banco"><input id="cfgPixCity" class="inp" placeholder="Cidade"><button class="btn btn-green" onclick="salvarPixConfig()">💾 SALVAR MEU PIX</button></div>
-<div class="card"><h3>🔔 PEDIDOS QUE CHEGARAM</h3><div id="listaPedidos" style="margin-top:10px"></div></div>
+<button id="installBtn" onclick="instalarApp()">📲 INSTALAR APP PEDE AÍ NO CELULAR</button>
+<div class="card" style="background:linear-gradient(135deg,#f59e0b,#f97316);color:#000;text-align:center"><h2>💰 CAIXINHA HOJE</h2><div id="totalCaixa" style="font-size:34px;font-weight:900">R$ 0,00</div><small id="pixDonoInfo"></small><br><small id="statusDono" style="background:#000;color:#22c55e;padding:8px 14px;border-radius:99px;font-weight:800;margin-top:10px;display:inline-block">⚠️ Ative o alarme abaixo</small></div>
+
+<div class="card" style="border:3px solid #ef4444;background:#1a0a0a">
+<h3>🚨 ALARME QUE TOCA MESMO NO WHATSAPP</h3>
+<p style="font-size:12px;color:#fca5a5;margin:6px 0">Passo 1: Clique em INSTALAR APP (se aparecer)<br>Passo 2: Clique nos 2 botões abaixo<br>Passo 3: Aí pode ir pro WhatsApp que vai tocar!</p>
+<button class="btn btn-green" style="background:#22c55e;color:#000;font-size:16px;padding:18px;margin-top:8px" onclick="ativaSom()">🔊 1- ATIVAR ALARME FORTE</button>
+<button class="btn btn-blue" style="background:#f59e0b;color:#000;margin-top:8px;padding:18px" onclick="ativarNotificacao()">🔔 2- ATIVAR NOTIFICAÇÃO QUE TOCA NO WHATSAPP</button>
+<div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-blue" onclick="forcarBusca()">🔄 BUSCAR</button><button class="btn btn-ghost" onclick="limparTudo()">🗑️</button></div>
+<p id="debugSync" style="font-size:10px;color:#94a3b8;margin-top:8px;background:#0f172a;padding:6px;border-radius:6px"></p>
+</div>
+
+<div class="card" style="border:2px solid #22c55e;background:#052e16"><h3>⚙️ MEU PIX</h3><input id="cfgPixKey" class="inp" placeholder="Chave PIX"><input id="cfgPixName" class="inp" placeholder="Nome no banco"><input id="cfgPixCity" class="inp" placeholder="Cidade"><button class="btn btn-green" onclick="salvarPixConfig()">💾 SALVAR MEU PIX</button></div>
+<div class="card"><h3>🔔 PEDIDOS</h3><div id="listaPedidos"></div></div>
 <div class="card"><h3>🎼 Repertório</h3><div style="display:flex;gap:8px"><input id="novaMusica" class="inp" style="flex:2" placeholder="Música"><input id="novoCantor" class="inp" style="flex:1.5" placeholder="Cantor"></div><button class="btn btn-blue" style="width:100%" onclick="addMus()">+ ADICIONAR</button><div id="listaDono" style="margin-top:12px"></div></div>
 <div class="card"><div class="qrWrap"><div style="font-weight:900">QR CODE CLIENTE</div><div id="qrcode" style="display:flex;justify-content:center;margin-top:8px"></div><p id="qrLink" style="font-size:8px;color:#64748b;word-break:break-all"></p></div></div>
 </div>
@@ -60,106 +68,101 @@ body{background:#0f172a;color:#fff}
 <div id="pixModal" class="pixModal"><div class="pixCard"><h2 style="color:#16a34a">✅ Pedido enviado!</h2><h3 id="pixValorTxt" style="font-size:32px;color:#16a34a"></h3><p id="pixInfoTxt" style="font-size:12px;color:#334155;font-weight:700"></p><div id="pixQr" style="display:flex;justify-content:center;margin:14px 0"></div><div id="pixCopiaCola" class="pixCode"></div><button class="btn-green" onclick="copiarPix()">📋 COPIAR PIX</button><button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="fecharPix()">Fechar</button></div></div>
 
 <script>
-let audioCtx=null;let alarmeAtivo=false;
+let deferredPrompt=null;let audioCtx=null;let alarmeAtivo=false;let notifAtiva=false;
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='block';});
+function instalarApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted'){document.getElementById('installBtn').style.display='none';}deferredPrompt=null;});}else{alert("No iPhone: clique em Compartilhar > Adicionar à Tela de Início\nNo Android: Menu (3 pontinhos) > Instalar App");}}
+
 function initAudio(){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
 function tocarAlarmeForte(){
  try{
   if(!audioCtx)initAudio();
-  if(!audioCtx)return;
-  alarmeAtivo=true;
-  // Toca 3 beeps bem altos tipo alarme de pedido de comida
-  for(let i=0;i<4;i++){
-   setTimeout(()=>{
-    let o=audioCtx.createOscillator();let g=audioCtx.createGain();
-    o.type='square';o.frequency.value=880+(i*100);
-    o.connect(g);g.connect(audioCtx.destination);
-    g.gain.setValueAtTime(1,g.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.01,g.currentTime+0.4);
-    o.start();o.stop(g.currentTime+0.4);
-   },i*450);
+  if(audioCtx){
+   for(let i=0;i<4;i++){setTimeout(()=>{let o=audioCtx.createOscillator();let g=audioCtx.createGain();o.type='square';o.frequency.value=880+(i*120);o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(1,g.currentTime);g.gain.exponentialRampToValueAtTime(0.01,g.currentTime+0.35);o.start();o.stop(g.currentTime+0.35);},i*400);}
   }
-  // Vibração forte
   if(navigator.vibrate)navigator.vibrate([500,150,500,150,800]);
-  // Notificação visual piscando
-  document.body.style.background="#22c55e";
-  setTimeout(()=>document.body.style.background="#0f172a",200);
-  setTimeout(()=>{document.body.style.background="#22c55e";setTimeout(()=>document.body.style.background="#0f172a",200);},400);
- }catch(e){console.log(e);}
+  document.body.style.background="#22c55e";setTimeout(()=>document.body.style.background="#0f172a",200);
+ }catch(e){}
+}
+async function ativarNotificacao(){
+ try{
+  let perm=await Notification.requestPermission();
+  if(perm!=='granted'){alert("Você precisa permitir notificações!");return;}
+  notifAtiva=true;
+  localStorage.setItem("notif_ativa","1");
+  if('serviceWorker' in navigator){
+   let reg=await navigator.serviceWorker.ready;
+   reg.showNotification("🔔 PEDE AÍ ATIVADO!",{body:"Agora vai tocar mesmo no WhatsApp! Deixe o app instalado!",icon:"https://cdn-icons-png.flaticon.com/512/138/138817.png",vibrate:[500,150,500],requireInteraction:true});
+  }else{
+   new Notification("🔔 PEDE AÍ ATIVADO!",{body:"Agora vai tocar mesmo no WhatsApp!"});
+  }
+  document.getElementById("debugSync").innerText="✅ Notificação ativada! Pode ir pro WhatsApp que vai tocar!";
+  showTop("🔔 Notificação ativada! Agora funciona no WhatsApp!");
+ }catch(e){alert("Erro notificação: "+e);}
+}
+function notificarPedido(ped){
+ if(!notifAtiva)return;
+ try{
+  if('serviceWorker' in navigator){
+   navigator.serviceWorker.ready.then(reg=>{
+    reg.showNotification("🔔 NOVO PEDIDO! "+ped.musica,{body:ped.nome+": "+ped.recado+" - R$"+(ped.caixa||0)+" | Toque pra abrir",icon:"https://cdn-icons-png.flaticon.com/512/138/138817.png",badge:"https://cdn-icons-png.flaticon.com/512/138/138817.png",vibrate:[500,150,500,150,800],requireInteraction:true,tag:"pedido-novo"});
+   });
+  }
+ }catch(e){}
 }
 
 let PIX_KEY=localStorage.getItem("taki_pix_key")||"";let PIX_NAME=localStorage.getItem("taki_pix_name")||"";let PIX_CITY=localStorage.getItem("taki_pix_city")||"";
-const TOPIC="pedeai-taki-V27-ALARME-FORTE";const TOPIC_REP=TOPIC+"-REP";const TOPIC_PED=TOPIC+"-PED";const TOPIC_CFG=TOPIC+"-CFG";
+const TOPIC="pedeai-taki-V28-BG";const TOPIC_REP=TOPIC+"-REP";const TOPIC_PED=TOPIC+"-PED";const TOPIC_CFG=TOPIC+"-CFG";
 const isDono=new URLSearchParams(location.search).get("dono")==="TAKI123";
-let rep=JSON.parse(localStorage.getItem("rep_v27")||"[]");if(rep.length===0){rep=[{id:1,musica:"METADE",cantor:"Adriana Calcanhoto"},{id:2,musica:"AINDA É CEDO",cantor:"LEGIÃO URBANA"}];}
-let peds=JSON.parse(localStorage.getItem("peds_v27")||"[]");let sel=null,caixa=0,ultimoPix="";let eventSource=null;
+let rep=JSON.parse(localStorage.getItem("rep_v28")||"[]");if(rep.length===0){rep=[{id:1,musica:"METADE",cantor:"Adriana Calcanhoto"},{id:2,musica:"AINDA É CEDO",cantor:"LEGIÃO URBANA"}];}
+let peds=JSON.parse(localStorage.getItem("peds_v28")||"[]");let sel=null,caixa=0,ultimoPix="";let eventSource=null;
 
 function crc16(s){let crc=0xFFFF;for(let i=0;i<s.length;i++){crc^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)crc=(crc&0x8000)?(crc<<1)^0x1021:crc<<1}return(crc&0xFFFF).toString(16).toUpperCase().padStart(4,'0')}
 function fmt(id,v){return id+String(v.length).padStart(2,'0')+v}
 function genPix(k,amt,name,city,tx){try{let ck=String(k).trim();let cn=String(name||"MUSICO").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,25)||"MUSICO";let cc=String(city||"BRASIL").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9 ]/g," ").trim().substring(0,15)||"BRASIL";let m=fmt("00","BR.GOV.BCB.PIX")+fmt("01",ck);let a=amt>0?fmt("54",Number(amt).toFixed(2)):"";let p=fmt("00","01")+fmt("01","12")+fmt("26",m)+fmt("52","0000")+fmt("53","986")+a+fmt("58","BR")+fmt("59",cn)+fmt("60",cc)+fmt("62",fmt("05",tx.substring(0,20)));p+="6304";return p+crc16(p);}catch(e){return ""}}
-function save(){localStorage.setItem("rep_v27",JSON.stringify(rep));localStorage.setItem("peds_v27",JSON.stringify(peds));renderAll();}
-function salvarPixConfig(){let k=document.getElementById("cfgPixKey").value.trim();let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();if(!k){alert("Digite PIX!");return;}if(!n)n="TAKI";if(!c)c="CARAGUATATUBA";localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{alert("✅ PIX SALVO!");renderAll();});}
+function save(){localStorage.setItem("rep_v28",JSON.stringify(rep));localStorage.setItem("peds_v28",JSON.stringify(peds));renderAll();}
+function salvarPixConfig(){let k=document.getElementById("cfgPixKey").value.trim();let n=document.getElementById("cfgPixName").value.trim();let c=document.getElementById("cfgPixCity").value.trim();if(!k){alert("Digite PIX!");return;}if(!n)n="TAKI";if(!c)c="BRASIL";localStorage.setItem("taki_pix_key",k);localStorage.setItem("taki_pix_name",n);localStorage.setItem("taki_pix_city",c);PIX_KEY=k;PIX_NAME=n;PIX_CITY=c;fetch("https://ntfy.sh/"+TOPIC_CFG,{method:"POST",body:JSON.stringify({key:k,name:n,city:c})}).then(()=>{alert("✅ PIX SALVO!");renderAll();});}
 async function fetchConfig(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_CFG+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let cfg=JSON.parse(last.message);if(cfg.key){PIX_KEY=cfg.key;PIX_NAME=cfg.name;PIX_CITY=cfg.city;localStorage.setItem("taki_pix_key",PIX_KEY);localStorage.setItem("taki_pix_name",PIX_NAME);localStorage.setItem("taki_pix_city",PIX_CITY);renderAll();}}}}catch(e){}}
 function addMus(){let m=document.getElementById("novaMusica").value.trim();let c=document.getElementById("novoCantor").value.trim();if(!m)return;rep.push({id:Date.now(),musica:m,cantor:c});document.getElementById("novaMusica").value="";document.getElementById("novoCantor").value="";save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
 function editMus(id){let r=rep.find(x=>x.id===id);let nm=prompt("Editar música:",r.musica);if(nm===null)return;let nc=prompt("Cantor:",r.cantor);if(nc===null)return;r.musica=nm.trim();r.cantor=nc.trim();save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
 function delMus(id){if(!confirm("Apagar?"))return;rep=rep.filter(r=>r.id!==id);save();fetch("https://ntfy.sh/"+TOPIC_REP,{method:"POST",body:JSON.stringify(rep)});}
-async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote)&&remote.length>0){rep=remote;localStorage.setItem("rep_v27",JSON.stringify(rep));renderAll();}}}}catch(e){}}
-function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='text-align:center;padding:20px;color:#64748b'>Nenhuma música</p>";document.getElementById("statusPixCli").innerText=PIX_KEY?"PIX configurado - Gorjeta libera!":"Músico ainda não configurou PIX";document.getElementById("pixPreview").style.display=caixa>0?"block":"none";if(caixa>0){document.getElementById("pixPreview").innerText=PIX_KEY?"✓ R$ "+caixa:"✓ R$ "+caixa;}document.getElementById("btnEnviar").innerText=caixa>0&&PIX_KEY?"ENVIAR + PAGAR R$"+caixa:"ENVIAR PEDIDO";}
-function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;document.getElementById("pixDonoInfo").innerText=PIX_KEY?"✅ PIX: "+PIX_KEY:"❌ Configure PIX";document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><div><button style="background:#334155;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="editMus(${r.id})">✏️</button><button style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px;margin-left:4px" onclick="delMus(${r.id})">🗑️</button></div></div>`).join("");let tot=peds.reduce((s,p)=>s+(p.caixa||0),0);document.getElementById("totalCaixa").innerText="R$ "+tot+",00";document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:3px solid #22c55e;border-radius:12px;padding:12px;margin:8px 0"><b style="color:#22c55e;font-size:18px">🔔 ${p.musica}</b> ${p.caixa>0?`<span style="background:#22c55e;color:#000;padding:4px 10px;border-radius:999px;font-weight:900">R$${p.caixa}</span>`:``}<br>👤 <b>${p.nome}</b>: "${p.recado}"<br><small style="color:#94a3b8">${new Date(p.data).toLocaleString('pt-BR')}</small></div>`).join("")||"<p style='color:#64748b;text-align:center;padding:20px'>Nenhum pedido<br><small>Deixe aberto!</small></p>";}
-function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText="PAINEL DONO - V27 ALARME FORTE";try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:180,height:180});document.getElementById("qrLink").innerText=base;}catch(e){}}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=rep.length+" músicas";}renderCli();if(isDono)renderDono();}
-function escolhe(id){sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";document.getElementById("formPedido").scrollIntoView({behavior:"smooth"});}
+async function fetchRep(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_REP+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);if(lines.length){let last=JSON.parse(lines[lines.length-1]);if(last.message){let remote=JSON.parse(last.message);if(Array.isArray(remote)&&remote.length>0){rep=remote;localStorage.setItem("rep_v28",JSON.stringify(rep));renderAll();}}}}catch(e){}}
+function renderCli(){let b=(document.getElementById("busca").value||"").toLowerCase();let f=rep.filter(r=>(r.musica+" "+r.cantor).toLowerCase().includes(b));document.getElementById("listaCli").innerHTML=f.map(r=>`<div class="music" onclick="escolhe(${r.id})"><div><b>${r.musica}</b><br><small style="color:#94a3b8">${r.cantor}</small></div><span>🎵</span></div>`).join("")||"<p style='text-align:center;padding:20px;color:#64748b'>Nenhuma música</p>";document.getElementById("pixPreview").style.display=caixa>0?"block":"none";if(caixa>0){document.getElementById("pixPreview").innerText=PIX_KEY?"✓ R$ "+caixa:"✓ R$ "+caixa;}document.getElementById("btnEnviar").innerText=caixa>0&&PIX_KEY?"ENVIAR + PAGAR R$"+caixa:"ENVIAR PEDIDO";}
+function renderDono(){document.getElementById("cfgPixKey").value=PIX_KEY;document.getElementById("cfgPixName").value=PIX_NAME;document.getElementById("cfgPixCity").value=PIX_CITY;document.getElementById("pixDonoInfo").innerText=PIX_KEY?"✅ PIX: "+PIX_KEY:"❌ Configure PIX";document.getElementById("listaDono").innerHTML=rep.map(r=>`<div style="padding:10px;border-bottom:1px solid #334155;display:flex;justify-content:space-between"><div><b>${r.musica}</b><br><small>${r.cantor}</small></div><div><button style="background:#334155;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="editMus(${r.id})">✏️</button><button style="background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:8px;margin-left:4px" onclick="delMus(${r.id})">🗑️</button></div></div>`).join("");let tot=peds.reduce((s,p)=>s+(p.caixa||0),0);document.getElementById("totalCaixa").innerText="R$ "+tot+",00";document.getElementById("listaPedidos").innerHTML=peds.slice().reverse().map(p=>`<div style="background:#0f172a;border:3px solid #22c55e;border-radius:12px;padding:12px;margin:8px 0"><b style="color:#22c55e;font-size:18px">🔔 ${p.musica}</b> ${p.caixa>0?`<span style="background:#22c55e;color:#000;padding:4px 10px;border-radius:999px;font-weight:900">R$${p.caixa}</span>`:``}<br>👤 <b>${p.nome}</b>: "${p.recado}"<br><small>${new Date(p.data).toLocaleString('pt-BR')}</small></div>`).join("")||"Nenhum pedido"; }
+function renderAll(){let base=location.href.split("?")[0];if(isDono){document.getElementById("vCli").style.display="none";document.getElementById("vDono").style.display="block";document.getElementById("topSub").innerText="PAINEL DONO - V28 COM NOTIFICAÇÃO";try{document.getElementById("qrcode").innerHTML="";new QRCode(document.getElementById("qrcode"),{text:base,width:180,height:180});document.getElementById("qrLink").innerText=base;}catch(e){}}else{document.getElementById("vCli").style.display="block";document.getElementById("vDono").style.display="none";document.getElementById("topSub").innerText=rep.length+" músicas";}renderCli();if(isDono)renderDono();}
+function escolhe(id){sel=rep.find(r=>r.id===id);document.getElementById("musicaSelTxt").innerText=sel.musica;document.getElementById("cantorSelTxt").innerText=sel.cantor;document.getElementById("formPedido").style.display="block";}
 function setCaixa(v){caixa=v;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));let el=document.getElementById("c"+v);if(el)el.classList.add("on");document.getElementById("outroValor").value="";renderCli();}
 function setCaixaCustom(v){let num=parseInt(v)||0;if(num>0){caixa=num;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));renderCli();}else if(v===""){caixa=0;document.querySelectorAll(".cal").forEach(el=>el.classList.remove("on"));renderCli();}}
 function aplicarOutro(){let v=document.getElementById("outroValor").value;setCaixaCustom(v);if(caixa>0)showTop("✅ R$"+caixa+"!");}
 function showTop(t){let el=document.getElementById("alertTop");el.innerText=t;el.style.display="block";setTimeout(()=>el.style.display="none",4000)}
-async function syncPed(p){try{await fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(p)});document.getElementById("debugSync").innerText="Pedido enviado! "+new Date().toLocaleTimeString();}catch(e){document.getElementById("debugSync").innerText="Erro envio: "+e;}}
-function enviar(){let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel){alert("Escolha a música!");return;}let btn=document.getElementById("btnEnviar");btn.innerText="⏳ Enviando...";btn.disabled=true;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();syncPed(ped);setTimeout(()=>{btn.disabled=false;renderCli();if(caixa>0&&PIX_KEY){ultimoPix=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now().toString().slice(-6));document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixInfoTxt").innerText=PIX_KEY+" - "+PIX_NAME;document.getElementById("pixCopiaCola").innerText=ultimoPix;document.getElementById("pixQr").innerHTML="";try{new QRCode(document.getElementById("pixQr"),{text:ultimoPix,width:200,height:200})}catch(e){}document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Pedido enviado! "+sel.musica);document.getElementById("formPedido").style.display="none";document.getElementById("nomeCli").value="";document.getElementById("recadoCli").value="";setCaixa(0);document.getElementById("outroValor").value="";}},700);}
-function copiarPix(){navigator.clipboard.writeText(ultimoPix).then(()=>alert("✅ PIX COPIADO! Cola no banco!")).catch(()=>{prompt("Copie:",ultimoPix);})}
+async function syncPed(p){try{await fetch("https://ntfy.sh/"+TOPIC_PED,{method:"POST",body:JSON.stringify(p)});document.getElementById("debugSync").innerText="Pedido enviado! "+new Date().toLocaleTimeString();}catch(e){}}
+function enviar(){let nome=document.getElementById("nomeCli").value.trim()||"Anônimo";let rec=document.getElementById("recadoCli").value.trim()||"";if(!sel){alert("Escolha música!");return;}let btn=document.getElementById("btnEnviar");btn.innerText="⏳ Enviando...";btn.disabled=true;let ped={id:Date.now(),musica:sel.musica,cantor:sel.cantor,nome,recado:rec,caixa,data:new Date().toISOString()};peds.push(ped);save();syncPed(ped);setTimeout(()=>{btn.disabled=false;renderCli();if(caixa>0&&PIX_KEY){ultimoPix=genPix(PIX_KEY,caixa,PIX_NAME,PIX_CITY,"TAKI"+Date.now().toString().slice(-6));document.getElementById("pixValorTxt").innerText="R$ "+caixa+",00";document.getElementById("pixInfoTxt").innerText=PIX_KEY+" - "+PIX_NAME;document.getElementById("pixCopiaCola").innerText=ultimoPix;document.getElementById("pixQr").innerHTML="";try{new QRCode(document.getElementById("pixQr"),{text:ultimoPix,width:200,height:200})}catch(e){}document.getElementById("pixModal").style.display="flex";}else{showTop("✅ Pedido enviado! "+sel.musica);document.getElementById("formPedido").style.display="none";document.getElementById("nomeCli").value="";document.getElementById("recadoCli").value="";setCaixa(0);document.getElementById("outroValor").value="";}},700);}
+function copiarPix(){navigator.clipboard.writeText(ultimoPix).then(()=>alert("✅ PIX COPIADO!")).catch(()=>{prompt("Copie:",ultimoPix);})}
 function fecharPix(){document.getElementById("pixModal").style.display="none";document.getElementById("formPedido").style.display="none";document.getElementById("nomeCli").value="";document.getElementById("recadoCli").value="";setCaixa(0);document.getElementById("outroValor").value="";}
-function ativaSom(){
- initAudio();
- tocarAlarmeForte();
- showTop("🔊🔊🔊 ALARME ATIVADO! Ouviu o PIM-PIM-PIM-PIM? Agora vai tocar quando chegar pedido!");
- document.getElementById("statusDono").innerText="🔊 ALARME ATIVO - Ouvindo pedidos alto!";
- document.getElementById("statusDono").style.background="#22c55e";document.getElementById("statusDono").style.color="#000";
- document.getElementById("debugSync").innerText="✅ Alarme liberado! Conectado no tópico: "+TOPIC_PED+" - "+new Date().toLocaleTimeString();
- // Inicia conexão direta
- startEventSource();
-}
+function ativaSom(){initAudio();tocarAlarmeForte();alarmeAtivo=true;localStorage.setItem("alarme_ativo","1");showTop("🔊 ALARME ATIVADO!");document.getElementById("statusDono").innerText="🔊 ALARME ATIVO - Pode ir pro WhatsApp!";document.getElementById("statusDono").style.background="#22c55e";document.getElementById("statusDono").style.color="#000";startEventSource();}
 function startEventSource(){
  if(eventSource)eventSource.close();
  try{
   eventSource=new EventSource("https://ntfy.sh/"+TOPIC_PED+"/sse");
   eventSource.onmessage=(e)=>{
    try{
-    let p=JSON.parse(e.data);
-    if(p.message){
-     let ped=JSON.parse(p.message);
-     if(ped.musica&&ped.id&&!peds.find(x=>x.id===ped.id)){
-      peds.push(ped);save();
-      tocarAlarmeForte();
-      showTop("🔔🔔 NOVO PEDIDO! "+ped.musica+" - "+ped.nome+" R$"+(ped.caixa||0));
-      document.getElementById("statusDono").innerText="🔔 NOVO! "+ped.musica+" às "+new Date().toLocaleTimeString();
-      document.getElementById("statusDono").style.background="#f59e0b";
-     }
-    }
+    let data=e.data;if(!data)return;
+    try{let outer=JSON.parse(data);if(outer.message){let ped=JSON.parse(outer.message);if(ped.musica&&ped.id&&!peds.find(x=>x.id===ped.id)){peds.push(ped);save();tocarAlarmeForte();notificarPedido(ped);showTop("🔔 NOVO! "+ped.musica+" R$"+(ped.caixa||0));document.getElementById("statusDono").innerText="🔔 NOVO! "+ped.musica;}}}catch(err){}
    }catch(err){}
   };
-  eventSource.onopen=()=>{document.getElementById("debugSync").innerText="✅ Conectado ao vivo! Aguardando pedidos... "+new Date().toLocaleTimeString();};
-  eventSource.onerror=()=>{document.getElementById("debugSync").innerText="⚠️ Reconectando... (normal)";setTimeout(startEventSource,3000);};
- }catch(e){
-  // fallback polling se EventSource falhar
-  document.getElementById("debugSync").innerText="Fallback polling a cada 2s";
-  setInterval(fetchPedidosNow,2000);
- }
+  eventSource.onopen=()=>{document.getElementById("debugSync").innerText="✅ Ao vivo! Vai tocar mesmo no WhatsApp! "+new Date().toLocaleTimeString();};
+  eventSource.onerror=()=>{setTimeout(startEventSource,3000);};
+ }catch(e){setInterval(fetchPedidosNow,2000);}
 }
-async function fetchPedidosNow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_PED+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);lines.forEach(line=>{try{let j=JSON.parse(line);if(j.message){let p=JSON.parse(j.message);if(p.musica&&p.id&&!peds.find(x=>x.id===p.id)){peds.push(p);save();if(alarmeAtivo)tocarAlarmeForte();showTop("🔔 NOVO! "+p.musica);}}}catch(e){}})}catch(e){}}
-function forcarBusca(){fetchPedidosNow();showTop("🔄 Buscando...");if(!alarmeAtivo){tocarAlarmeForte();}}
-function limparTudo(){if(confirm("Limpar pedidos?")){peds=[];save();}}
+async function fetchPedidosNow(){try{let r=await fetch("https://ntfy.sh/"+TOPIC_PED+"/json?poll=1&cache="+Date.now(),{cache:"no-store"});let t=await r.text();let lines=t.trim().split("\n").filter(l=>l);lines.forEach(line=>{try{let j=JSON.parse(line);if(j.message){let p=JSON.parse(j.message);if(p.musica&&p.id&&!peds.find(x=>x.id===p.id)){peds.push(p);save();if(alarmeAtivo){tocarAlarmeForte();notificarPedido(p);}showTop("🔔 NOVO! "+p.musica);}}}catch(e){}})}catch(e){}}
+function forcarBusca(){fetchPedidosNow();if(alarmeAtivo)tocarAlarmeForte();}
+function limparTudo(){if(confirm("Limpar?")){peds=[];save();}}
+
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>console.log("SW ok")).catch(e=>console.log(e));}
+if(localStorage.getItem("notif_ativa")==="1"){notifAtiva=true;}
+if(localStorage.getItem("alarme_ativo")==="1" && isDono){setTimeout(()=>{initAudio();alarmeAtivo=true;},1000);}
+
 renderAll();fetchRep();fetchConfig();
-if(isDono){
-// Já tenta conectar mas precisa do clique pra liberar som
- document.getElementById("debugSync").innerText="Clique em ATIVAR ALARME FORTE pra começar a ouvir!";
-}else{setInterval(fetchRep,4000);setInterval(fetchConfig,4000);}
+if(isDono){startEventSource();}else{setInterval(fetchRep,4000);setInterval(fetchConfig,4000);}
 </script>
 </body>
 </html>
