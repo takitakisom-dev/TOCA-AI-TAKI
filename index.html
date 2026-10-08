@@ -51,3 +51,80 @@ input,select,textarea{width:100%;padding:14px;border-radius:12px;border:1px soli
 </div>
 </div>
 </div>
+<div id="pageCliente">
+<div style="padding:16px;max-width:600px;margin:0 auto">
+<h2 id="tituloCliente" style="font-size:28px;line-height:1.1;margin-bottom:4px"></h2>
+<p id="subCliente" style="opacity:.6;font-size:13px;margin-bottom:10px"></p>
+<div id="statusShowCliente" style="display:none;padding:16px;border-radius:16px;text-align:center;margin:12px 0;font-weight:800"></div>
+<div id="listaMusicas" class="card" style="padding:0;overflow:hidden"></div>
+<div class="card" id="formCliente">
+<input id="musicaInput" placeholder="Qual música? (obrigatório)">
+<input id="nomeCliente" placeholder="Seu nome / mesa (opcional)">
+<textarea id="recadoCliente" placeholder="Recado (opcional)" rows="2" style="resize:none"></textarea>
+<p style="font-size:13px;margin-top:12px;opacity:.8">💰 Caixinha? (opcional)</p>
+<div class="valor-btns">
+<button class="btn btn-dark" onclick="selValor(2,this)">R$ 2</button>
+<button class="btn btn-dark" onclick="selValor(5,this)">R$ 5</button>
+<button class="btn btn-dark" onclick="selValor(10,this)">R$ 10</button>
+<button class="btn btn-dark" onclick="selValor(20,this)">R$ 20</button>
+<button class="btn btn-dark" onclick="selValor(50,this)">R$ 50</button>
+<button class="btn btn-dark" onclick="selValor('livre',this)">LIVRE</button>
+</div>
+<input id="valorEscolhido" readonly style="display:none;background:#22c55e22;border-color:#22c55e;color:#22c55e;font-weight:800">
+<div style="display:flex;gap:10px;margin-top:16px;flex-direction:column">
+<button class="btn btn-green" style="width:100%;padding:18px;font-size:17px" onclick="enviarSimples()">📩 ENVIAR PEDIDO LIVRE</button>
+<button class="btn btn-dark" style="width:100%;padding:18px;font-size:17px;background:linear-gradient(135deg,#facc15,#eab308);color:#000;border:0" onclick="enviarCaixinha()">💰 ENVIAR CAIXINHA</button>
+</div>
+<div id="pixArea" style="display:none;margin-top:16px;text-align:center;border:2px dashed #facc15;padding:16px;border-radius:16px">
+<p style="font-weight:800;color:#facc15">💛 Valeu! Copia o PIX:</p>
+<p id="pixCopia" style="font-size:13px;word-break:break-all;background:#000;padding:12px;border-radius:10px;margin:10px 0"></p>
+<p id="pixTitular" style="font-size:12px;opacity:.7"></p>
+<p id="pixValorPago" style="font-size:14px;font-weight:800;color:#facc15;margin:6px 0"></p>
+<button class="btn btn-dark" style="width:100%;margin-top:10px;background:#facc15;color:#000" onclick="copiarPix()">📋 COPIAR CHAVE PIX</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="pageDono">
+<div style="padding:16px;max-width:600px;margin:0 auto">
+<h2>🎤 Seu Painel - <span id="nomeDonoSpan"></span> <span class="online-dot"></span> <span style="font-size:12px;opacity:.7">ONLINE</span></h2>
+<div id="installBox" class="install-box">
+<h3>📲 INSTALAR COM ÍCONE 🎸</h3>
+<p style="font-size:14px;margin:8px 0;font-weight:600">Recebe alerta de qualquer celular!</p>
+<button class="btn" style="background:#000;color:#22c55e;width:100%;font-size:18px;padding:16px" onclick="instalarApp()">INSTALAR AGORA</button>
+<p id="installStatus" style="font-size:11px;margin-top:8px;opacity:.8"></p>
+</div>
+<div class="card">
+<h3>🎛️ Controle do Show</h3>
+<div style="display:flex;gap:10px;align-items:center;margin:12px 0;flex-wrap:wrap">
+<span id="statusShowBadge" class="status-on">🟢 SHOW LIBERADO</span>
+<button class="btn btn-dark" onclick="toggleShow()" id="btnToggleShow">PAUSAR SHOW</button>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+<button class="btn btn-dark" onclick="testarSom()">🔊 TESTAR SOM</button>
+<button class="btn btn-dark" onclick="toggleAlerta()" id="btnAlerta">🔔 ALERTA: LIGADO</button>
+</div>
+</div>
+<div class="card">
+<h3>🎵 Meu Repertório</h3>
+<div style="display:flex;gap:8px"><input id="novaMusica" placeholder="Ex: Garota de Ipanema" style="flex:1"><button class="btn btn-green" onclick="addMusica()">+</button></div>
+<div id="listaRepertorioDono" style="margin-top:12px;max-height:300px;overflow:auto"></div>
+<button class="btn btn-dark" style="width:100%;margin-top:10px" onclick="salvarRep()">SALVAR</button>
+</div>
+<div class="card" style="text-align:center">
+<p style="font-size:13px;opacity:.7">QR para imprimir - Cliente escaneia de qualquer celular:</p>
+<p id="linkDono" style="font-weight:800;word-break:break-all;font-size:11px;margin:8px 0"></p>
+<div id="qrcode" style="background:#fff;padding:10px;border-radius:16px;margin:12px auto;width:220px;height:220px;display:flex;align-items:center;justify-content:center;color:#000">Gerando QR...</div>
+<button class="btn btn-dark" style="width:100%" onclick="copiarLinkDono()">COPIAR LINK</button>
+</div>
+<div class="card">
+<h3>🔔 Pedidos - AO VIVO <span id="countPedidos" class="badge">0</span> <span class="online-dot"></span></h3>
+<div id="listaPedidos" style="margin-top:10px"><p style="opacity:.5">Aguardando pedidos de qualquer celular...</p></div>
+<button class="btn btn-dark" style="width:100%;margin-top:12px" onclick="limparPedidos()">Limpar vistos</button>
+</div>
+<div class="card" style="text-align:center">
+<button class="btn btn-dark" style="width:100%" onclick="voltarInicio()">⬅️ SAIR</button>
+</div>
+</div>
+</div>
