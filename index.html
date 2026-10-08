@@ -128,3 +128,140 @@ input,textarea{width:100%;padding:14px;border-radius:12px;border:1px solid #2a2a
 </div>
 </div>
 </div>
+<div id="modalInstalar" style="display:none;position:fixed;inset:0;background:#000d;z-index:9999;padding:20px;align-items:center;justify-content:center">
+<div class="card" style="max-width:360px;width:100%;background:#1e1e2a"><h3 id="modalTitulo"></h3><div id="modalConteudo" style="margin:12px 0"></div><button class="btn btn-green" style="width:100%" onclick="fecharModal()">ENTENDI</button></div>
+</div>
+
+<script>
+let deferredPrompt=null;let APP_PIX='';let APP_NOMEPIX='';let cantorNome='';let VALOR_CLIENTE=0;let CODIGO_SALA='';let TOPIC='';
+let pedidos=JSON.parse(localStorage.getItem('pedidos')||'[]');
+let repertorio=JSON.parse(localStorage.getItem('repertorio')||'["METADE - ADRIANA CALCANHOTO","Boate Azul","Evidências","Garota de Ipanema"]');
+let showStatus=localStorage.getItem('showStatus')||'liberado';
+let alertaLigado=localStorage.getItem('alertaLigado')!=='off';
+let eventSource=null;
+const MANIFEST={name:"PEDE AI",short_name:"PEDE AI",display:"standalone",background_color:"#0a0a0f",theme_color:"#22c55e",start_url:"./",icons:[{src:"https://cdn-icons-png.flaticon.com/512/3659/3659784.png",sizes:"512x512",type:"image/png"}]};
+const blob=new Blob([JSON.stringify(MANIFEST)],{type:'application/json'});
+document.getElementById('manifestLink').href=URL.createObjectURL(blob);
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installStatus').innerText='✅ Pronto!';});
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent);}
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;}
+function instalarApp(){if(isStandalone()){alert('Já instalado!');return;}if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted'){document.getElementById('installBox').innerHTML='<h3>✅ Instalado!</h3>';}deferredPrompt=null;});return;}if(isIOS()){document.getElementById('modalTitulo').innerText='iPhone:';document.getElementById('modalConteudo').innerHTML='Compartilhar ⎙ > Adicionar à Tela Início';document.getElementById('modalInstalar').style.display='flex';return;}document.getElementById('modalTitulo').innerText='Android:';document.getElementById('modalConteudo').innerHTML='3 pontinhos ⋮ > Instalar app';document.getElementById('modalInstalar').style.display='flex';}
+function fecharModal(){document.getElementById('modalInstalar').style.display='none';}
+function tocarAlerta(pedido){
+ if(!alertaLigado) return;
+ const alerta=document.getElementById('alertaSom');alerta.style.display='block';
+ let txt=`🔔 ${pedido.musica}`;if(pedido.valor>0) txt+=` - R$ ${pedido.valor}`;if(pedido.tipo==='caixinha') txt+=' 💰 CAIXINHA!';if(pedido.recado) txt+=' - '+pedido.recado;
+ alerta.innerText=txt;
+ if('vibrate' in navigator) navigator.vibrate([600,200,600,200,800]);
+ try{const ctx=new (window.AudioContext||window.webkitAudioContext)();[880,1046,1318].forEach((f,i)=>{const o=ctx.createOscillator();const g=ctx.createGain();o.frequency.value=f;o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+i*0.15);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.15+0.5);o.stop(ctx.currentTime+i*0.15+0.5);});}catch(e){}
+ setTimeout(()=>alerta.style.display='none',6000);
+ if(Notification&&Notification.permission==='granted'){new Notification(`🎵 ${pedido.musica}`,{body:`${pedido.cliente}`});}
+ else if(Notification&&Notification.permission!=='denied'){Notification.requestPermission();}
+}
+function testarSom(){tocarAlerta({musica:'TESTE',valor:10,recado:'TESTE QR IMPRESSO',tipo:'pedido'});alert('🔊 Tocou? Agora o QR vai tocar também!');}
+function toggleShow(){showStatus=showStatus==='liberado'?'pausado':'liberado';localStorage.setItem('showStatus',showStatus);atualizarStatusShow();}
+function atualizarStatusShow(){const badge=document.getElementById('statusShowBadge');const btn=document.getElementById('btnToggleShow');if(showStatus==='liberado'){badge.className='status-on';badge.innerText='🟢 SHOW LIBERADO';btn.innerText='PAUSAR';btn.className='btn btn-red';}else{badge.className='status-off';badge.innerText='🔴 SHOW PAUSADO';btn.innerText='LIBERAR';btn.className='btn btn-green';}}
+function toggleAlerta(){alertaLigado=!alertaLigado;localStorage.setItem('alertaLigado',alertaLigado?'on':'off');document.getElementById('btnAlerta').innerText=alertaLigado?'🔔 LIGADO':'🔕 DESLIGADO';if(alertaLigado) testarSom();}
+function addMusica(){const v=document.getElementById('novaMusica').value.trim();if(!v) return;repertorio.push(v);document.getElementById('novaMusica').value='';renderRepDono();salvarRep();}
+function delMusica(i){if(confirm('Apagar '+repertorio[i]+'?')){repertorio.splice(i,1);renderRepDono();salvarRep();}}
+function renderRepDono(){const div=document.getElementById('listaRepertorioDono');div.innerHTML='';repertorio.forEach((m,i)=>{const d=document.createElement('div');d.className='rep-item';d.innerHTML=`<span>${m}</span><button onclick="delMusica(${i})">X</button>`;div.appendChild(d);});}
+function salvarRep(){localStorage.setItem('repertorio',JSON.stringify(repertorio));}
+function selValor(v,btn){
+ if(v==='livre'){let l=prompt('Qual valor? Ex: 7');if(!l) return;VALOR_CLIENTE=l;document.getElementById('valorEscolhido').style.display='block';document.getElementById('valorEscolhido').value='R$ '+l+' (livre)';}
+ else{VALOR_CLIENTE=v;document.getElementById('valorEscolhido').style.display='block';document.getElementById('valorEscolhido').value='R$ '+v;}
+ document.querySelectorAll('.valor-btns .btn').forEach(b=>b.className='btn btn-dark');if(btn) btn.className='btn btn-green';
+}
+function criarLink(){
+const nome=document.getElementById('nomeCantor').value.trim();const pix=document.getElementById('pixCantor').value.trim();const nomePix=document.getElementById('nomePix').value.trim()||nome;
+if(!nome||!pix){alert('Preenche nome artístico e PIX!');return;}
+cantorNome=nome;APP_PIX=pix;APP_NOMEPIX=nomePix;
+localStorage.setItem('cantorNome',nome);localStorage.setItem('cantorPix',pix);localStorage.setItem('nomePix',nomePix);
+const code=btoa(nome+'|'+pix+'|'+nomePix).replace(/=/g,'');
+CODIGO_SALA=code;TOPIC='pedeai-'+code.replace(/[^a-zA-Z0-9]/g,'').toLowerCase();
+const url=location.origin+location.pathname+'?c='+code;
+document.getElementById('linkGerado').innerHTML=`<b style="color:#22c55e">${url}</b>`;
+document.getElementById('botoesPosCadastro').style.display='block';
+history.replaceState(null,'','?c='+code+'&dono=1');
+abrirDono(code);
+}
+function entrarPainel(){
+const nome=localStorage.getItem('cantorNome');const pix=localStorage.getItem('cantorPix');const nomePix=localStorage.getItem('nomePix');
+if(!nome||!pix){alert('Você ainda não criou link!');return;}
+const code=btoa(nome+'|'+pix+'|'+(nomePix||nome)).replace(/=/g,'');
+abrirDono(code);
+}
+function voltarInicio(){if(eventSource){eventSource.close();}document.getElementById('pageDono').style.display='none';document.getElementById('pageCliente').style.display='none';document.getElementById('pageLanding').style.display='block';}
+function abrirCliente(code){
+try{
+const d=atob(code);let [nome,pix,nomePix]=d.split('|');if(!nomePix) nomePix=nome;
+cantorNome=nome;APP_PIX=pix;APP_NOMEPIX=nomePix;VALOR_CLIENTE=0;CODIGO_SALA=code;TOPIC='pedeai-'+code.replace(/[^a-zA-Z0-9]/g,'').toLowerCase();
+document.getElementById('tituloCliente').innerText='🎸 Pede pro '+nome+'!';
+document.getElementById('subCliente').innerText=`PIX: ${nomePix} - ONLINE`;
+document.getElementById('pageLanding').style.display='none';document.getElementById('pageCliente').style.display='block';
+carregarMusicas();verificarStatusShow();
+}catch(e){document.getElementById('pageLanding').style.display='block';}
+}
+function verificarStatusShow(){const stDiv=document.getElementById('statusShowCliente');const form=document.getElementById('formCliente');if(showStatus==='pausado'){stDiv.style.display='block';stDiv.style.background='#ff3b3b';stDiv.innerText='🔴 SHOW PAUSADO - Já voltamos!';form.style.display='none';}else{stDiv.style.display='none';form.style.display='block';}}
+function conectarNtfy(){
+ if(eventSource) eventSource.close();
+ document.getElementById('conexaoStatus').innerText='Conectando no QR...';
+ const url='https://ntfy.sh/'+TOPIC+'/sse';
+ eventSource=new EventSource(url);
+ eventSource.onopen=()=>{document.getElementById('conexaoStatus').innerText='ONLINE - QR impresso funcionando! ✅';};
+ eventSource.onmessage=(e)=>{
+   try{
+     const data=JSON.parse(e.data);
+     if(data.message){
+       const pedido=JSON.parse(data.message);
+       if(pedidos.find(p=>p.id==pedido.id)) return;
+       pedidos.unshift(pedido);
+       localStorage.setItem('pedidos',JSON.stringify(pedidos));
+       renderPedidos();
+       tocarAlerta(pedido);
+     }
+   }catch(err){}
+ };
+ eventSource.onerror=()=>{document.getElementById('conexaoStatus').innerText='Reconectando...';setTimeout(conectarNtfy,3000);};
+}
+function abrirDono(code){
+try{
+const d=atob(code);let [nome,pix,nomePix]=d.split('|');if(!nomePix) nomePix=nome;
+cantorNome=nome;APP_PIX=pix;APP_NOMEPIX=nomePix;CODIGO_SALA=code;TOPIC='pedeai-'+code.replace(/[^a-zA-Z0-9]/g,'').toLowerCase();
+document.getElementById('nomeDonoSpan').innerText=nome;
+const linkFinal=location.origin+location.pathname+'?c='+code;
+document.getElementById('linkDono').innerText=linkFinal;
+document.getElementById('qrcode').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(linkFinal)}" style="width:100%;border-radius:12px">`;
+document.getElementById('pageLanding').style.display='none';document.getElementById('pageDono').style.display='block';
+if(isStandalone()){document.getElementById('installBox').style.display='none';}
+renderRepDono();renderPedidos();atualizarStatusShow();
+document.getElementById('btnAlerta').innerText=alertaLigado?'🔔 LIGADO':'🔕 DESLIGADO';
+conectarNtfy();
+}catch(e){console.log(e)}
+}
+function carregarMusicas(){const div=document.getElementById('listaMusicas');div.innerHTML='';repertorio.forEach(m=>{const d=document.createElement('div');d.className='song';d.innerHTML=`<span>${m}</span><span>▶</span>`;d.onclick=()=>{document.getElementById('musicaInput').value=m;};div.appendChild(d);});}
+async function enviarSimples(){
+if(showStatus==='pausado'){alert('Show pausado!');return;}
+const musica=document.getElementById('musicaInput').value.trim();if(!musica){alert('Escolhe a música!');return;}
+const cliente=document.getElementById('nomeCliente').value.trim()||'Anônimo';const recado=document.getElementById('recadoCliente').value.trim()||'';
+const pedido={id:Date.now(),musica,cliente,recado,hora:new Date().toLocaleTimeString(),pago:false,valor:VALOR_CLIENTE||0,tipo:'pedido'};
+try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:JSON.stringify(pedido)});alert(`📩 Enviado!\n🎵 ${musica}\nJá tocou no palco do ${cantorNome}!`);}catch(e){alert('Erro de conexão, tenta de novo');}
+document.getElementById('musicaInput').value='';document.getElementById('recadoCliente').value='';document.getElementById('nomeCliente').value='';document.getElementById('pixArea').style.display='none';VALOR_CLIENTE=0;document.getElementById('valorEscolhido').style.display='none';
+}
+async function enviarCaixinha(){
+if(showStatus==='pausado'){alert('Show pausado!');return;}
+const musica=document.getElementById('musicaInput').value.trim();if(!musica){alert('Escolhe a música primeiro!');return;}
+const cliente=document.getElementById('nomeCliente').value.trim()||'Anônimo';const recado=document.getElementById('recadoCliente').value.trim()||'';
+document.getElementById('pixArea').style.display='block';document.getElementById('pixCopia').innerText=APP_PIX;document.getElementById('pixTitular').innerText='Titular: '+APP_NOMEPIX;document.getElementById('pixValorPago').innerText=VALOR_CLIENTE>0?`Vai pagar: R$ ${VALOR_CLIENTE}`:'Caixinha livre';
+const pedido={id:Date.now(),musica,cliente,recado,hora:new Date().toLocaleTimeString(),pago:false,valor:VALOR_CLIENTE||0,tipo:'caixinha'};
+try{await fetch('https://ntfy.sh/'+TOPIC,{method:'POST',body:JSON.stringify(pedido)});}catch(e){}
+window.scrollTo(0,document.body.scrollHeight);
+}
+function copiarPix(){navigator.clipboard.writeText(APP_PIX).then(()=>alert('💛 PIX copiado!')); }
+function copiarLinkDono(){navigator.clipboard.writeText(document.getElementById('linkDono').innerText).then(()=>alert('Copiado!'));}
+function renderPedidos(){const div=document.getElementById('listaPedidos');document.getElementById('countPedidos').innerText=pedidos.length;if(pedidos.length==0){div.innerHTML='<p style="opacity:.5">Deixa essa tela aberta. QR impresso vai mandar aqui!</p>';return;}div.innerHTML='';pedidos.forEach(p=>{const d=document.createElement('div');d.className='card';d.style.margin='8px 0';d.style.borderLeft=p.tipo==='caixinha'?'4px solid #facc15':p.valor>0?'4px solid #22c55e':'1px solid #23232f';d.innerHTML=`<b>🎵 ${p.musica}</b> ${p.valor>0?'<b style="color:#22c55e"> R$ '+p.valor+'</b>':p.tipo==='caixinha'?'<b style="color:#facc15"> 💰 CAIXINHA</b>':''}<br><small>👤 ${p.cliente} - ${p.hora}</small>${p.recado?`<br><div style="background:${p.tipo==='caixinha'?'#facc1522':'#22c55e22'};padding:8px;border-radius:8px;margin-top:6px;font-size:13px"><b>Recado:</b> ${p.recado}</div>`:''}<br><button class="btn btn-green" style="margin-top:8px;padding:8px 14px;font-size:12px" onclick="marcarPago(${p.id})">${p.pago?'✅ Visto':'Marcar visto'}</button>`;div.appendChild(d);});}
+function marcarPago(id){pedidos=pedidos.map(p=>p.id==id?{...p,pago:true}:p);localStorage.setItem('pedidos',JSON.stringify(pedidos));renderPedidos();}
+function limparPedidos(){if(confirm('Limpar vistos?')){pedidos=pedidos.filter(p=>!p.pago);localStorage.setItem('pedidos',JSON.stringify(pedidos));renderPedidos();}}
+(function(){const params=new URLSearchParams(location.search);const c=params.get('c');if(c){if(params.get('dono')=='1')abrirDono(c);else abrirCliente(c);}else{const nome=localStorage.getItem('cantorNome');const pix=localStorage.getItem('cantorPix');const nomePix=localStorage.getItem('nomePix');if(nome&&pix){if(document.getElementById('linkGerado')){document.getElementById('linkGerado').innerText='Você já tem cadastro! Clique em ENTRAR';document.getElementById('botoesPosCadastro').style.display='block';}}}})();
+</script>
+</body>
+</html>
