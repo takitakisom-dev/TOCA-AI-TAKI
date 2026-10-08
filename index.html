@@ -89,3 +89,119 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #2a2a35;backgr
 </div>
 </div>
 </div>
+<div id="modalInstalar" style="display:none;position:fixed;inset:0;background:#000d;z-index:9999;padding:20px;align-items:center;justify-content:center">
+<div class="card" style="max-width:360px;width:100%;background:#1e1e2a">
+<h3 id="modalTitulo">Como instalar</h3>
+<div id="modalConteudo" style="margin:12px 0;font-size:14px;line-height:1.6"></div>
+<button class="btn btn-green" style="width:100%" onclick="fecharModal()">ENTENDI</button>
+</div>
+</div>
+
+<script>
+let deferredPrompt=null;let APP_PIX='';let APP_NOMEPIX='';let APP_VALOR='5';let cantorNome='';
+let pedidos=JSON.parse(localStorage.getItem('pedidos')||'[]');
+const MANIFEST={name:"PEDE AI - dim dim",short_name:"PEDE AI",display:"standalone",background_color:"#0a0a0f",theme_color:"#22c55e",start_url:"./",icons:[{src:"https://cdn-icons-png.flaticon.com/512/3659/3659784.png",sizes":"512x512",type:"image/png"}]};
+const blob=new Blob([JSON.stringify(MANIFEST)],{type:'application/json'});
+document.getElementById('manifestLink').href=URL.createObjectURL(blob);
+if('serviceWorker' in navigator){const sw="self.addEventListener('fetch',e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))))";const b=new Blob([sw],{type:'text/javascript'});navigator.serviceWorker.register(URL.createObjectURL(b)).catch(()=>{});}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installStatus').innerText='✅ Pronto pra instalar em 1 clique!';});
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent);}
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;}
+function instalarApp(){
+if(isStandalone()){alert('Já está instalado! Olha seu ícone PEDE AI na tela inicial 💚');return;}
+if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted'){document.getElementById('installBox').innerHTML='<h3>✅ Instalado! Olha sua tela inicial 💚</h3>';}deferredPrompt=null;});return;}
+if(isIOS()){
+document.getElementById('modalTitulo').innerText='iPhone - 2 toques:';
+document.getElementById('modalConteudo').innerHTML='<b>1.</b> Clica no botão compartilhar <b>⎙</b> (quadrado com seta pra cima)<br><br><b>2.</b> Rola e clica em <b>Adicionar à Tela de Início</b> > <b>Adicionar</b><br><br>Pronto! Ícone PEDE AI vai aparecer.';
+document.getElementById('modalInstalar').style.display='flex';return;
+}
+document.getElementById('modalTitulo').innerText='Android - 2 toques:';
+document.getElementById('modalConteudo').innerHTML='<b>1.</b> Clica nos <b>3 pontinhos ⋮</b> no canto superior direito<br><br><b>2.</b> Clica em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b> > <b>Instalar</b><br><br>Pronto! Ícone PEDE AI na tela e toca alarme quando cair dim,dim💰!';
+document.getElementById('modalInstalar').style.display='flex';
+}
+function fecharModal(){document.getElementById('modalInstalar').style.display='none';}
+function criarLink(){
+const nome=document.getElementById('nomeCantor').value.trim();
+const pix=document.getElementById('pixCantor').value.trim();
+const nomePix=document.getElementById('nomePix').value.trim()||nome;
+const valor=document.getElementById('valorCantor').value.trim()||'5';
+if(!nome||!pix){alert('Preenche nome e PIX, coração!');return;}
+cantorNome=nome;APP_PIX=pix;APP_NOMEPIX=nomePix;APP_VALOR=valor;
+localStorage.setItem('cantorNome',nome);localStorage.setItem('cantorPix',pix);localStorage.setItem('nomePix',nomePix);localStorage.setItem('valor',valor);
+const code=btoa(nome+'|'+pix+'|'+nomePix+'|'+valor).replace(/=/g,'');
+const url=location.origin+location.pathname+'?c='+code;
+document.getElementById('linkGerado').innerHTML=`Seu link:<br><b style="color:#22c55e">${url}</b><br><br><a href="${url}&dono=1" style="color:#22c55e;font-weight:800">➡️ ABRIR MEU PAINEL DE DONO</a>`;
+history.replaceState(null,'','?c='+code+'&dono=1');abrirDono(code);
+}
+function abrirCliente(code){
+try{
+const d=atob(code);
+let [nome,pix,nomePix,valor]=d.split('|');
+if(!nomePix) nomePix=nome; if(!valor) valor='5';
+cantorNome=nome;APP_PIX=pix;APP_NOMEPIX=nomePix;APP_VALOR=valor;
+document.getElementById('tituloCliente').innerText='🎸 Pede pro '+nome+'!';
+document.getElementById('subCliente').innerText=`PIX em nome de ${nomePix} - R$ ${valor} por música - dim,dim💰`;
+document.getElementById('pixTitular').innerText=`Titular: ${nomePix}`;
+document.getElementById('pageLanding').style.display='none';
+document.getElementById('pageCliente').style.display='block';
+carregarMusicas();
+}catch(e){document.getElementById('pageLanding').style.display='block';}
+}
+function abrirDono(code){
+try{
+const d=atob(code);
+let [nome,pix,nomePix,valor]=d.split('|');
+if(!nomePix) nomePix=nome; if(!valor) valor='5';
+cantorNome=nome;APP_PIX=pix;APP_NOMEPIX=nomePix;APP_VALOR=valor;
+document.getElementById('nomeDonoSpan').innerText=nome;
+const linkFinal=location.origin+location.pathname+'?c='+code;
+document.getElementById('linkDono').innerText=linkFinal;
+document.getElementById('qrcode').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(linkFinal)}" style="width:100%;border-radius:12px" alt="QR">`;
+document.getElementById('pageLanding').style.display='none';
+document.getElementById('pageDono').style.display='block';
+if(isStandalone()){document.getElementById('installBox').style.display='none';}
+renderPedidos();
+}catch(e){}
+}
+const MUSICAS=["Boate Azul","Evidências","Garota de Ipanema","Ai Se Eu Te Pego","Faroeste Caboclo","Anna Júlia","Whisky a Go Go","Meu Erro","Lanterna dos Afogados","Trem Bala","Atrasadinha","Dona de Mim","Envolver","Leão - Xamã","Nosso Quadro","Metamorfose Ambulante","Como Nossos Pais"];
+function carregarMusicas(){const div=document.getElementById('listaMusicas');div.innerHTML='';MUSICAS.forEach(m=>{const d=document.createElement('div');d.className='song';d.innerHTML=`<span>${m}</span><span style="opacity:.5">▶</span>`;d.onclick=()=>{document.getElementById('musicaInput').value=m;window.scrollTo(0,180);};div.appendChild(d);});}
+function enviarPedido(){
+const musica=document.getElementById('musicaInput').value.trim();if(!musica){alert('Escolhe a música!');return;}
+document.getElementById('pixArea').style.display='block';
+document.getElementById('pixCopia').innerText=APP_PIX;
+document.getElementById('pixTitular').innerText=`Titular: ${APP_NOMEPIX} - Valor: R$ ${APP_VALOR}`;
+window.scrollTo(0,document.body.scrollHeight);
+}
+function copiarPix(){navigator.clipboard.writeText(APP_PIX).then(()=>alert('PIX copiado! Cola no seu banco dim,dim💰'));}
+function copiarLinkDono(){navigator.clipboard.writeText(document.getElementById('linkDono').innerText).then(()=>alert('Link copiado!'));}
+function confirmarPag(){
+const musica=document.getElementById('musicaInput').value.trim();
+const cliente=document.getElementById('nomeCliente').value.trim()||'Anônimo';
+const pedido={id:Date.now(),musica,cliente,hora:new Date().toLocaleTimeString(),pago:false,valor:APP_VALOR};
+pedidos.unshift(pedido);localStorage.setItem('pedidos',JSON.stringify(pedidos));
+try{const bc=new BroadcastChannel('pedidos');bc.postMessage(pedido);}catch(e){}
+alert('Pedido enviado! O cantor já recebeu o alarme 🔔 dim,dim💰');
+document.getElementById('musicaInput').value='';document.getElementById('pixArea').style.display='none';
+}
+function renderPedidos(){
+const div=document.getElementById('listaPedidos');
+document.getElementById('countPedidos').innerText=pedidos.length;
+if(pedidos.length==0){div.innerHTML='<p style="opacity:.5">Nenhum pedido ainda. Compartilhe seu QR!</p>';return;}
+div.innerHTML='';
+pedidos.forEach(p=>{
+const d=document.createElement('div');d.className='card';d.style.margin='8px 0';
+d.innerHTML=`<b>${p.musica}</b> - R$ ${p.valor||APP_VALOR}<br><small>${p.cliente} - ${p.hora}</small><br><button class="btn btn-green" style="margin-top:8px;padding:8px 14px;font-size:13px" onclick="marcarPago(${p.id})">${p.pago?'✅ Pago':'Marcar como pago'}</button>`;
+div.appendChild(d);
+});
+}
+function marcarPago(id){pedidos=pedidos.map(p=>p.id==id?{...p,pago:true}:p);localStorage.setItem('pedidos',JSON.stringify(pedidos));renderPedidos();}
+function limparPedidos(){if(confirm('Limpar só os pagos?')){pedidos=pedidos.filter(p=>!p.pago);localStorage.setItem('pedidos',JSON.stringify(pedidos));renderPedidos();}}
+try{const bc=new BroadcastChannel('pedidos');bc.onmessage=e=>{const p=e.data;pedidos.unshift(p);localStorage.setItem('pedidos',JSON.stringify(pedidos));renderPedidos();if(document.getElementById('pageDono').style.display=='block'){if('vibrate' in navigator)navigator.vibrate([500,200,500]);}};}catch(e){}
+(function(){
+const params=new URLSearchParams(location.search);const c=params.get('c');
+if(c){if(params.get('dono')=='1')abrirDono(c);else abrirCliente(c);}
+else{const nome=localStorage.getItem('cantorNome');const pix=localStorage.getItem('cantorPix');const nomePix=localStorage.getItem('nomePix');const valor=localStorage.getItem('valor')||'5';if(nome&&pix){const code=btoa(nome+'|'+pix+'|'+(nomePix||nome)+'|'+valor).replace(/=/g,'');abrirDono(code);}}
+})();
+</script>
+</body>
+</html>
