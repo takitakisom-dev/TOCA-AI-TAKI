@@ -2,35 +2,74 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PEDE AI</title>
+<title>PEDE AI - ANDRÉ TAKI</title>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<style>body{background:#000;color:#fff;font-family:Arial;padding:10px} h2{color:#00ff88;text-align:center} #busca{width:100%;padding:14px;border-radius:12px;border:none} .musica{background:#1e1e1e;padding:12px;margin:6px 0;border-radius:10px;display:flex;justify-content:space-between} .musica button{background:#00ff88;border:none;padding:8px 14px;border-radius:20px;font-weight:bold}</style>
+<style>
+body{background:#0a0a0a;color:#fff;font-family:Arial;margin:0;padding:0;display:flex;height:100vh}
+.esq{width:60px;background:#000;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;color:#00ff88;font-weight:bold;font-size:18px;letter-spacing:2px}
+.dir{flex:1;padding:10px;overflow-y:auto}
+.top-caixinha{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+.top-caixinha button{padding:10px 14px;border-radius:20px;border:2px solid #00ff88;background:#1a1a1a;color:#fff;font-weight:bold;flex:1}
+.top-caixinha button.ativo{background:#00ff88;color:#000}
+.musica{background:#1e1e1e;padding:12px;margin:6px 0;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+.musica b{font-size:13px}
+.musica button{background:#fff;color:#000;border:none;padding:8px 14px;border-radius:20px;font-weight:bold}
+#recadoBox{margin-top:12px;background:#1a1a1a;padding:10px;border-radius:12px}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:none;box-sizing:border-box;margin:4px 0}
+.btn-pix{width:100%;background:#00ff88;color:#000;padding:14px;border-radius:12px;border:none;font-weight:bold;font-size:16px;margin-top:8px}
+.btn-pedir{width:100%;background:#fff;color:#000;padding:14px;border-radius:12px;border:none;font-weight:bold;font-size:16px;margin-top:8px}
+</style>
 </head>
 <body>
-<h2 id="titulo">🎶 Carregando repertório...</h2>
+<div class="esq">PEDE AI - ANDRÉ TAKI</div>
+<div class="dir">
+<h3 id="titulo" style="color:#00ff88;margin:4px">Carregando...</h3>
+<div class="top-caixinha" id="caixaBtns">
+<button class="ativo" data-v="LIVRE" onclick="selCaixa(this)">LIVRE</button>
+<button data-v="2" onclick="selCaixa(this)">R$ 2</button>
+<button data-v="5" onclick="selCaixa(this)">R$ 5</button>
+<button data-v="10" onclick="selCaixa(this)">R$ 10</button>
+<button data-v="20" onclick="selCaixa(this)">R$ 20</button>
+<button data-v="50" onclick="selCaixa(this)">R$ 50</button>
+</div>
 <input id="busca" placeholder="🔍 Buscar música..." onkeyup="filtrar()">
 <div id="lista"></div>
+<div id="recadoBox">
+<b>💬 Mandar recado + Pix</b>
+<textarea id="recado" rows="3" placeholder="Ex: Toca pra minha esposa! Parabéns..."></textarea>
+<input id="nomeCliente" placeholder="Seu nome (opcional)">
+<button class="btn-pix" onclick="pedirComPix()">💚 PEDIR MÚSICA + ENVIAR CAIXINHA</button>
+<small id="pixInfo" style="color:#00ff88"></small>
+</div>
+</div>
 <script>
 const firebaseConfig={apiKey:"AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",authDomain:"pede-ai-pro.firebaseapp.com",databaseURL:"https://pede-ai-pro-default-rtdb.firebaseio.com",projectId:"pede-ai-pro",storageBucket:"pede-ai-pro.firebasestorage.app",messagingSenderId:"549558191964",appId:"1:549558191964:web:40614401989e404af6a399"};
 firebase.initializeApp(firebaseConfig);const db=firebase.database();
+let rep=[]; let fone=""; let pix=""; let valorCaixinha="LIVRE"; let musicaSelecionada="";
 const id=new URLSearchParams(window.location.search).get('c');
-let rep=[]; let fone="553499462882"; let nome="";
+function selCaixa(el){document.querySelectorAll('.top-caixinha button').forEach(b=>b.classList.remove('ativo')); el.classList.add('ativo'); valorCaixinha=el.dataset.v;}
 if(!id){document.getElementById('titulo').innerText="QR Inválido";}
 else{
  db.ref('empresas/'+id).once('value').then(s=>{
-  let d=s.val(); if(!d){document.getElementById('titulo').innerText="Repertório não encontrado - peça pro cantor clicar em SALVAR E ATUALIZAR NUVEM"; return;}
-  if(d.showLiberado===false){document.getElementById('titulo').innerText="⏸️ Show pausado no momento"; document.getElementById('lista').innerHTML="<p style='text-align:center'>Volte em instantes!</p>"; return;}
-  rep=d.repertorio||[]; fone=d.fone; nome=d.nome; document.getElementById('titulo').innerText="🎶 "+nome+" - PEDE AI"; mostrar(rep);
+  let d=s.val(); if(!d){document.getElementById('titulo').innerText="Repertório não encontrado - Peça pro cantor clicar em SALVAR TUDO"; return;}
+  if(d.showLiberado===false){document.getElementById('titulo').innerText="⏸️ Show pausado"; return;}
+  rep=d.repertorio||[]; fone=d.fone; pix=d.pix||"3499462882"; document.getElementById('titulo').innerText="🎶 "+d.nome+" - "+rep.length+" músicas";
+  document.getElementById('pixInfo').innerText="PIX do artista: "+pix+" | Caixinha: R$ "+valorCaixinha;
+  mostrar(rep);
  });
 }
-function mostrar(l){let div=document.getElementById('lista'); div.innerHTML=""; l.forEach(m=>{let safe=m.replace(/'/g,"\\'"); div.innerHTML+=`<div class="musica"><span>${m}</span><button onclick="pedir('${safe}')">PEDIR</button></div>`;});}
+function mostrar(l){let div=document.getElementById('lista'); div.innerHTML=""; l.forEach(m=>{let safe=m.replace(/'/g,"\\'"); div.innerHTML+=`<div class="musica"><b>${m}</b><button onclick="selecionar('${safe}')">PEDIR</button></div>`});}
 function filtrar(){let t=document.getElementById('busca').value.toLowerCase(); mostrar(rep.filter(m=>m.toLowerCase().includes(t)));}
-function pedir(musica){
- const id=new URLSearchParams(window.location.search).get('c');
- db.ref('empresas/'+id+'/pedidos').push({musica,cliente:"Cliente",hora:new Date().toLocaleString()});
- window.open(`https://wa.me/${fone}?text=${encodeURIComponent("Olá! Quero pedir: "+musica+" - via PEDE AI PRO")}`);
- alert("✅ Pedido enviado! "+musica);
+function selecionar(m){musicaSelecionada=m; document.getElementById('recado').focus(); window.scrollTo(0,document.body.scrollHeight); alert("Você selecionou: "+m+" - Agora escolha a caixinha em cima e escreva seu recado e clique em PEDIR!");}
+function pedirComPix(){
+ if(!musicaSelecionada){alert("Selecione uma música na lista primeiro!"); return;}
+ let recado=document.getElementById('recado').value; let nomeCli=document.getElementById('nomeCliente').value||"Cliente";
+ db.ref('empresas/'+id+'/pedidos').push({musica:musicaSelecionada,valor:valorCaixinha,recado,nome:nomeCli,hora:new Date().toLocaleString()});
+ let msg=`Olá ${rep.nome||'André Taki'}! Quero pedir: ${musicaSelecionada}%0A💰 Caixinha: R$${valorCaixinha}%0A💬 Recado: ${recado}%0A👤 ${nomeCli}%0A📲 Via PEDE AI PRO - PIX: ${pix}`;
+ window.open(`https://wa.me/${fone}?text=${msg}`,'_blank');
+ if(valorCaixinha!=="LIVRE"){window.open(`https://nubank.com.br/pagar/${pix}/${valorCaixinha}`,'_blank'); alert(`✅ Pedido enviado! Copia o PIX: ${pix} - Valor R$${valorCaixinha}`);}
+ else{alert(`✅ Pedido enviado! PIX do artista: ${pix}`);}
 }
 </script>
 </body>
