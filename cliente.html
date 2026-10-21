@@ -10,30 +10,30 @@ body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial;display:flex;heigh
 .esq{width:55px;background:#000;display:flex;justify-content:center;align-items:center;writing-mode:vertical-rl;color:#00ff88;font-weight:800;letter-spacing:2px;font-size:16px}
 .dir{flex:1;padding:10px;overflow-y:auto}
 .top-form{background:#151515;border:1px solid #222;padding:12px;border-radius:14px;margin:8px 0}
-.top-form input, .top-form textarea{width:100%;padding:12px;border-radius:10px;border:none;margin:4px 0;box-sizing:border-box;background:#0f0f0f;color:#fff;font-size:14px}
+.top-form input, .top-form textarea{width:100%;padding:12px;border-radius:10px;border:none;margin:4px 0;box-sizing:border-box;background:#0f0f0f;color:#fff}
 .caixa{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
 .caixa button{padding:9px 14px;border-radius:20px;border:2px solid #00ff88;background:#1a1a1a;color:#fff;font-weight:800}
-.caixa button.ativo{background:#00ff88;color:#000;box-shadow:0 0 10px #00ff88}
+.caixa button.ativo{background:#00ff88;color:#000}
 .musica{background:#1e1e1e;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin:7px 0;border:1px solid #2a2a2a}
 .btn-pedir{background:#fff;color:#000;border:none;padding:9px 14px;border-radius:20px;font-weight:800}
 .btn-caixa{background:#00ff88;color:#000;border:none;padding:9px 14px;border-radius:20px;font-weight:800}
 #modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
 .modal-box{background:#1e1e1e;border:2px solid #00ff88;border-radius:20px;padding:20px;max-width:360px;width:100%;text-align:center}
 .pix-grande{background:#0f0f0f;border:1px dashed #00ff88;padding:12px;border-radius:10px;margin:10px 0;font-size:18px;font-weight:800;color:#00ff88;word-break:break-all}
+.sugestao-bar{background:#111;border-top:1px solid #222;padding:10px;position:sticky;bottom:0;text-align:center}
+.btn-sugestao{background:#ff9100;color:#000;border:none;padding:12px 18px;border-radius:20px;font-weight:800;width:100%}
 </style>
 </head>
 <body>
 <div class="esq" id="nomeEsq">PEDE AI</div>
 <div class="dir">
-<h3 id="titulo" style="color:#00ff88;margin:5px">🎵 Carregando...</h3>
+<h3 id="titulo" style="color:#00ff88;margin:5px">🎵 Carregando repertório...</h3>
 
-<!-- AGORA NOME E RECADO VEM ANTES - COMO VOCÊ PEDIU NO ÁUDIO -->
 <div class="top-form">
-<b style="color:#00ff88;font-size:13px">👤 Seu nome e recado (opcional - vem antes do pedido)</b>
-<input id="nomeCli" placeholder="Seu nome - ex: João (se não colocar fica Anônimo)">
-<textarea id="recado" rows="2" placeholder="💬 Deixe um recado pro músico - ex: Toca pra minha esposa!"></textarea>
-
-<b style="color:#00ff88;font-size:13px;margin-top:6px;display:block">💰 Escolha a caixinha (complemento)</b>
+<b style="color:#00ff88;font-size:13px">👤 Seu nome (opcional)</b>
+<input id="nomeCli" placeholder="Seu nome - se não, fica Anônimo">
+<b style="color:#00ff88;font-size:13px">💬 Recado (complemento)</b>
+<textarea id="recado" rows="2" placeholder="Ex: Toca pra minha esposa!"></textarea>
 <div class="caixa">
 <button class="ativo" data-v="LIVRE" onclick="selCaixa(this)">LIVRE</button>
 <button data-v="2" onclick="selCaixa(this)">R$2</button>
@@ -44,8 +44,13 @@ body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial;display:flex;heigh
 </div>
 </div>
 
-<input id="busca" placeholder="🔍 Buscar música e escolher abaixo..." onkeyup="filtrar()" style="width:100%;padding:12px;border-radius:10px;border:none;margin-bottom:6px">
+<input id="busca" placeholder="🔍 Buscar SÓ no repertório..." onkeyup="filtrar()" style="width:100%;padding:12px;border-radius:10px;border:none;margin-bottom:6px">
+<small style="color:#00ff88">✅ Só é possível pedir músicas que estão na lista abaixo (sacada principal)</small>
 <div id="lista"></div>
+
+<div class="sugestao-bar">
+<button class="btn-sugestao" onclick="abrirSugestao()">💡 Não achou? SUGERIR MÚSICA FORA DO REPERTÓRIO</button>
+</div>
 </div>
 
 <div id="modal" onclick="fecharModal()">
@@ -53,8 +58,18 @@ body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial;display:flex;heigh
 <h2 id="modalTitulo" style="color:#00ff88"></h2>
 <p id="modalTexto" style="font-size:14px;color:#ddd"></p>
 <div class="pix-grande" id="modalPix" style="display:none"></div>
-<button id="btnCopiar" onclick="copiarPix()" style="display:none;width:100%;background:#00ff88;color:#000;padding:14px;border-radius:12px;border:none;font-weight:800;font-size:16px">📋 COPIAR CHAVE PIX</button>
+<button id="btnCopiar" onclick="copiarPix()" style="display:none;width:100%;background:#00ff88;color:#000;padding:14px;border-radius:12px;border:none;font-weight:800">📋 COPIAR CHAVE PIX</button>
 <button onclick="fecharModal()" style="width:100%;background:#2a2a2a;color:#fff;padding:12px;border-radius:12px;border:none;margin-top:10px">FECHAR</button>
+</div>
+</div>
+
+<div id="modalSug" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px">
+<div class="modal-box" style="border-color:#ff9100">
+<h2 style="color:#ff9100">💡 Sugerir música</h2>
+<p style="font-size:13px;color:#ccc">Essa música NÃO está no repertório. É só uma sugestão pro músico avaliar!</p>
+<input id="musicaSugerida" placeholder="Ex: BOATE AZUL - BENE - não está na lista" style="width:100%;padding:12px;border-radius:10px;border:none;margin:8px 0;background:#0f0f0f;color:#fff">
+<button onclick="enviarSugestao()" style="width:100%;background:#ff9100;color:#000;padding:14px;border-radius:12px;border:none;font-weight:800">💡 ENVIAR SUGESTÃO</button>
+<button onclick="fecharSug()" style="width:100%;background:#2a2a2a;color:#fff;padding:12px;border-radius:12px;border:none;margin-top:8px">CANCELAR</button>
 </div>
 </div>
 
@@ -64,43 +79,27 @@ firebase.initializeApp(firebaseConfig); const db=firebase.database();
 let rep=[], pix="", valor="LIVRE", nomeMusico="";
 const id=new URLSearchParams(window.location.search).get('c');
 function selCaixa(el){document.querySelectorAll('.caixa button').forEach(b=>b.classList.remove('ativo')); el.classList.add('ativo'); valor=el.dataset.v;}
-function carregar(){
- db.ref('empresas/'+id).once('value').then(s=>{
-  let d=s.val(); if(!d)return;
-  rep=d.repertorio||[]; pix=d.pix||"3499462882"; nomeMusico=d.nome||"ANDRÉ TAKI";
-  document.getElementById('titulo').innerText=`🎵 ${nomeMusico} - ${rep.length} músicas`;
-  document.getElementById('nomeEsq').innerText=`PEDE AI - ${nomeMusico}`;
-  mostrar(rep);
- });
-}
-function mostrar(l){let div=document.getElementById('lista'); div.innerHTML=""; l.forEach(m=>{let safe=m.replace(/'/g,"\\'"); div.innerHTML+=`<div class="musica"><span style="flex:1;font-size:13px;font-weight:600">${m}</span><div style="display:flex;gap:6px"><button class="btn-pedir" onclick="pedir('${safe}',false)">🎵 PEDIR</button><button class="btn-caixa" onclick="pedir('${safe}',true)">💰 CAIXINHA</button></div></div>`});}
-function filtrar(){let t=document.getElementById('busca').value.toLowerCase(); mostrar(rep.filter(m=>m.toLowerCase().includes(t)));}
+function carregar(){db.ref('empresas/'+id).once('value').then(s=>{let d=s.val(); if(!d)return; rep=d.repertorio||[]; pix=d.pix||"3499462882"; nomeMusico=d.nome||"ANDRÉ TAKI"; document.getElementById('titulo').innerText=`🎵 ${nomeMusico} - ${rep.length} músicas no repertório`; document.getElementById('nomeEsq').innerText=`PEDE AI - ${nomeMusico}`; mostrar(rep);});}
+function mostrar(l){let div=document.getElementById('lista'); div.innerHTML=""; if(l.length===0){div.innerHTML="<p style='color:#888;text-align:center;margin:20px'>Nenhuma música encontrada no repertório.<br>Use o botão laranja embaixo pra sugerir!</p>"; return;} l.forEach(m=>{let safe=m.replace(/'/g,"\\'"); div.innerHTML+=`<div class="musica"><span style="flex:1;font-size:13px;font-weight:600">${m}</span><div style="display:flex;gap:6px"><button class="btn-pedir" onclick="pedir('${safe}',false)">🎵 PEDIR</button><button class="btn-caixa" onclick="pedir('${safe}',true)">💰 CAIXINHA</button></div></div>`});}
+function filtrar(){let t=document.getElementById('busca').value.toLowerCase(); if(!t){mostrar(rep); return;} mostrar(rep.filter(m=>m.toLowerCase().includes(t)));}
 function pedir(musica,comCaixinha){
- // AGORA PEGA NOME E RECADO ANTES - COMO COMPLEMENTO - COMO VOCÊ FALOU NO ÁUDIO
- let nome=document.getElementById('nomeCli').value.trim()||"Anônimo";
- let recado=document.getElementById('recado').value.trim()||"Sem recado";
- // Salva na ordem que você pediu: NOME + RECADO + MÚSICA
- db.ref('empresas/'+id+'/pedidos').push({
-  nome:nome,
-  recado:recado,
-  musica:musica,
-  valor:comCaixinha?valor:"GRÁTIS",
-  hora:new Date().toLocaleString()
- });
- if(comCaixinha){
-  document.getElementById('modalTitulo').innerText=`💰 CAIXINHA R$${valor}`;
-  document.getElementById('modalTexto').innerText=`De: ${nome} - Recado: ${recado} - Música: ${musica}. Chave PIX cadastrada pelo músico:`;
-  document.getElementById('modalPix').innerText=pix; document.getElementById('modalPix').style.display='block';
-  document.getElementById('btnCopiar').style.display='block';
-  document.getElementById('modal').style.display='flex';
- } else {
-  document.getElementById('modalTitulo').innerText=`🎵 PEDIDO ENVIADO!`;
-  document.getElementById('modalTexto').innerText=`De: ${nome} - Recado: ${recado} - Música: ${musica} - Já apareceu no painel do ${nomeMusico}!`;
-  document.getElementById('modalPix').style.display='none';
-  document.getElementById('btnCopiar').style.display='none';
-  document.getElementById('modal').style.display='flex';
- }
- try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let n=ctx.currentTime; let o=ctx.createOscillator(),g=ctx.createGain(); o.frequency.value=600; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(0.3,n); g.gain.exponentialRampToValueAtTime(0.01,n+0.4); o.start(n); o.stop(n+0.4);}catch(e){}
+ // VALIDAÇÃO: SÓ PODE PEDIR O QUE TÁ NO REPERTÓRIO
+ if(!rep.includes(musica) && !rep.some(r=>r.toLowerCase()===musica.toLowerCase())){alert('❌ Essa música não está no repertório! Use o botão de sugestão embaixo!'); return;}
+ let nome=document.getElementById('nomeCli').value.trim()||"Anônimo"; let recado=document.getElementById('recado').value.trim()||"";
+ db.ref('empresas/'+id+'/pedidos').push({nome,recado,musica,valor:comCaixinha?valor:"GRÁTIS",hora:new Date().toLocaleString()});
+ if(comCaixinha){document.getElementById('modalTitulo').innerText=`💰 CAIXINHA R$${valor}`; document.getElementById('modalTexto').innerText=`De: ${nome} - Música do repertório: ${musica}. Chave PIX do músico:`; document.getElementById('modalPix').innerText=pix; document.getElementById('modalPix').style.display='block'; document.getElementById('btnCopiar').style.display='block'; document.getElementById('modal').style.display='flex';}
+ else{document.getElementById('modalTitulo').innerText=`🎵 PEDIDO ENVIADO!`; document.getElementById('modalTexto').innerText=`De: ${nome} - Música: ${musica} (do repertório) - Já apareceu no painel do ${nomeMusico}!`; document.getElementById('modalPix').style.display='none'; document.getElementById('btnCopiar').style.display='none'; document.getElementById('modal').style.display='flex';}
+}
+function abrirSugestao(){document.getElementById('modalSug').style.display='flex';}
+function fecharSug(){document.getElementById('modalSug').style.display='none';}
+function enviarSugestao(){
+ let musica=document.getElementById('musicaSugerida').value.trim(); if(!musica){alert('Digite a música!'); return;}
+ // VERIFICA SE JÁ TÁ NO REPERTÓRIO - SE TIVER, NÃO DEIXA SUGERIR
+ if(rep.some(r=>r.toLowerCase().includes(musica.toLowerCase()))){alert('Essa música já está no repertório! É só buscar e pedir!'); fecharSug(); filtrar(); return;}
+ let nome=document.getElementById('nomeCli').value.trim()||"Anônimo"; let recado=document.getElementById('recado').value.trim()||"";
+ db.ref('empresas/'+id+'/sugestoes').push({nome,recado,musica,hora:new Date().toLocaleString()});
+ document.getElementById('musicaSugerida').value=""; fecharSug();
+ document.getElementById('modalTitulo').innerText=`💡 SUGESTÃO ENVIADA!`; document.getElementById('modalTexto').innerText=`Você sugeriu: ${musica}. O músico vai avaliar se coloca no repertório! Obrigado!`; document.getElementById('modalPix').style.display='none'; document.getElementById('btnCopiar').style.display='none'; document.getElementById('modal').style.display='flex';
 }
 function copiarPix(){navigator.clipboard.writeText(pix); alert('✅ PIX copiado: '+pix);}
 function fecharModal(){document.getElementById('modal').style.display='none';}
