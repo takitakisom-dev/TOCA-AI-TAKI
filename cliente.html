@@ -7,23 +7,23 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial;display:flex;height:100vh}
-.esq{width:55px;background:#000;display:flex;justify-content:center;align-items:center;writing-mode:vertical-rl;color:#00ff88;font-weight:bold;letter-spacing:2px}
+.esq{width:55px;background:#000;display:flex;justify-content:center;align-items:center;writing-mode:vertical-rl;color:#00ff88;font-weight:800;letter-spacing:2px;font-size:16px}
 .dir{flex:1;padding:10px;overflow-y:auto}
 .caixa{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.caixa button{padding:8px 12px;border-radius:20px;border:2px solid #00ff88;background:#1a1a1a;color:#fff;font-weight:bold}
-.caixa button.ativo{background:#00ff88;color:#000}
-.musica{background:#1e1e1e;padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;margin:6px 0}
-.musica .btns{display:flex;gap:6px}
-.btn-pedir{background:#fff;color:#000;border:none;padding:8px 12px;border-radius:20px;font-weight:bold}
-.btn-caixa{background:#00ff88;color:#000;border:none;padding:8px 12px;border-radius:20px;font-weight:bold}
-#recadoBox{background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px}
-input,textarea{width:100%;padding:10px;border-radius:10px;border:none;margin:4px 0;box-sizing:border-box}
+.caixa button{padding:9px 14px;border-radius:20px;border:2px solid #00ff88;background:#1a1a1a;color:#fff;font-weight:800}
+.caixa button.ativo{background:#00ff88;color:#000;box-shadow:0 0 10px #00ff88}
+.musica{background:#1e1e1e;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin:7px 0;border:1px solid #2a2a2a}
+.btn-pedir{background:#fff;color:#000;border:none;padding:9px 14px;border-radius:20px;font-weight:800}
+.btn-caixa{background:#00ff88;color:#000;border:none;padding:9px 14px;border-radius:20px;font-weight:800}
+#modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.modal-box{background:#1e1e1e;border:2px solid #00ff88;border-radius:20px;padding:20px;max-width:360px;width:100%;text-align:center;box-shadow:0 0 30px rgba(0,255,136,.3)}
+.pix-grande{background:#0f0f0f;border:1px dashed #00ff88;padding:12px;border-radius:10px;margin:10px 0;font-size:18px;font-weight:800;color:#00ff88;word-break:break-all}
 </style>
 </head>
 <body>
 <div class="esq" id="nomeEsq">PEDE AI</div>
 <div class="dir">
-<h3 id="titulo" style="color:#00ff88">Carregando...</h3>
+<h3 id="titulo" style="color:#00ff88;margin:5px">🎵 Carregando...</h3>
 <div class="caixa" id="caixaBtns">
 <button class="ativo" data-v="LIVRE" onclick="selCaixa(this)">LIVRE</button>
 <button data-v="2" onclick="selCaixa(this)">R$2</button>
@@ -32,45 +32,67 @@ input,textarea{width:100%;padding:10px;border-radius:10px;border:none;margin:4px
 <button data-v="20" onclick="selCaixa(this)">R$20</button>
 <button data-v="50" onclick="selCaixa(this)">R$50</button>
 </div>
-<input id="busca" placeholder="🔍 Buscar música..." onkeyup="filtrar()">
+<input id="busca" placeholder="🔍 Buscar música..." onkeyup="filtrar()" style="width:100%;padding:12px;border-radius:10px;border:none">
 <div id="lista"></div>
-<div id="recadoBox">
-<b>💬 Recado + PIX do artista</b>
-<textarea id="recado" rows="2" placeholder="Seu recado..."></textarea>
-<input id="nomeCli" placeholder="Seu nome">
-<small id="pixInfo" style="color:#00ff88"></small>
+<div style="background:#111;padding:10px;border-radius:12px;margin-top:10px;border:1px solid #222">
+<input id="nomeCli" placeholder="Seu nome (opcional)" style="width:100%;padding:10px;border-radius:8px;border:none;margin:3px 0">
+<textarea id="recado" placeholder="💬 Deixe um recado pro músico..." rows="2" style="width:100%;padding:10px;border-radius:8px;border:none;margin:3px 0"></textarea>
+<small id="pixInfo" style="color:#888"></small>
 </div>
 </div>
+
+<div id="modal" onclick="fecharModal()">
+<div class="modal-box" onclick="event.stopPropagation()">
+<h2 id="modalTitulo" style="color:#00ff88"></h2>
+<p id="modalTexto" style="font-size:14px;color:#ccc"></p>
+<div class="pix-grande" id="modalPix">PIX AQUI</div>
+<button onclick="copiarPix()" style="width:100%;background:#00ff88;color:#000;padding:14px;border-radius:12px;border:none;font-weight:800;font-size:16px">📋 COPIAR CHAVE PIX</button>
+<button onclick="fecharModal()" style="width:100%;background:#2a2a2a;color:#fff;padding:12px;border-radius:12px;border:none;margin-top:8px">FECHAR</button>
+<small style="color:#888;display:block;margin-top:10px">Depois de copiar, abra seu banco e faça o PIX</small>
+</div>
+</div>
+
 <script>
 const firebaseConfig={apiKey:"AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",authDomain:"pede-ai-pro.firebaseapp.com",databaseURL:"https://pede-ai-pro-default-rtdb.firebaseio.com",projectId:"pede-ai-pro",storageBucket:"pede-ai-pro.firebasestorage.app",messagingSenderId:"549558191964",appId:"1:549558191964:web:40614401989e404af6a399"};
 firebase.initializeApp(firebaseConfig); const db=firebase.database();
-let rep=[], fone="", pix="", valor="LIVRE";
+let rep=[], fone="", pix="", valor="LIVRE", nomeMusico="";
 const id=new URLSearchParams(window.location.search).get('c');
-function selCaixa(el){document.querySelectorAll('.caixa button').forEach(b=>b.classList.remove('ativo')); el.classList.add('ativo'); valor=el.dataset.v; document.getElementById('pixInfo').innerText=`PIX: ${pix} | Valor selecionado: R$${valor}`;}
+function selCaixa(el){document.querySelectorAll('.caixa button').forEach(b=>b.classList.remove('ativo')); el.classList.add('ativo'); valor=el.dataset.v;}
 function carregar(){
  db.ref('empresas/'+id).once('value').then(s=>{
-  let d=s.val(); if(!d){document.getElementById('titulo').innerText="Repertório não encontrado"; return;}
-  rep=d.repertorio||[]; fone=d.fone; pix=d.pix||""; document.getElementById('titulo').innerText=`🎶 ${d.nome||d.nomeCompleto} - ${rep.length} músicas`;
-  document.getElementById('nomeEsq').innerText=`PEDE AI - ${d.nome||'ANDRÉ TAKI'}`;
-  document.getElementById('pixInfo').innerText=`PIX do ${d.nome}: ${pix} | Toque em PEDIR`;
+  let d=s.val(); if(!d){document.getElementById('titulo').innerText="Não encontrado"; return;}
+  rep=d.repertorio||[]; fone=d.fone||""; pix=d.pix||d.chavePix||"3499462882"; nomeMusico=d.nome||d.nomeArtistico||"ANDRÉ TAKI";
+  document.getElementById('titulo').innerText=`🎵 ${nomeMusico} - ${rep.length} músicas`;
+  document.getElementById('nomeEsq').innerText=`PEDE AI - ${nomeMusico}`;
+  document.getElementById('pixInfo').innerText=`Chave PIX cadastrada pelo músico: ${pix}`;
   mostrar(rep);
  });
 }
-function mostrar(l){let div=document.getElementById('lista'); div.innerHTML=""; l.forEach(m=>{let safe=m.replace(/'/g,"\\'"); div.innerHTML+=`<div class="musica"><span>${m}</span><div class="btns"><button class="btn-pedir" onclick="pedirMusica('${safe}',false)">🎵 PEDIR</button><button class="btn-caixa" onclick="pedirMusica('${safe}',true)">💰 CAIXINHA</button></div></div>`});}
+function mostrar(l){let div=document.getElementById('lista'); div.innerHTML=""; l.forEach(m=>{let safe=m.replace(/'/g,"\\'").replace(/"/g,'&quot;'); div.innerHTML+=`<div class="musica"><span style="flex:1;font-size:13px;font-weight:600">${m}</span><div style="display:flex;gap:6px"><button class="btn-pedir" onclick="pedir('${safe}',false)">🎵 PEDIR</button><button class="btn-caixa" onclick="pedir('${safe}',true)">💰 CAIXINHA</button></div></div>`});}
 function filtrar(){let t=document.getElementById('busca').value.toLowerCase(); mostrar(rep.filter(m=>m.toLowerCase().includes(t)));}
-function pedirMusica(musica,comCaixinha){
+function pedir(musica,comCaixinha){
  let rec=document.getElementById('recado').value; let nome=document.getElementById('nomeCli').value||"Cliente";
+ // Salva no painel AO VIVO do músico
  db.ref('empresas/'+id+'/pedidos').push({musica,valor:comCaixinha?valor:"GRÁTIS",recado:rec,nome,hora:new Date().toLocaleString()});
+ // MOSTRA A CHAVE PIX CADASTRADA PELO MÚSICO - SEM IR PRO ZAP
  if(comCaixinha){
-  let msg=`Olá! Sou ${nome}. Pedido com CAIXINHA: ${musica} - Valor R$${valor} - Recado: ${rec} - PIX: ${pix}`;
-  window.open(`https://wa.me/${fone}?text=${encodeURIComponent(msg)}`,'_blank');
-  alert(`💰 Caixinha R$${valor} - PIX: ${pix} - Copia e manda!`);
+  document.getElementById('modalTitulo').innerText=`💰 CAIXINHA R$${valor}`;
+  document.getElementById('modalTexto').innerText=`Você pediu: ${musica}. Para enviar a caixinha, copie a chave PIX que o músico ${nomeMusico} cadastrou:`;
+  document.getElementById('modalPix').innerText=pix;
+  document.getElementById('modal').style.display='flex';
+  // Som lindo de caixinha
+  tocarSom();
  } else {
-  let msg=`Olá! Sou ${nome}. Quero pedir a música: ${musica} - Recado: ${rec} - Via PEDE AI PRO (sem caixinha)`;
-  window.open(`https://wa.me/${fone}?text=${encodeURIComponent(msg)}`,'_blank');
-  alert(`🎵 Música pedida SEM caixinha: ${musica}`);
+  document.getElementById('modalTitulo').innerText=`🎵 MÚSICA PEDIDA!`;
+  document.getElementById('modalTexto').innerText=`Você pediu: ${musica}. Seu pedido apareceu ao vivo no painel do ${nomeMusico}! Se quiser mandar uma caixinha, escolha um valor em cima e clique em CAIXINHA.`;
+  document.getElementById('modalPix').innerText=`Chave PIX do músico: ${pix}`;
+  document.getElementById('modal').style.display='flex';
+  tocarSom();
  }
 }
+function copiarPix(){navigator.clipboard.writeText(document.getElementById('modalPix').innerText); alert('✅ Chave PIX copiada: '+pix+' - Agora abre seu banco e faz o PIX!');}
+function fecharModal(){document.getElementById('modal').style.display='none';}
+function tocarSom(){try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let n=ctx.currentTime; [[523,0],[659,0.1],[784,0.2]].forEach(([f,d])=>{let o=ctx.createOscillator(),g=ctx.createGain(); o.frequency.value=f; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(0,n+d); g.gain.linearRampToValueAtTime(0.3,n+d+0.05); g.gain.exponentialRampToValueAtTime(0.01,n+d+0.6); o.start(n+d); o.stop(n+d+0.6);});}catch(e){}}
 carregar();
 </script>
 </body>
