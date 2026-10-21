@@ -12,155 +12,68 @@
 h3{color:#00ff88;margin:8px 0}
 input,textarea{width:100%;background:#0f0f0f;border:1px solid #333;color:#fff;padding:12px;border-radius:10px;margin:5px 0}
 .btn{padding:12px 14px;border:none;border-radius:10px;font-weight:800;cursor:pointer;margin:4px}
-.btn-verde{background:#00ff88;color:#000} .btn-azul{background:#00b0ff;color:#fff} .btn-laranja{background:#ff9100;color:#000}
+.btn-verde{background:#00ff88;color:#000} .btn-azul{background:#00b0ff;color:#fff} .btn-vermelho{background:#ff1744;color:#fff}
 .musica{background:#242424;padding:10px;border-radius:10px;display:flex;justify-content:space-between;margin:5px 0}
 .qrbox{background:#fff;padding:10px;border-radius:12px;width:200px;margin:10px auto}
-.m-vivo{background:#242424;border-left:5px solid #00ff88;padding:12px;margin:8px 0;border-radius:10px;animation:pisca .5s}
-@keyframes pisca{0%{background:#00ff88}100%{background:#242424}}
-#alerta{position:fixed;top:10px;left:10px;right:10px;background:#00ff88;color:#000;padding:16px;border-radius:12px;font-weight:800;text-align:center;display:none;z-index:9999;box-shadow:0 0 20px #00ff88}
+.m-vivo{background:#242424;border-left:5px solid #00ff88;padding:12px;margin:8px 0;border-radius:10px}
+#alerta{position:fixed;top:10px;left:10px;right:10px;background:#00ff88;color:#000;padding:16px;border-radius:12px;font-weight:800;text-align:center;display:none;z-index:9999}
 </style>
 </head>
 <body>
-<div id="alerta">🔔 NOVO PEDIDO CHEGOU! TOCANDO SOM!</div>
+<div id="alerta">🔔 NOVO PEDIDO!</div>
 
 <div class="card">
 <h3>👤 MEU CADASTRO</h3>
-<input id="nomeArtistico" value="ANDRÉ TAKI" placeholder="Nome artístico">
-<input id="whats" value="553499462882" placeholder="WhatsApp">
-<input id="pixKey" value="3499462882" placeholder="Chave PIX">
+<input id="nomeArtistico" value="ANDRÉ TAKI">
+<input id="whats" value="553499462882">
+<input id="pixKey" value="3499462882" placeholder="Chave PIX que vai aparecer pro cliente">
 <div style="display:flex;gap:6px">
-<button class="btn btn-azul" style="flex:1" onclick="salvarLista()">💾 SALVAR LISTA</button>
-<button class="btn btn-verde" style="flex:1" onclick="salvarNuvem()">☁️ SALVAR NA NUVEM</button>
+<button class="btn btn-azul" style="flex:1" onclick="salvarLista()">💾 LISTA</button>
+<button class="btn btn-verde" style="flex:1" onclick="salvarNuvem()">☁️ NUVEM + QR</button>
 </div>
-<span id="msg" style="color:#00ff88;font-size:12px;font-weight:bold"></span>
-<div style="margin-top:8px">
-<button class="btn btn-verde" style="width:32%" onclick="destravarSom()">🔊 ATIVAR SOM</button>
-<button class="btn btn-verde" style="width:32%" id="btnOn" onclick="setShow(true)">✅ LIBERADO</button>
-<button class="btn btn-laranja" style="width:32%;display:none" id="btnOff" onclick="setShow(false)">⏸️ PAUSAR</button>
-</div>
-<small style="color:#888">IMPORTANTE: Clique em ATIVAR SOM 1 vez pra liberar o alerta no navegador!</small>
+<span id="msg" style="color:#00ff88;font-size:12px"></span><br>
+<button class="btn btn-verde" onclick="destravarSom()">🔊 ATIVAR SOM ALERTA</button>
 </div>
 
 <div class="card">
-<h3>🎵 REPERTÓRIO (<span id="qtd">0</span>) - Último ID: <span id="idTxt" style="font-size:9px;color:#888"></span></h3>
-<div style="display:flex;gap:6px">
-<input id="novaMusica" placeholder="Ex: SOMBRA DA MALDADE - CIDADE NEGRA" style="flex:1">
-<button class="btn btn-verde" onclick="adicionarMusica()">➕</button>
-</div>
+<h3>🎵 REPERTÓRIO (<span id="qtd">0</span>)</h3>
+<div style="display:flex;gap:6px"><input id="novaMusica" placeholder="Ex: SOMBRA DA MALDADE - CIDADE NEGRA" style="flex:1"><button class="btn btn-verde" onclick="adicionarMusica()">➕</button></div>
 <textarea id="repArea" rows="6"></textarea>
-<button class="btn btn-verde" style="width:100%" onclick="salvarNuvem()">💾 SALVAR TUDO E GERAR QR NOVO</button>
 <div id="listaRep"></div>
-<div style="text-align:center">
-<div class="qrbox"><div id="qrcode"></div></div>
-<small id="linkTxt" style="color:#00ff88;word-break:break-all;font-size:10px"></small><br>
-<button class="btn" style="background:#fff;color:#000" onclick="copiar()">📋 COPIAR LINK</button>
-</div>
+<div style="text-align:center"><div class="qrbox"><div id="qrcode"></div></div><small id="linkTxt" style="color:#00ff88;word-break:break-all;font-size:10px"></small></div>
 </div>
 
 <div class="card">
-<h3>🔴 AO VIVO - OUVINDO TODOS OS PEDIDOS - <span id="statusAoVivo" style="color:yellow">Conectando...</span></h3>
-<button class="btn" style="background:#2a2a2a;width:100%" onclick="testarRecebimento()">🔔 TESTAR RECEBIMENTO DE PEDIDO</button>
-<div id="aoVivo"><small style="color:#888">Aguardando pedidos... deixe essa tela aberta!</small></div>
+<h3>🔴 AO VIVO - Pedidos (só do repertório) <span id="statusAoVivo" style="color:yellow">Conectando...</span></h3>
+<div style="display:flex;gap:6px">
+<button class="btn btn-vermelho" style="flex:1" onclick="limparPedidos()">🗑️ LIMPAR LISTA DE PEDIDOS</button>
+<button class="btn" style="flex:1;background:#2a2a2a" onclick="limparSugestoes()">🗑️ LIMPAR SUGESTÕES</button>
 </div>
-
-<audio id="audioAlerta" src="https://cdn.pixabay.com/audio/2022/03/10/audio_3f8f4396f4.mp3" preload="auto" loop></audio>
+<div id="aoVivo"><small style="color:#888">Aguardando...</small></div>
+<h3 style="color:#ff9100">💡 SUGESTÕES DE MÚSICAS (fora do repertório)</h3>
+<div id="sugestoes"><small style="color:#888">Nenhuma sugestão...</small></div>
+</div>
 
 <script>
 const firebaseConfig={apiKey:"AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",authDomain:"pede-ai-pro.firebaseapp.com",databaseURL:"https://pede-ai-pro-default-rtdb.firebaseio.com",projectId:"pede-ai-pro",storageBucket:"pede-ai-pro.firebasestorage.app",messagingSenderId:"549558191964",appId:"1:549558191964:web:40614401989e404af6a399"};
 firebase.initializeApp(firebaseConfig); const db=firebase.database();
-let rep=JSON.parse(localStorage.getItem('taki_rep_final')||'["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ"]');
+let rep=JSON.parse(localStorage.getItem('taki_rep_final')||'["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ","SOMBRA DA MALDADE - CIDADE NEGRA"]');
 let ultimoId=localStorage.getItem('taki_last_id')||"";
-let audioDesbloqueado=false;
-
-function getId(){let n=document.getElementById('nomeArtistico').value||"ANDRÉ TAKI"; let f=document.getElementById('whats').value||"553499462882"; let id=btoa(n+"|"+f).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_'); return id;}
-
-function destravarSom(){
- let ctx=new (window.AudioContext||window.webkitAudioContext)(); ctx.resume();
- document.getElementById('audioAlerta').play().then(()=>{document.getElementById('audioAlerta').pause(); audioDesbloqueado=true; document.getElementById('msg').innerText="✅ SOM ATIVADO! Agora vai tocar quando chegar pedido!"; testarSom();}).catch(()=>{});
- if(Notification && Notification.permission!=="granted"){Notification.requestPermission();}
-}
-
-function testarSom(){
- try{
-  let ctx=new (window.AudioContext||window.webkitAudioContext)();
-  let n=ctx.currentTime;
-  [523,659,784,1046].forEach((f,i)=>{
-   let o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=f; o.type='sine'; o.connect(g); g.connect(ctx.destination);
-   g.gain.setValueAtTime(0,n+i*0.1); g.gain.linearRampToValueAtTime(0.5,n+i*0.1+0.05); g.gain.exponentialRampToValueAtTime(0.01,n+i*0.1+0.8);
-   o.start(n+i*0.1); o.stop(n+i*0.1+0.8);
-  });
- }catch(e){}
-}
-
+function getId(){let n=document.getElementById('nomeArtistico').value||"ANDRÉ TAKI"; let f=document.getElementById('whats').value||"553499462882"; return btoa(n+"|"+f).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
+function destravarSom(){let ctx=new (window.AudioContext||window.webkitAudioContext)(); ctx.resume(); document.getElementById('msg').innerText="✅ SOM ATIVADO!"; if(Notification&&Notification.permission!=="granted")Notification.requestPermission();}
+function testarSom(){try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let n=ctx.currentTime; [523,659,784,1046].forEach((f,i)=>{let o=ctx.createOscillator(),g=ctx.createGain(); o.frequency.value=f; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(0,n+i*0.1); g.gain.linearRampToValueAtTime(0.4,n+i*0.1+0.05); g.gain.exponentialRampToValueAtTime(0.01,n+i*0.1+0.6); o.start(n+i*0.1); o.stop(n+i*0.1+0.6);});}catch(e){}}
 function render(){let d=document.getElementById('listaRep'); d.innerHTML=""; rep.forEach((m,i)=>{d.innerHTML+=`<div class="musica"><span>${m}</span><button style="background:#ff1744;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="remover(${i})">X</button></div>`}); document.getElementById('qtd').innerText=rep.length; document.getElementById('repArea').value=rep.join('\n');}
 function adicionarMusica(){let m=document.getElementById('novaMusica').value.trim(); if(!m)return; rep.unshift(m); document.getElementById('novaMusica').value=""; render(); salvarLista();}
 function remover(i){rep.splice(i,1); render(); salvarLista();}
-function salvarLista(){localStorage.setItem('taki_rep_final',JSON.stringify(rep)); document.getElementById('msg').innerText="✅ Salvo local";}
-
-function salvarNuvem(){
- salvarLista();
- let id=getId(); ultimoId=id; localStorage.setItem('taki_last_id',id);
- document.getElementById('idTxt').innerText=id;
- document.getElementById('msg').innerText="Salvando na nuvem...";
- let pix=document.getElementById('pixKey').value; let nome=document.getElementById('nomeArtistico').value; let fone=document.getElementById('whats').value;
- db.ref('empresas/'+id).set({nome,fone,pix,repertorio:rep,showLiberado:true,atualizado:new Date().toISOString()}).then(()=>{
-  document.getElementById('msg').innerText="☁️ SALVO! QR ATUALIZADO!";
-  let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`;
-  document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180});
-  document.getElementById('linkTxt').innerText=link;
-  ouvirTudo(); // Começa ouvir o ID novo
- });
-}
-
-function copiar(){navigator.clipboard.writeText(document.getElementById('linkTxt').innerText); alert('Copiado');}
-function setShow(v){db.ref('empresas/'+getId()).update({showLiberado:v}); document.getElementById('btnOn').style.display=v?'none':''; document.getElementById('btnOff').style.display=v?'':'none';}
-
-function ouvirTudo(){
- // Para de ouvir antigos
- db.ref().child('empresas').off();
- let idParaOuvir=ultimoId||getId();
- document.getElementById('statusAoVivo').innerText=`Ouvindo ID: ${idParaOuvir.substring(0,20)}... ✅`;
- document.getElementById('idTxt').innerText=idParaOuvir;
- console.log("Ouvindo:",idParaOuvir);
- // OUVE ESSE ID
- db.ref('empresas/'+idParaOuvir+'/pedidos').on('child_added',snap=>{
-  let p=snap.val(); if(!p)return;
-  console.log("Pedido chegou:",p);
-  mostrarPedido(p);
-  tocarAlerta();
- });
- // Também ouve alterações (fallback)
- db.ref('empresas/'+idParaOuvir+'/pedidos').on('value',s=>{document.getElementById('statusAoVivo').innerText=`Conectado - ${s.numChildren()} pedidos ✅`;});
-}
-
-function mostrarPedido(p){
- let div=document.getElementById('aoVivo');
- let html=`<div class="m-vivo">🔔 <b>NOVO PEDIDO!</b><br>👤 <b>${p.nome||'Anônimo'}</b> - 💬 ${p.recado||'Sem recado'}<br>🎵 <b style="font-size:15px;color:#00ff88">${p.musica}</b><br>💰 ${p.valor||'GRÁTIS'}<br><small>⏰ ${p.hora}</small></div>`;
- div.innerHTML=html+div.innerHTML;
-}
-
-function tocarAlerta(){
- // Visual
- let a=document.getElementById('alerta'); a.style.display='block'; setTimeout(()=>a.style.display='none',4000);
- // Som
- testarSom();
- try{document.getElementById('audioAlerta').currentTime=0; document.getElementById('audioAlerta').play().then(()=>{setTimeout(()=>document.getElementById('audioAlerta').pause(),1500);});}catch(e){}
- // Notificação celular
- if(Notification && Notification.permission==="granted"){new Notification("🎵 Novo pedido!",{body:`${rep.nome||'Cliente'} pediu música!`});}
- // Vibra
- if(navigator.vibrate){navigator.vibrate([300,100,300]);}
-}
-
-function testarRecebimento(){
- let fake={nome:"TESTE CLIENTE", recado:"Testando se chega!", musica:"TESTE - SOMBRA DA MALDADE", valor:"R$10", hora:new Date().toLocaleString()};
- mostrarPedido(fake); tocarAlerta();
-}
-
-window.onload=()=>{
- document.getElementById('repArea').value=rep.join('\n'); render();
- if(ultimoId){document.getElementById('idTxt').innerText=ultimoId; let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${ultimoId}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link;}
- ouvirTudo();
-}
+function salvarLista(){localStorage.setItem('taki_rep_final',JSON.stringify(rep));}
+function salvarNuvem(){salvarLista(); let id=getId(); ultimoId=id; localStorage.setItem('taki_last_id',id); let pix=document.getElementById('pixKey').value; let nome=document.getElementById('nomeArtistico').value; let fone=document.getElementById('whats').value; db.ref('empresas/'+id).set({nome,fone,pix,repertorio:rep,showLiberado:true,atualizado:new Date().toISOString()}).then(()=>{document.getElementById('msg').innerText="☁️ SALVO!"; let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link; ouvirTudo();});}
+function ouvirTudo(){let idParaOuvir=ultimoId||getId(); db.ref('empresas/'+idParaOuvir+'/pedidos').off(); db.ref('empresas/'+idParaOuvir+'/sugestoes').off(); document.getElementById('statusAoVivo').innerText=`Ouvindo ✅`; db.ref('empresas/'+idParaOuvir+'/pedidos').on('child_added',snap=>{let p=snap.val(); mostrarPedido(p); tocarAlerta();}); db.ref('empresas/'+idParaOuvir+'/sugestoes').on('child_added',snap=>{let p=snap.val(); mostrarSugestao(p);});}
+function mostrarPedido(p){let div=document.getElementById('aoVivo'); let html=`<div class="m-vivo">🔔 <b>PEDIDO DO REPERTÓRIO</b><br>👤 <b>${p.nome||'Anônimo'}</b> - 💬 ${p.recado||''}<br>🎵 <b style="color:#00ff88">${p.musica}</b><br>💰 ${p.valor}<br><small>⏰ ${p.hora}</small></div>`; div.innerHTML=html+div.innerHTML;}
+function mostrarSugestao(p){let div=document.getElementById('sugestoes'); if(div.innerHTML.includes('Nenhuma'))div.innerHTML=""; let html=`<div class="m-vivo" style="border-left-color:#ff9100">💡 <b>SUGESTÃO (fora do rep)</b><br>👤 <b>${p.nome||'Anônimo'}</b> - 💬 ${p.recado||''}<br>🎵 Sugeriu: <b style="color:#ff9100">${p.musica}</b><br><small>⏰ ${p.hora}</small></div>`; div.innerHTML=html+div.innerHTML;}
+function tocarAlerta(){let a=document.getElementById('alerta'); a.style.display='block'; setTimeout(()=>a.style.display='none',3000); testarSom(); if(navigator.vibrate)navigator.vibrate([300,100,300]);}
+function limparPedidos(){if(!confirm('Limpar TODOS os pedidos ao vivo?'))return; let id=ultimoId||getId(); db.ref('empresas/'+id+'/pedidos').remove().then(()=>{document.getElementById('aoVivo').innerHTML="<small>Lista limpa! ✅</small>";});}
+function limparSugestoes(){if(!confirm('Limpar sugestões?'))return; let id=ultimoId||getId(); db.ref('empresas/'+id+'/sugestoes').remove().then(()=>{document.getElementById('sugestoes').innerHTML="<small>Lista limpa! ✅</small>";});}
+window.onload=()=>{render(); if(ultimoId){let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${ultimoId}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link;} ouvirTudo();}
 </script>
 </body>
 </html>
