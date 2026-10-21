@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEDE AI PRO</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+body{background:#111;color:#fff;font-family:Arial;padding:12px;margin:0}
+h2{text-align:center;color:#00ff88}
+#busca{width:100%;padding:14px;border-radius:12px;border:none;font-size:16px;box-sizing:border-box}
+.musica{background:#1e1e1e;padding:14px;margin:8px 0;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+.musica span{flex:1;margin-right:10px}
+.musica button{background:#00ff88;border:none;padding:10px 18px;border-radius:20px;font-weight:bold}
+</style>
+</head>
+<body>
+<h2 id="titulo">🎶 Carregando repertório...</h2>
+<input id="busca" placeholder="🔍 Buscar música..." onkeyup="filtrar()">
+<div id="lista"></div>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",
+  authDomain: "pede-ai-pro.firebaseapp.com",
+  databaseURL: "https://pede-ai-pro-default-rtdb.firebaseio.com",
+  projectId: "pede-ai-pro",
+  storageBucket: "pede-ai-pro.firebasestorage.app",
+  messagingSenderId: "549558191964",
+  appId: "1:549558191964:web:40614401989e404af6a399",
+  measurementId: "G-YZ6J7Z4EYT"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const params = new URLSearchParams(window.location.search);
+const idEmpresa = params.get('c');
+if(!idEmpresa){
+  document.getElementById('titulo').innerText = "QR Inválido";
+} else {
+  db.ref('empresas/' + idEmpresa).once('value').then(snap=>{
+    const dados = snap.val();
+    if(!dados){
+      document.getElementById('titulo').innerText = "Repertório não encontrado - peça para o cantor salvar novamente";
+      return;
+    }
+    document.getElementById('titulo').innerText = `PEDE AI - ${dados.nome}`;
+    window.repertorioCompleto = dados.repertorio;
+    window.foneCantor = dados.fone;
+    mostrar(dados.repertorio);
+  });
+}
+function mostrar(lista){
+  const div = document.getElementById('lista');
+  div.innerHTML = "";
+  lista.forEach(m=>{
+    const safe = m.replace(/'/g,"\\'");
+    div.innerHTML += `<div class="musica"><span>${m}</span><button onclick="pedir('${safe}')">PEDIR</button></div>`;
+  });
+}
+function filtrar(){
+  const t = document.getElementById('busca').value.toLowerCase();
+  const f = window.repertorioCompleto.filter(m=>m.toLowerCase().includes(t));
+  mostrar(f);
+}
+function pedir(musica){
+  const msg = `Olá! Quero pedir a música: ${musica} - via PEDE AI PRO`;
+  const fone = window.foneCantor || "553499462882";
+  window.open(`https://wa.me/${fone}?text=${encodeURIComponent(msg)}`);
+}
+</script>
+</body>
+</html>
