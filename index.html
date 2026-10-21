@@ -2,15 +2,17 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel - ANDRÉ TAKI</title>
+<title>Painel - PEDE AI PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 *{box-sizing:border-box} body{background:#0a0a0a;color:#fff;font-family:Arial;padding:8px;margin:0}
 .card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:12px}
-h3{color:#00ff88;margin:8px 0}
-input,textarea{width:100%;background:#0f0f0f;border:1px solid #333;color:#fff;padding:12px;border-radius:10px;margin:5px 0}
+h3{color:#00ff88;margin:6px 0 10px;font-size:15px;border-bottom:1px solid #222;padding-bottom:6px}
+label{font-size:11px;color:#00ff88;font-weight:bold;margin-top:8px;display:block}
+input,select,textarea{width:100%;background:#0f0f0f;border:1px solid #333;color:#fff;padding:12px;border-radius:10px;margin:3px 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .btn{padding:12px 14px;border:none;border-radius:10px;font-weight:800;cursor:pointer;margin:4px}
 .btn-verde{background:#00ff88;color:#000} .btn-azul{background:#00b0ff;color:#fff} .btn-vermelho{background:#ff1744;color:#fff}
 .musica{background:#242424;padding:10px;border-radius:10px;display:flex;justify-content:space-between;margin:5px 0}
@@ -23,57 +25,125 @@ input,textarea{width:100%;background:#0f0f0f;border:1px solid #333;color:#fff;pa
 <div id="alerta">🔔 NOVO PEDIDO!</div>
 
 <div class="card">
-<h3>👤 MEU CADASTRO</h3>
-<input id="nomeArtistico" value="ANDRÉ TAKI">
-<input id="whats" value="553499462882">
-<input id="pixKey" value="3499462882" placeholder="Chave PIX que vai aparecer pro cliente">
-<div style="display:flex;gap:6px">
-<button class="btn btn-azul" style="flex:1" onclick="salvarLista()">💾 LISTA</button>
-<button class="btn btn-verde" style="flex:1" onclick="salvarNuvem()">☁️ NUVEM + QR</button>
+<h3>👤 CADASTRO COMPLETO DO MÚSICO (5 campos obrigatórios)</h3>
+
+<label>📝 NOME COMPLETO</label>
+<input id="nomeCompleto" placeholder="Ex: André Silva de Oliveira">
+
+<label>🎤 NOME ARTÍSTICO</label>
+<input id="nomeArtistico" placeholder="Ex: ANDRÉ TAKI" value="ANDRÉ TAKI">
+
+<div class="grid">
+<div>
+<label>📱 ZAP (WhatsApp)</label>
+<input id="whats" placeholder="Ex: 553499462882" value="553499462882">
 </div>
-<span id="msg" style="color:#00ff88;font-size:12px"></span><br>
-<button class="btn btn-verde" onclick="destravarSom()">🔊 ATIVAR SOM ALERTA</button>
+<div>
+<label>📧 EMAIL</label>
+<input id="email" placeholder="Ex: andre.taki@email.com" type="email">
+</div>
+</div>
+
+<h3 style="color:#ff9100;border-color:#ff9100">💰 CADASTRO DE PIX (que vai aparecer pro cliente)</h3>
+<div class="grid">
+<div>
+<label>TIPO DA CHAVE PIX</label>
+<select id="pixTipo">
+<option value="Telefone">Telefone</option>
+<option value="CPF">CPF</option>
+<option value="Email">Email</option>
+<option value="Chave Aleatória">Chave Aleatória</option>
+</select>
+</div>
+<div>
+<label>CHAVE PIX</label>
+<input id="pixKey" placeholder="Ex: 3499462882 ou seu CPF" value="3499462882">
+</div>
+</div>
+<input id="pixNome" placeholder="Nome do titular do PIX - Ex: André Silva">
+
+<div style="display:flex;gap:6px;margin-top:10px">
+<button class="btn btn-azul" style="flex:1" onclick="salvarLista()">💾 SALVAR NA LISTA (local)</button>
+<button class="btn btn-verde" style="flex:1" onclick="salvarNuvem()">☁️ SALVAR NA NUVEM (cliente)</button>
+</div>
+<span id="msg" style="color:#00ff88;font-size:12px;font-weight:bold"></span><br>
+<button class="btn btn-verde" onclick="destravarSom()" style="margin-top:6px">🔊 ATIVAR SOM DO ALERTA</button>
 </div>
 
 <div class="card">
-<h3>🎵 REPERTÓRIO (<span id="qtd">0</span>)</h3>
-<div style="display:flex;gap:6px"><input id="novaMusica" placeholder="Ex: SOMBRA DA MALDADE - CIDADE NEGRA" style="flex:1"><button class="btn btn-verde" onclick="adicionarMusica()">➕</button></div>
+<h3>🎵 REPERTÓRIO - Só pede o que tá aqui (sacada principal)</h3>
+<div style="display:flex;gap:6px"><input id="novaMusica" placeholder="Ex: SOMBRA DA MALDADE - CIDADE NEGRA" style="flex:1"><button class="btn btn-verde" onclick="adicionarMusica()">➕ ADICIONAR</button></div>
 <textarea id="repArea" rows="6"></textarea>
 <div id="listaRep"></div>
-<div style="text-align:center"><div class="qrbox"><div id="qrcode"></div></div><small id="linkTxt" style="color:#00ff88;word-break:break-all;font-size:10px"></small></div>
+<div style="text-align:center"><div class="qrbox"><div id="qrcode"></div></div><small id="linkTxt" style="color:#00ff88;word-break:break-all;font-size:10px"></small><br><button class="btn" style="background:#fff;color:#000" onclick="copiar()">📋 COPIAR LINK CLIENTE</button></div>
 </div>
 
 <div class="card">
-<h3>🔴 AO VIVO - Pedidos (só do repertório) <span id="statusAoVivo" style="color:yellow">Conectando...</span></h3>
+<h3>🔴 AO VIVO - Pedidos + Sugestões <span id="statusAoVivo" style="color:yellow">...</span></h3>
 <div style="display:flex;gap:6px">
-<button class="btn btn-vermelho" style="flex:1" onclick="limparPedidos()">🗑️ LIMPAR LISTA DE PEDIDOS</button>
-<button class="btn" style="flex:1;background:#2a2a2a" onclick="limparSugestoes()">🗑️ LIMPAR SUGESTÕES</button>
+<button class="btn btn-vermelho" style="flex:1" onclick="limparPedidos()">🗑️ LIMPAR PEDIDOS</button>
+<button class="btn" style="flex:1;background:#2a2a2a;color:#fff" onclick="limparSugestoes()">🗑️ LIMPAR SUGESTÕES</button>
 </div>
-<div id="aoVivo"><small style="color:#888">Aguardando...</small></div>
-<h3 style="color:#ff9100">💡 SUGESTÕES DE MÚSICAS (fora do repertório)</h3>
-<div id="sugestoes"><small style="color:#888">Nenhuma sugestão...</small></div>
+<div id="aoVivo"><small style="color:#888">Aguardando pedidos...</small></div>
+<h3 style="color:#ff9100">💡 SUGESTÕES FORA DO REPERTÓRIO</h3>
+<div id="sugestoes"><small style="color:#888">Nenhuma...</small></div>
 </div>
 
 <script>
 const firebaseConfig={apiKey:"AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",authDomain:"pede-ai-pro.firebaseapp.com",databaseURL:"https://pede-ai-pro-default-rtdb.firebaseio.com",projectId:"pede-ai-pro",storageBucket:"pede-ai-pro.firebasestorage.app",messagingSenderId:"549558191964",appId:"1:549558191964:web:40614401989e404af6a399"};
 firebase.initializeApp(firebaseConfig); const db=firebase.database();
-let rep=JSON.parse(localStorage.getItem('taki_rep_final')||'["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ","SOMBRA DA MALDADE - CIDADE NEGRA"]');
+let rep=JSON.parse(localStorage.getItem('taki_rep_final')||'[]');
 let ultimoId=localStorage.getItem('taki_last_id')||"";
+let cadastro=JSON.parse(localStorage.getItem('taki_cadastro5')||'{}');
+
+function carregarCadastro(){
+ document.getElementById('nomeCompleto').value=cadastro.nomeCompleto||"";
+ document.getElementById('nomeArtistico').value=cadastro.nomeArtistico||"ANDRÉ TAKI";
+ document.getElementById('whats').value=cadastro.whats||"553499462882";
+ document.getElementById('email').value=cadastro.email||"";
+ document.getElementById('pixTipo').value=cadastro.pixTipo||"Telefone";
+ document.getElementById('pixKey').value=cadastro.pixKey||"3499462882";
+ document.getElementById('pixNome').value=cadastro.pixNome||"";
+}
+function getCadastroObj(){
+ return {
+  nomeCompleto:document.getElementById('nomeCompleto').value.trim(),
+  nomeArtistico:document.getElementById('nomeArtistico').value.trim(),
+  whats:document.getElementById('whats').value.trim(),
+  email:document.getElementById('email').value.trim(),
+  pixTipo:document.getElementById('pixTipo').value,
+  pixKey:document.getElementById('pixKey').value.trim(),
+  pixNome:document.getElementById('pixNome').value.trim()
+ };
+}
 function getId(){let n=document.getElementById('nomeArtistico').value||"ANDRÉ TAKI"; let f=document.getElementById('whats').value||"553499462882"; return btoa(n+"|"+f).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
-function destravarSom(){let ctx=new (window.AudioContext||window.webkitAudioContext)(); ctx.resume(); document.getElementById('msg').innerText="✅ SOM ATIVADO!"; if(Notification&&Notification.permission!=="granted")Notification.requestPermission();}
+function destravarSom(){let ctx=new (window.AudioContext||window.webkitAudioContext)(); ctx.resume(); document.getElementById('msg').innerText="✅ SOM ATIVADO!"; if(Notification&&Notification.permission!=="granted")Notification.requestPermission(); testarSom();}
 function testarSom(){try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let n=ctx.currentTime; [523,659,784,1046].forEach((f,i)=>{let o=ctx.createOscillator(),g=ctx.createGain(); o.frequency.value=f; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(0,n+i*0.1); g.gain.linearRampToValueAtTime(0.4,n+i*0.1+0.05); g.gain.exponentialRampToValueAtTime(0.01,n+i*0.1+0.6); o.start(n+i*0.1); o.stop(n+i*0.1+0.6);});}catch(e){}}
-function render(){let d=document.getElementById('listaRep'); d.innerHTML=""; rep.forEach((m,i)=>{d.innerHTML+=`<div class="musica"><span>${m}</span><button style="background:#ff1744;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="remover(${i})">X</button></div>`}); document.getElementById('qtd').innerText=rep.length; document.getElementById('repArea').value=rep.join('\n');}
+function render(){let d=document.getElementById('listaRep'); d.innerHTML=""; rep.forEach((m,i)=>{d.innerHTML+=`<div class="musica"><span>${m}</span><button style="background:#ff1744;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="remover(${i})">X</button></div>`}); document.getElementById('repArea').value=rep.join('\n');}
 function adicionarMusica(){let m=document.getElementById('novaMusica').value.trim(); if(!m)return; rep.unshift(m); document.getElementById('novaMusica').value=""; render(); salvarLista();}
 function remover(i){rep.splice(i,1); render(); salvarLista();}
-function salvarLista(){localStorage.setItem('taki_rep_final',JSON.stringify(rep));}
-function salvarNuvem(){salvarLista(); let id=getId(); ultimoId=id; localStorage.setItem('taki_last_id',id); let pix=document.getElementById('pixKey').value; let nome=document.getElementById('nomeArtistico').value; let fone=document.getElementById('whats').value; db.ref('empresas/'+id).set({nome,fone,pix,repertorio:rep,showLiberado:true,atualizado:new Date().toISOString()}).then(()=>{document.getElementById('msg').innerText="☁️ SALVO!"; let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link; ouvirTudo();});}
-function ouvirTudo(){let idParaOuvir=ultimoId||getId(); db.ref('empresas/'+idParaOuvir+'/pedidos').off(); db.ref('empresas/'+idParaOuvir+'/sugestoes').off(); document.getElementById('statusAoVivo').innerText=`Ouvindo ✅`; db.ref('empresas/'+idParaOuvir+'/pedidos').on('child_added',snap=>{let p=snap.val(); mostrarPedido(p); tocarAlerta();}); db.ref('empresas/'+idParaOuvir+'/sugestoes').on('child_added',snap=>{let p=snap.val(); mostrarSugestao(p);});}
-function mostrarPedido(p){let div=document.getElementById('aoVivo'); let html=`<div class="m-vivo">🔔 <b>PEDIDO DO REPERTÓRIO</b><br>👤 <b>${p.nome||'Anônimo'}</b> - 💬 ${p.recado||''}<br>🎵 <b style="color:#00ff88">${p.musica}</b><br>💰 ${p.valor}<br><small>⏰ ${p.hora}</small></div>`; div.innerHTML=html+div.innerHTML;}
-function mostrarSugestao(p){let div=document.getElementById('sugestoes'); if(div.innerHTML.includes('Nenhuma'))div.innerHTML=""; let html=`<div class="m-vivo" style="border-left-color:#ff9100">💡 <b>SUGESTÃO (fora do rep)</b><br>👤 <b>${p.nome||'Anônimo'}</b> - 💬 ${p.recado||''}<br>🎵 Sugeriu: <b style="color:#ff9100">${p.musica}</b><br><small>⏰ ${p.hora}</small></div>`; div.innerHTML=html+div.innerHTML;}
+function salvarLista(){let c=getCadastroObj(); localStorage.setItem('taki_cadastro5',JSON.stringify(c)); localStorage.setItem('taki_rep_final',JSON.stringify(rep)); document.getElementById('msg').innerText="✅ SALVO NA LISTA LOCAL!"; setTimeout(()=>document.getElementById('msg').innerText="",2000); render();}
+function salvarNuvem(){
+ let c=getCadastroObj();
+ if(!c.nomeCompleto||!c.nomeArtistico||!c.whats||!c.email||!c.pixKey){alert('⚠️ Preencha os 5 campos do cadastro: nome completo, artístico, ZAP, email e PIX!'); return;}
+ localStorage.setItem('taki_cadastro5',JSON.stringify(c)); localStorage.setItem('taki_rep_final',JSON.stringify(rep));
+ let id=getId(); ultimoId=id; localStorage.setItem('taki_last_id',id);
+ document.getElementById('msg').innerText="Salvando na nuvem...";
+ db.ref('empresas/'+id).set({nomeCompleto:c.nomeCompleto, nome:c.nomeArtistico, fone:c.whats, email:c.email, pix:c.pixKey, pixTipo:c.pixTipo, pixNome:c.pixNome, repertorio:rep, showLiberado:true, atualizado:new Date().toISOString()}).then(()=>{
+  document.getElementById('msg').innerText="☁️ SALVO NA NUVEM! CLIENTE VAI VER SEU PIX!";
+  let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`;
+  document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180});
+  document.getElementById('linkTxt').innerText=link; ouvirTudo(); testarSom();
+ });
+}
+function copiar(){navigator.clipboard.writeText(document.getElementById('linkTxt').innerText); alert('Copiado');}
+function ouvirTudo(){let id=ultimoId||getId(); db.ref('empresas/'+id+'/pedidos').off(); db.ref('empresas/'+id+'/sugestoes').off(); db.ref('empresas/'+id+'/pedidos').on('child_added',s=>{mostrarPedido(s.val()); tocarAlerta();}); db.ref('empresas/'+id+'/sugestoes').on('child_added',s=>{mostrarSug(s.val());}); document.getElementById('statusAoVivo').innerText="Ouvindo ✅";}
+function mostrarPedido(p){let div=document.getElementById('aoVivo'); if(div.innerHTML.includes('Aguardando'))div.innerHTML=""; let html=`<div class="m-vivo">🔔 PEDIDO<br>👤 <b>${p.nome}</b> - 💬 ${p.recado}<br>🎵 <b style="color:#00ff88">${p.musica}</b> - 💰 ${p.valor}<br><small>${p.hora}</small></div>`; div.innerHTML=html+div.innerHTML;}
+function mostrarSug(p){let div=document.getElementById('sugestoes'); if(div.innerHTML.includes('Nenhuma'))div.innerHTML=""; let html=`<div class="m-vivo" style="border-left-color:#ff9100">💡 SUGESTÃO<br>👤 <b>${p.nome}</b> - 🎵 <b style="color:#ff9100">${p.musica}</b> - 💬 ${p.recado}<br><small>${p.hora}</small></div>`; div.innerHTML=html+div.innerHTML;}
 function tocarAlerta(){let a=document.getElementById('alerta'); a.style.display='block'; setTimeout(()=>a.style.display='none',3000); testarSom(); if(navigator.vibrate)navigator.vibrate([300,100,300]);}
-function limparPedidos(){if(!confirm('Limpar TODOS os pedidos ao vivo?'))return; let id=ultimoId||getId(); db.ref('empresas/'+id+'/pedidos').remove().then(()=>{document.getElementById('aoVivo').innerHTML="<small>Lista limpa! ✅</small>";});}
-function limparSugestoes(){if(!confirm('Limpar sugestões?'))return; let id=ultimoId||getId(); db.ref('empresas/'+id+'/sugestoes').remove().then(()=>{document.getElementById('sugestoes').innerHTML="<small>Lista limpa! ✅</small>";});}
-window.onload=()=>{render(); if(ultimoId){let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${ultimoId}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link;} ouvirTudo();}
+function limparPedidos(){if(!confirm('Limpar pedidos?'))return; db.ref('empresas/'+(ultimoId||getId())+'/pedidos').remove().then(()=>{document.getElementById('aoVivo').innerHTML="<small>Limpa ✅</small>";});}
+function limparSugestoes(){if(!confirm('Limpar sugestões?'))return; db.ref('empresas/'+(ultimoId||getId())+'/sugestoes').remove().then(()=>{document.getElementById('sugestoes').innerHTML="<small>Limpa ✅</small>";});}
+window.onload=()=>{if(rep.length===0){rep=["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ","SOMBRA DA MALDADE - CIDADE NEGRA"];} carregarCadastro(); render(); if(ultimoId){let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${ultimoId}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link;} ouvirTudo(); document.getElementById('repArea').addEventListener('input',e=>{rep=e.target.value.split('\n').filter(s=>s.trim());});}
 </script>
 </body>
 </html>
