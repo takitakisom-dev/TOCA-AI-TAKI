@@ -8,93 +8,68 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 body{background:#0f0f0f;color:#fff;font-family:Arial;margin:0;padding:8px}
-.painel{background:#1a1a1a;border-radius:12px;padding:10px}
-.top{display:flex;justify-content:space-between;align-items:center}
-.badge{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold}
-.b-verde{background:#00c853} .b-laranja{background:#ff6d00} .b-cinza{background:#333}
-.btn{padding:10px 14px;border:none;border-radius:8px;font-weight:bold;margin:4px;cursor:pointer}
-.btn-verde{background:#00e676;color:#000} .btn-laranja{background:#ff9100} .btn-vermelho{background:#ff1744;color:#fff}
-.rep-item{display:flex;justify-content:space-between;align-items:center;background:#242424;margin:4px 0;padding:8px;border-radius:8px}
-.rep-item span{flex:1;text-align:left;font-size:13px}
-.rep-item .acoes{display:flex;gap:4px}
-.dot{width:14px;height:14px;border-radius:50%} .dot-on{background:#00e676} .dot-off{background:#555}
-.qrbox{background:#fff;padding:10px;border-radius:10px;width:200px;margin:10px auto}
-.modelos button{width:100%;margin:4px 0;padding:12px;border-radius:8px;border:none;font-weight:bold}
-.m-vivo{background:#1e1e1e;border-left:4px solid #00e676;padding:8px;margin:5px 0;border-radius:6px;font-size:13px}
-input{width:95%;padding:10px;border-radius:8px;border:none;margin:4px}
+.card{background:#1a1a1a;border-radius:12px;padding:10px;margin-bottom:10px}
+.badge{padding:6px 10px;border-radius:20px;font-size:11px;font-weight:bold}
+.btn{padding:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin:3px}
+input,textarea{width:95%;padding:10px;border-radius:8px;border:none;margin:4px 0}
+.musica-lista{display:flex;justify-content:space-between;background:#242424;padding:8px;margin:4px 0;border-radius:8px}
 </style>
 </head>
 <body>
-<div class="painel">
-<div class="top"><b>🎤 Painel - ANDRÉ TAKI</b><div><span class="badge b-verde" id="bOnline">🟢 TOCA ONLINE</span> <span class="badge b-cinza" id="bLimado">🔇 LIMADO</span></div></div>
-<div style="margin:8px 0"><b>⚙️ Controle</b><br>
-<button class="btn btn-verde" onclick="testarSom()">🔊 TESTAR SOM</button>
-<button class="btn btn-verde" id="btnLiberado" onclick="setShow(true)">✅ SHOW LIBERADO</button>
-<button class="btn btn-laranja" id="btnPausado" onclick="setShow(false)" style="display:none">⏸️ SHOW PAUSADO</button>
-<span id="statusFirebase" style="font-size:11px;color:yellow;margin-left:8px"></span>
-</div>
-<div><b>🎵 Repertório</b> <small id="qtdMusicas"></small>
-<input id="novaMusica" placeholder="Nova música + Tom ex: EVIDÊNCIAS - Chitão - Adó" onkeydown="if(event.key==='Enter')addMusica()">
-<button class="btn btn-verde" onclick="addMusica()">+ ADICIONAR</button>
-<div id="listaRep"></div>
-<button class="btn btn-verde" style="width:100%;background:#00ff88;color:#000;margin-top:10px" onclick="salvarNuvem()">💾 SALVAR E ATUALIZAR NUVEM + QR</button>
-</div>
-<div style="text-align:center;margin-top:12px"><div class="qrbox"><div id="qrcode"></div></div>
-<small>COPIAR LINK</small><br><small id="linkTxt" style="font-size:10px;word-break:break-all;color:#00ff88"></small>
-<div class="modelos">
-<button style="background:#00e676" onclick="imprimir(1)">🖨️ 3 MODELOS PARA IMPRIMIR - MODELO 1</button>
-<button style="background:#fff;color:#000" onclick="imprimir(2)">🖨️ MODELO 2 - Premium Fofo</button>
-<button style="background:#ffab00;color:#000" onclick="imprimir(3)">🖨️ MODELO 3 - Bar / Mesa</button>
+<div class="card">
+<b>🎤 Painel - ANDRÉ TAKI - CONTROLE TOTAL</b><br><br>
+<input id="pix" value="3499462882" placeholder="Seu PIX (CPF, telefone, chave)">
+<label>Caixinha ativa? <input type="checkbox" id="caixinhaAtiva" checked> Ativar caixinha LIVRE, 2,5,10,20,50</label>
+<label>Recado ativo? <input type="checkbox" id="recadoAtivo" checked> Permitir cliente mandar recado</label>
+<div>
+<button class="btn" style="background:#00e676" onclick="testarSom()">🔊 TESTAR SOM</button>
+<button class="btn" style="background:#00e676" id="bOn" onclick="setShow(true)">✅ SHOW LIBERADO</button>
+<button class="btn" style="background:#ff9100;display:none" id="bOff" onclick="setShow(false)">⏸️ PAUSADO</button>
+<span id="fbStatus" style="color:yellow;font-size:12px"></span>
 </div>
 </div>
-<div style="margin-top:12px"><b>🔴 AO VIVO - Pedidos</b><div id="aoVivo"><small>Nenhum pedido ainda...</small></div></div>
+
+<div class="card">
+<b>🎵 Repertório Completo (<span id="qtd"></span>)</b>
+<textarea id="repertorioInput" rows="12" placeholder="Uma música por linha, ex: METADE - ADRIANA CALCANHOTO"></textarea>
+<input id="nova" placeholder="Nova música - ENTER pra adicionar">
+<button class="btn" style="background:#00e676;color:#000;width:100%" onclick="salvarTudo()">💾 SALVAR TUDO NA NUVEM - LIBERAR TODAS MÚSICAS</button>
+<div id="lista"></div>
+<div style="text-align:center"><div id="qrcode" style="background:#fff;padding:10px;border-radius:10px;width:200px;margin:10px auto"></div>
+<small id="linkTxt" style="color:#00ff88;font-size:10px;word-break:break-all"></small><br>
+<button class="btn" style="background:#fff" onclick="copiar()">📋 COPIAR LINK CLIENTE</button>
 </div>
+</div>
+
+<div class="card">
+<b>🔴 AO VIVO - Pedidos + Recados + Pix</b>
+<div id="aoVivo"></div>
+</div>
+
 <script>
 const firebaseConfig={apiKey:"AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",authDomain:"pede-ai-pro.firebaseapp.com",databaseURL:"https://pede-ai-pro-default-rtdb.firebaseio.com",projectId:"pede-ai-pro",storageBucket:"pede-ai-pro.firebasestorage.app",messagingSenderId:"549558191964",appId:"1:549558191964:web:40614401989e404af6a399"};
 firebase.initializeApp(firebaseConfig); const db=firebase.database();
-let repertorio = JSON.parse(localStorage.getItem('taki_rep')||'["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ","ELEVADOR - ANA CAROLINA","QUEM DE NÓS DOIS - ANA CAROLINA","TREMA BALA - ANA VILELA"]');
-let ativos = JSON.parse(localStorage.getItem('taki_ativos')||'{}');
-let showLiberado=true;
 let nome="ANDRÉ TAKI"; let fone="553499462882";
-function render(){
- const div=document.getElementById('listaRep'); div.innerHTML=""; 
- repertorio.forEach((m,i)=>{
-  let ativo=ativos[i]!==false;
-  div.innerHTML+=`<div class="rep-item"><span>${m}</span><div class="acoes"><span class="dot ${ativo?'dot-on':'dot-off'}" onclick="toggleAtivo(${i})"></span><button class="btn btn-vermelho" style="padding:4px 8px" onclick="remover(${i})">X</button></div></div>`;
- });
- document.getElementById('qtdMusicas').innerText=`(${repertorio.length})`;
- salvarLocal();
-}
-function addMusica(){let v=document.getElementById('novaMusica').value.trim(); if(!v)return; repertorio.unshift(v); document.getElementById('novaMusica').value=""; render();}
-function remover(i){repertorio.splice(i,1); render();}
-function toggleAtivo(i){ativos[i]=!(ativos[i]!==false); render();}
-function salvarLocal(){localStorage.setItem('taki_rep',JSON.stringify(repertorio)); localStorage.setItem('taki_ativos',JSON.stringify(ativos));}
-function testarSom(){let a=new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg'); a.play(); alert('🔊 Som testado!');}
-function setShow(v){showLiberado=v; document.getElementById('btnLiberado').style.display=v?'none':''; document.getElementById('btnPausado').style.display=v?'':'none'; salvarNuvem();}
-function salvarNuvem(){
- document.getElementById('statusFirebase').innerText="Salvando...";
- const id=btoa(nome+"|"+fone).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
- let repFiltrado=repertorio.filter((m,i)=>ativos[i]!==false);
- db.ref('empresas/'+id).set({nome,fone,repertorio:repFiltrado,repertorioCompleto:repertorio,showLiberado,atualizado:new Date().toISOString()}).then(()=>{
-  document.getElementById('statusFirebase').innerText="✅ Salvo na nuvem!";
-  let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`;
-  document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180});
-  document.getElementById('linkTxt').innerText=link;
-  setTimeout(()=>document.getElementById('statusFirebase').innerText="",3000);
+let rep=JSON.parse(localStorage.getItem('taki_rep_full')||'["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ","ELEVADOR - ANA CAROLINA","QUEM DE NÓS DOIS - ANA CAROLINA","TREMA BALA - ANA VILELA","SANDRA ROSA MADALENA - SIDNEY MAGAL"]');
+function render(){document.getElementById('lista').innerHTML=""; rep.forEach((m,i)=>{document.getElementById('lista').innerHTML+=`<div class=musica-lista><span>${m}</span><button style="background:#ff1744;color:#fff" onclick="remover(${i})">X</button></div>`}); document.getElementById('qtd').innerText=rep.length; document.getElementById('repertorioInput').value=rep.join('\n');}
+function remover(i){rep.splice(i,1); render();}
+document.getElementById('nova').addEventListener('keydown',e=>{if(e.key==='Enter'){rep.unshift(e.target.value); e.target.value=''; render();}});
+document.getElementById('repertorioInput').addEventListener('input',e=>{rep=e.target.value.split('\n').filter(s=>s.trim());});
+function testarSom(){new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();}
+function setShow(v){db.ref('empresas/'+getId()).update({showLiberado:v}); document.getElementById('bOn').style.display=v?'none':''; document.getElementById('bOff').style.display=v?'':'none';}
+function getId(){return btoa(nome+"|"+fone).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
+function salvarTudo(){
+ let pix=document.getElementById('pix').value; let caixinha=document.getElementById('caixinhaAtiva').checked; let recado=document.getElementById('recadoAtivo').checked;
+ document.getElementById('fbStatus').innerText="Salvando TODAS músicas...";
+ db.ref('empresas/'+getId()).set({nome,fone,repertorio:rep,pix,config:{caixinha,recado},showLiberado:true,atualizado:new Date().toISOString()}).then(()=>{
+  document.getElementById('fbStatus').innerText="✅ TODAS SALVAS!"; localStorage.setItem('taki_rep_full',JSON.stringify(rep));
+  let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${getId()}`;
+  document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link;
  });
 }
-function imprimir(m){alert('Modelo '+m+' - Use Ctrl+P para imprimir o QR!'); window.print();}
-function ouvirPedidos(){
- const id=btoa(nome+"|"+fone).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
- db.ref('empresas/'+id+'/pedidos').on('value',snap=>{
-  const d=snap.val(); const div=document.getElementById('aoVivo');
-  if(!d){div.innerHTML="<small>Nenhum pedido...</small>"; return;}
-  let html=""; Object.values(d).reverse().slice(0,10).forEach(p=>{
-   html+=`<div class="m-vivo">🎵 ${p.musica}<br><small>${p.hora||''} - ${p.cliente||'Cliente'}</small></div>`;
-  }); div.innerHTML=html;
- });
-}
-window.onload=()=>{render(); salvarNuvem(); ouvirPedidos();}
+function copiar(){navigator.clipboard.writeText(document.getElementById('linkTxt').innerText); alert('Link copiado!');}
+function ouvir(){db.ref('empresas/'+getId()+'/pedidos').on('value',s=>{let d=s.val(); let div=document.getElementById('aoVivo'); if(!d){div.innerHTML="Nenhum pedido ainda"; return;} let h=""; Object.values(d).reverse().forEach(p=>{h+=`<div style="background:#242424;padding:8px;margin:4px;border-radius:8px;border-left:4px solid #00e676">🎵 ${p.musica}<br>💰 Caixinha: R$${p.valor||'LIVRE'}<br>💬 Recado: ${p.recado||'-'}<br><small>${p.hora}</small></div>`}); div.innerHTML=h;});}
+window.onload=()=>{render(); salvarTudo(); ouvir();}
 </script>
 </body>
 </html>
