@@ -1,95 +1,146 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - MOBILE FIX</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAGEFLOW PRO - BACKUP + PRINT</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{display:flex;min-height:100vh;background:#0f0f1e}
-.sidebar{width:260px;background:#10101E;color:#fff;padding:20px 14px;position:fixed;height:100vh;left:0;top:0;z-index:1000;transition:.3s;overflow:auto}
-.sidebar.hide{left:-280px}
-.sidebar h2{font-size:15px;margin-bottom:22px}
-.menu button{width:100%;padding:14px 12px;border:none;border-radius:12px;text-align:left;font-weight:800;font-size:13px;color:#8B90A0;background:transparent;margin-bottom:8px;cursor:pointer}
+.sidebar{width:270px;background:#10101E;color:#fff;padding:20px 14px;position:fixed;height:100vh;left:0;top:0;z-index:1000;transition:.3s;overflow:auto}
+.sidebar h2{font-size:15px;margin-bottom:12px}
+.backup{display:flex;gap:6px;margin-bottom:18px}
+.backup button{flex:1;padding:8px 6px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer}
+.btn-exp{background:#1DD1A1;color:#000} .btn-imp{background:#FFC93C;color:#000}
+.menu button{width:100%;padding:12px 10px;border:none;border-radius:10px;text-align:left;font-weight:800;font-size:12px;color:#8B90A0;background:transparent;margin-bottom:6px;cursor:pointer}
 .menu button.active{background:#7B5CFF;color:#fff}
-.main{flex:1;margin-left:260px;background:#f5f5f7;overflow:auto;min-height:100vh}
-.top{padding:14px 16px;background:#0F3A4F;color:#fff;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
-.top .hamb{font-size:22px;background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:8px;display:none;cursor:pointer}
-.top b{font-size:15px}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:12px 12px 0}
-.week div{background:#D9D9D9;text-align:center;padding:10px 0;font-size:12px;font-weight:700;border-radius:4px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:8px 12px 30px}
-.cell{border:1px solid #d0d0d0;background:#fff;padding:6px;min-height:232px;border-radius:8px}
-.cell.gray{background:#E5E5E5}
-.num{font-size:18px;font-weight:900;display:flex;justify-content:space-between}
-.line{display:flex;align-items:center;gap:3px;margin-top:4px}
-.line b{font-size:10px;width:20px}
-.sel{flex:1;padding:5px 4px;border:1px solid #A5B4FC;border-radius:7px;background:#F8FAFF;font-size:10px;font-weight:700;cursor:pointer}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999}
-.overlay.show{display:block}
-/* MOBILE */
-@media(max-width:900px){
-.sidebar{left:-280px}
-.sidebar.show{left:0}
-.main{margin-left:0}
-.top .hamb{display:block}
-.week{grid-template-columns:repeat(2,1fr)}
-.cal{grid-template-columns:repeat(2,1fr)}
+.main{flex:1;margin-left:270px;background:#f5f5f7;min-height:100vh}
+.top{padding:10px 14px;background:#0F3A4F;color:#fff;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.top-left{display:flex;align-items:center;gap:10px}
+.hamb{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;display:none;cursor:pointer}
+.top-right{display:flex;gap:8px}
+.top-right button{padding:7px 12px;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer}
+.btn-print{background:#fff;color:#0F3A4F}
+.view{display:none;padding:0}
+.view.active{display:block}
+.header-cal{background:#4D4D4D;color:#fff;padding:14px 16px;font-size:30px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:5px;background:#fff}
+.week div{background:#DCDCDC;text-align:center;padding:12px 0;font-size:13px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:0 5px 20px;background:#fff}
+.cell{border:1px solid #7A7A7A;background:#fff;min-height:160px;padding:5px 6px}
+.cell.gray{background:#E6E6E6}
+.num{font-size:26px;font-weight:900;color:#444;display:flex;justify-content:space-between}
+.line{font-size:11px;display:flex;gap:3px;margin-top:1px}
+.line b{min-width:20px}
+.line select{border:none;background:transparent;font-size:11px;font-weight:700;width:100%;appearance:none;cursor:pointer}
+.card{padding:20px}
+@media print{
+.sidebar,.top{display:none !important}
+.main{margin-left:0 !important}
+.view{display:none !important}
+.view.active{display:block !important}
 }
-@media(max-width:500px){
-.week{grid-template-columns:1fr}
-.cal{grid-template-columns:1fr}
-.cell{min-height:auto}
-}
+@media(max-width:900px){.sidebar{left:-300px} .sidebar.show{left:0} .main{margin-left:0} .hamb{display:block}}
 </style>
 </head>
 <body>
-<div class="overlay" id="overlay" onclick="toggle()"></div>
-<div class="sidebar" id="side">
+<div class="sidebar" id="sidebar">
 <h2>🔷 STAGEFLOW PRO</h2>
+<div class="backup">
+<button class="btn-exp" onclick="exportar()">📤 Exportar</button>
+<button class="btn-imp" onclick="document.getElementById('importFile').click()">📥 Importar</button>
+<input type="file" id="importFile" style="display:none" accept=".json" onchange="importar(this)">
+</div>
 <div class="menu">
-<button>🏠 Dashboard</button>
-<button class="active">📅 Agendamento Mensal Planejamento</button>
-<button>🎸 Artistas</button>
-<button>💰 Financeiro</button>
+<button data-view="dash">🏠 Dashboard</button>
+<button data-view="agenda" class="active">📅 Agendamento Mensal</button>
+<button data-view="artistas">🎸 Artistas</button>
+<button data-view="casas">🏠 Casas</button>
+<button data-view="financeiro">💰 Financeiro</button>
+<button data-view="relatorios">📊 Relatórios</button>
 </div>
 </div>
 <div class="main">
 <div class="top">
-<button class="hamb" onclick="toggle()">☰</button>
-<b>STAGEFLOW PRO • NOVEMBRO 2026 • P1 P2 P3 P4 P5 P6</b>
+<div class="top-left">
+<button class="hamb" onclick="toggleMenu()">☰</button>
+<b id="topTitle">Agendamento Mensal</b>
 </div>
+<div class="top-right">
+<button class="btn-print" onclick="window.print()">🖨️ Imprimir</button>
+</div>
+</div>
+
+<div class="view active" id="agenda">
+<div class="header-cal"><span>NOVEMBRO 2026</span><button onclick="window.print()" style="padding:8px 12px;border:none;border-radius:8px;font-weight:800;cursor:pointer">🖨️ Imprimir Calendário</button></div>
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
 </div>
 
+<div class="view" id="financeiro"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>💰 Financeiro</h2><button onclick="window.print()" style="padding:8px 12px;border-radius:8px;border:none;background:#0F3A4F;color:#fff;font-weight:800">🖨️ Imprimir Financeiro</button></div><br><p>Receitas, despesas, cachês... (aqui entra sua planilha financeira)</p><table border="1" cellpadding="8" width="100%" style="margin-top:15px;border-collapse:collapse"><tr><th>Data</th><th>Casa</th><th>Valor</th></tr><tr><td>05/11</td><td>Cais</td><td>R$ 800</td></tr></table></div></div>
+
+<div class="view" id="artistas"><div class="card"><div style="display:flex;justify-content:space-between"><h2>🎸 Artistas</h2><button onclick="window.print()" style="padding:8px 12px;border-radius:8px;border:none;background:#0F3A4F;color:#fff;font-weight:800">🖨️ Imprimir Artistas</button></div><br><p>Lista de artistas cadastrados...</p></div></div>
+
+<div class="view" id="dash"><div class="card"><h2>Dashboard</h2><p>Visão geral...</p><br><button onclick="window.print()">🖨️ Imprimir Dashboard</button></div></div>
+<div class="view" id="casas"><div class="card"><h2>Casas</h2><button onclick="window.print()">🖨️ Imprimir Casas</button></div></div>
+<div class="view" id="relatorios"><div class="card"><h2>Relatórios</h2><button onclick="window.print()">🖨️ Imprimir Relatórios</button></div></div>
+
+</div>
+
 <script>
-function toggle(){
-document.getElementById('side').classList.toggle('show');
-document.getElementById('overlay').classList.toggle('show');
-}
-const lista=["","Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Grill do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Vago","Eli","Grill","Y Gon","Luciano","Israel"];
-const ordem=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,23,24,25,26,27,28,29,30,null,null,null,null,null];
-function garante6(a){let b=(a||[]).slice();while(b.length<6)b.push("Vago");return b.slice(0,6);}
-let base={};for(let i=1;i<=30;i++)base[i]=garante6(["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"]);
-let store=JSON.parse(localStorage.getItem('stageflow-MOBILE')||'null')||base;
-function opts(s){return lista.map(v=>`<option ${v===s?'selected':''}>${v||'-- escolha --'}</option>`).join('');}
-function render(){
-const cal=document.getElementById('cal');cal.innerHTML='';
-ordem.forEach(d=>{
-if(d===null){let e=document.createElement('div');e.className='cell gray';cal.appendChild(e);return;}
-let arr=garante6(store[d]);let cell=document.createElement('div');cell.className='cell';
-let h=`<div class="num">${d}<span>▼</span></div>`;
-for(let i=0;i<6;i++){h+=`<div class="line"><b>P${i+1}</b><select class="sel" data-dia="${d}" data-idx="${i}">${opts(arr[i])}</select></div>`;}
-cell.innerHTML=h;cal.appendChild(cell);
+function toggleMenu(){document.getElementById('sidebar').classList.toggle('show');}
+document.querySelectorAll('.menu button').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById(btn.dataset.view).classList.add('active');
+document.getElementById('topTitle').innerText=btn.innerText;
+if(window.innerWidth<=900) toggleMenu();
 });
-document.querySelectorAll('.sel').forEach(s=>s.addEventListener('change',e=>{
-let dia=e.target.dataset.dia,idx=e.target.dataset.idx;
-store[dia]=garante6(store[dia]);store[dia][idx]=e.target.value;
-localStorage.setItem('stageflow-MOBILE',JSON.stringify(store));
+});
+const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Gar do Zé - Y Gon"];
+let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"];
+let store=JSON.parse(localStorage.getItem('stageflow-final-backup')||'null')||base;
+function opts(s){return lista.map(v=>`<option ${v===s?'selected':''}>${v}</option>`).join('');}
+function renderCal(){
+const cal=document.getElementById('cal'); cal.innerHTML='';
+for(let d=1;d<=30;d++){
+let arr=store[d]; let div=document.createElement('div'); div.className='cell';
+div.innerHTML=`<div class="num">${d}<span>▼</span></div>
+<div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(arr[0])}</select>▼</div>
+<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(arr[1])}</select>▼</div>
+<div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(arr[2])}</select></div>
+<div class="line"><b>P4:</b><select data-d="${d}" data-i="3">${opts(arr[3])}</select></div>
+<div class="line"><b>P5:</b><select data-d="${d}" data-i="4">${opts(arr[4])}</select></div>
+<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(arr[5])}</select>▼</div>`;
+cal.appendChild(div);
+}
+for(let i=0;i<5;i++){let g=document.createElement('div');g.className='cell gray';cal.appendChild(g);}
+document.querySelectorAll('#cal select').forEach(s=>s.addEventListener('change',e=>{
+store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
+localStorage.setItem('stageflow-final-backup',JSON.stringify(store));
 }));
 }
-render();
+renderCal();
+
+function exportar(){
+let dataStr="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));
+let a=document.createElement('a'); a.href=dataStr; a.download="backup-stageflow-"+new Date().toISOString().slice(0,10)+".json"; a.click();
+alert("Backup exportado com sucesso!");
+}
+function importar(input){
+let file=input.files[0]; if(!file) return;
+let reader=new FileReader();
+reader.onload=function(e){
+try{
+let json=JSON.parse(e.target.result);
+localStorage.setItem('stageflow-final-backup',JSON.stringify(json));
+alert("Backup importado! Recarregando...");
+location.reload();
+}catch(err){alert("Erro no arquivo de backup!");}
+};
+reader.readAsText(file);
+}
 </script>
 </body>
 </html>
