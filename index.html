@@ -2,65 +2,62 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO</title>
+<title>STAGEFLOW PRO - FINAL CORRIGIDO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{display:flex;min-height:100vh;background:#fff}
-.sidebar{width:260px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;z-index:100;display:flex;flex-direction:column}
-.logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:0 8px}
+.sidebar{width:260px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;z-index:1000;display:flex;flex-direction:column;transition:.3s;overflow-y:auto}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding:0 8px}
 .logo-box{width:28px;height:28px;background:#7C5CFC;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px}
 .logo-box div{background:#fff;border-radius:2px}
 .menu{flex:1}
 .menu button{width:100%;padding:12px 14px;border:none;border-radius:8px;background:transparent;color:#8B90A0;font-size:13px;font-weight:600;text-align:left;cursor:pointer;margin-bottom:2px}
 .menu button.active{background:#7C5CFC;color:#fff}
 .backup{display:flex;gap:8px;margin-top:16px}
-.backup button{flex:1;padding:9px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;background:#2A2A3A;color:#fff}
-.user{margin-top:auto;background:#1A1A2E;padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center}
+.backup button{flex:1;padding:10px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;background:#2A2A3A;color:#fff}
+.user{margin-top:20px;background:#1A1A2E;padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center}
 .user .av{width:32px;height:32px;background:#7C5CFC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
-.main{flex:1;margin-left:260px;background:#fff}
-.top-bar{background:#fff;padding:10px 16px;display:flex;gap:10px;border-bottom:1px solid #eee}
-.top-bar button{padding:8px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:12px}
-.header-title{background:#3A3A3A;color:#fff;padding:18px 20px;font-size:28px;font-weight:900;letter-spacing:.3px}
+.main{flex:1;margin-left:260px;background:#fff;display:flex;flex-direction:column}
+.top-bar{background:#fff;padding:10px 16px;display:flex;gap:10px;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+.top-bar button{padding:10px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:12px}
+.hamb{display:none;background:#10101E;color:#fff;border:none;width:40px;height:40px;border-radius:8px;font-size:22px;cursor:pointer}
+.header-title{background:#3A3A3A;color:#fff;padding:18px 20px;font-size:28px;font-weight:900}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#fff}
-.week div{background:#E9E9E9;text-align:center;padding:12px 0;font-size:13px;color:#333;font-weight:600}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#fff}
-.cell{border:1px solid #BBBBBB;min-height:132px;padding:6px 7px;background:#fff;border-radius:4px}
-.cell.empty{background:#EDEDED;border-color:#E0E0E0}
-.num{font-size:20px;font-weight:900;color:#1E3A8A;margin-bottom:4px;display:flex;justify-content:space-between}
-.num span{font-size:12px}
-.line{font-size:10px;line-height:1.3;display:flex;gap:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.line b{min-width:20px;font-weight:800}
-.line select{border:none;background:transparent;font-size:10px;width:100%;cursor:pointer;appearance:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.footer-info{background:#D6EAF8;text-align:center;padding:8px;font-size:11px;color:#333}
+.week div{background:#E9E9E9;text-align:center;padding:12px 0;font-size:13px;color:#333;font-weight:700;border-radius:4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:0 12px 20px;background:#fff}
+.cell{border:1.5px solid #777;background:#fff;min-height:195px;padding:10px 10px;border-radius:6px;display:flex;flex-direction:column}
+.cell.empty{background:#EDEDED;border-color:#D0D0D0}
+.num{font-size:24px;font-weight:900;color:#1E3A8A;margin-bottom:6px}
+.line{font-size:12px;line-height:1.4;display:flex;gap:4px;margin-top:3px}
+.line b{min-width:24px;font-weight:800}
+.line select{border:none;background:transparent;font-size:12px;width:100%;cursor:pointer;white-space:normal;word-break:break-word;font-weight:600}
+.footer-info{background:#D6EAF8;text-align:center;padding:8px;font-size:11px}
 
-/* IMPRESSAO HORIZONTAL CORRETA */
+/* IMPRESSAO NA HORIZONTAL */
 @media print{
-@page{size:A4 landscape;margin:10mm}
-body{display:block}
+@page{size:A4 landscape;margin:8mm}
 .sidebar,.top-bar{display:none!important}
 .main{margin-left:0!important}
-.header-title{font-size:22px!important;padding:12px 16px!important}
-.week{gap:4px!important;padding:6px!important}
-.week div{padding:8px 0!important;font-size:10px!important}
-.cal{gap:4px!important;padding:0 6px!important}
-.cell{min-height:108px!important;padding:4px 5px!important}
-.num{font-size:16px!important}
-.line{font-size:8.5px!important}
-.line select{font-size:8.5px!important}
+.cell{min-height:135px!important}
 }
 
-/* MOBILE - MANTEM 7 COLUNAS COM SCROLL SE PRECISAR */
+/* MOBILE - COM MENU VOLTANDO */
 @media(max-width:900px){
-.sidebar{display:none}
+.sidebar{left:-280px;position:fixed}
+.sidebar.show{left:0}
 .main{margin-left:0}
+.hamb{display:block}
 .header-title{font-size:20px}
-.cal{overflow-x:auto}
-.cell{min-height:110px}
+.cal{grid-template-columns:1fr!important}
+.week{display:none}
+.cell{min-height:auto!important;padding:16px!important}
+.line{font-size:15px}
+.line select{font-size:15px}
 }
 </style>
 </head>
 <body>
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
 <div class="logo"><div class="logo-box"><div></div><div></div><div></div><div></div></div><b>Stageflow Pro</b></div>
 <div class="menu">
 <button>Dashboard</button>
@@ -69,7 +66,7 @@ body{display:block}
 <button>Casas</button>
 <button>Financeiro</button>
 <button>Relatorios</button>
-<button>Configurações</button>
+<button>Configuracoes</button>
 <button>Ajuda</button>
 <div class="backup">
 <button onclick="exportar()">Exportar</button>
@@ -77,32 +74,35 @@ body{display:block}
 <input type="file" id="imp" hidden accept=".json" onchange="importar(this)">
 </div>
 </div>
-<div class="user"><div class="av">JD</div><div><div style="font-size:12px;font-weight:700">João Duarte</div><div style="font-size:10px;color:#8B90A0">Admin</div></div></div>
+<div class="user"><div class="av">JD</div><div><div style="font-size:12px;font-weight:700">Joao Duarte</div><div style="font-size:10px;color:#8B90A0">Admin</div></div></div>
 </div>
 
 <div class="main">
 <div class="top-bar">
+<button class="hamb" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button>
 <button onclick="window.print()">Imprimir Calendario Horizontal</button>
 <button onclick="exportar()">Exportar Backup</button>
 </div>
-<div class="header-title">STAGEFLOW PRO • CALENDARIO NOVEMBRO 2026</div>
-<div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
+<div class="header-title">STAGEFLOW PRO - CALENDARIO NOVEMBRO 2026</div>
+<div class="week"><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div><div>Domingo</div></div>
 <div class="cal" id="cal"></div>
-<div class="footer-info">Todos os dias com P1 • P2 • P3 • P4 • P5 • P6 • Dropdown selecionavel • Layout limpo e profissional</div>
+<div class="footer-info">Segunda a Domingo - P1 a P6 - Clique para editar</div>
 </div>
 
 <script>
-const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel","Gar do Ze - Y Gon","Vago","Terca Eli","Grill - Luciano Gon"];
+const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel","Gar do Ze - Y Gon","Vago"];
 let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
-let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-pro-limpo'))}catch(e){}
+let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-segunda-domingo'))}catch(e){}
 store=store||base;
 function opts(v){return lista.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}
 function render(){
 const cal=document.getElementById('cal'); cal.innerHTML='';
+// NOVEMBRO 2026: 1 cai no DOMINGO, entao se semana comeca na SEGUNDA, precisa de 6 vazios antes
+for(let i=0;i<6;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);}
 for(let d=1;d<=30;d++){
 let a=store[d]||base[d];
 let div=document.createElement('div'); div.className='cell';
-div.innerHTML=`<div class="num">${d} <span>v</span></div>
+div.innerHTML=`<div class="num">${d}</div>
 <div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(a[0])}</select></div>
 <div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(a[1])}</select></div>
 <div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(a[2])}</select></div>
@@ -111,15 +111,14 @@ div.innerHTML=`<div class="num">${d} <span>v</span></div>
 <div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(a[5])}</select></div>`;
 cal.appendChild(div);
 }
-let total=cal.children.length; let falta=35-total; if(total<=35) { for(let i=0;i<falta;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);} }
 cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
 store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('stageflow-pro-limpo',JSON.stringify(store));
+localStorage.setItem('stageflow-segunda-domingo',JSON.stringify(store));
 }));
 }
 window.onload=render;
-function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));a.download="backup-novembro.json";a.click();}
-function importar(inp){let f=inp.files[0]; if(!f) return; let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-pro-limpo',e.target.result); location.reload();}; r.readAsText(f);}
+function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));a.download="backup-novembro-2026.json";a.click();}
+function importar(inp){let f=inp.files[0]; if(!f) return; let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-segunda-domingo',e.target.result); location.reload();}; r.readAsText(f);}
 </script>
 </body>
 </html>
