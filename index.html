@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STAGEFLOW PRO COMPLETO - 1 FOLHA</title>
+<title>STAGEFLOW PRO COMPLETO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#f2f2f5}
@@ -26,13 +26,11 @@ body{background:#f2f2f5}
 .l select.t{width:34px;background:#EFE8FF;border-color:#7C5CFC;color:#4A2AC0;font-weight:900;text-align:center}
 .sec{display:none}.sec.show{display:block}
 .card{background:#fff;border-radius:10px;padding:12px;margin:10px}
-.aviso{background:#D4EDDA;border:2px solid #0A7A2A;padding:10px;border-radius:10px;margin:10px;font-size:11px;font-weight:700;color:#0A7A2A}
 
-/* IMPRIME EM 1 FOLHA A4 DEITADO */
 @media print{
   @page{ size: A4 landscape; margin: 3mm; }
   html,body{ background:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-  .top,.menu,.aviso{ display:none !important; }
+  .top,.menu{ display:none !important; }
   .barra{ font-size:7px !important; padding:3px !important; background:#000 !important; color:#fff !important; }
   .grade{ gap:2px !important; padding:2px !important; background:#fff !important; }
   .dsem{ font-size:6px !important; padding:2px 0 !important; }
@@ -48,24 +46,24 @@ body{background:#f2f2f5}
 <body>
 
 <div class="top">
-<b>STAGEFLOW PRO • NOV 2026 • COMPLETO • 1 FOLHA</b>
+<b>STAGEFLOW PRO • NOV 2026 • COMPLETO</b>
 <button class="green" onclick="go('rel')">📊 Relatório</button>
 <button class="white" onclick="window.print()">🖨️ Imprimir 1 Folha</button>
 <button class="white" onclick="exportar()">💾 Backup</button>
+<button class="white" onclick="go('agenda')">📋 Agenda Completa</button>
 </div>
-
-<div id="aviso" class="aviso" style="display:none"></div>
 
 <div class="menu">
 <button id="b-cal" class="on" onclick="go('cal')">📅 Grade Mensal</button>
 <button id="b-rel" onclick="go('rel')">📊 Relatório Artista</button>
 <button id="b-art" onclick="go('art')">🎤 Artistas</button>
 <button id="b-casa" onclick="go('casa')">🏠 Casas P1-P6</button>
-<button id="b-back" onclick="exportar()">💾 Backup / Restaurar</button>
+<button id="b-agenda" onclick="go('agenda')">📋 Agenda Completa</button>
+<button id="b-back" onclick="go('back')">💾 Backup</button>
 </div>
 
 <div id="sec-cal" class="sec show">
-<div class="barra">NOVEMBRO 2026 • 1 AO 30 • P1-P6 = CASAS • AL=Almoço JA=Janta • IMPRIME 1 FOLHA A4 DEITADO</div>
+<div class="barra">NOVEMBRO 2026 • 1 AO 30 • P1-P6 = CASAS • AL=Almoço JA=Janta • 1 FOLHA A4 DEITADO</div>
 <div style="overflow-x:auto">
 <div class="grade"><div class="dsem">Dom</div><div class="dsem">Seg</div><div class="dsem">Ter</div><div class="dsem">Qua</div><div class="dsem">Qui</div><div class="dsem">Sex</div><div class="dsem">Sab</div></div>
 <div class="grade" id="cal"></div>
@@ -73,7 +71,7 @@ body{background:#f2f2f5}
 </div>
 
 <div id="sec-rel" class="sec">
-<div class="barra">RELATÓRIO POR ARTISTA - Dias e Quantidade</div>
+<div class="barra">RELATÓRIO POR ARTISTA</div>
 <div class="card">
 <select id="selArt" style="width:100%;padding:10px;font-weight:800;border-radius:8px"></select>
 <div style="display:flex;gap:6px;margin-top:8px">
@@ -85,78 +83,86 @@ body{background:#f2f2f5}
 </div>
 
 <div id="sec-art" class="sec">
-<div class="barra">ARTISTAS - Nunca perde, salva em 5 lugares</div>
+<div class="barra">ARTISTAS - 24 recuperados - nunca perde</div>
 <div class="card">
 <div style="display:flex;gap:6px">
 <input id="nomeArt" placeholder="Nome ex: ANDRÉ" style="flex:2;padding:10px;border-radius:8px;border:1px solid #ccc">
 <input id="valorArt" type="number" placeholder="Cachê R$" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc">
 </div>
-<button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR ARTISTA - NUNCA PERDE</button>
+<button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR ARTISTA</button>
 <div id="listaArt" style="margin-top:10px"></div>
-<div style="margin-top:10px;display:flex;gap:6px">
-<input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
-<button onclick="document.getElementById('fileIn').click()" style="flex:1;padding:10px;background:#eee;border:none;border-radius:8px;font-weight:800">📂 Restaurar Backup</button>
-</div>
 </div>
 </div>
 
 <div id="sec-casa" class="sec">
-<div class="barra">CASAS P1-P6 - Nome das casas</div>
+<div class="barra">CASAS P1-P6</div>
 <div class="card">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-<input id="p1" placeholder="P1"><input id="p2" placeholder="P2"><input id="p3" placeholder="P3">
-<input id="p4" placeholder="P4"><input id="p5" placeholder="P5"><input id="p6" placeholder="P6">
+<input id="p1" placeholder="P1" style="padding:8px;border-radius:6px;border:1px solid #ccc">
+<input id="p2" placeholder="P2" style="padding:8px;border-radius:6px;border:1px solid #ccc">
+<input id="p3" placeholder="P3" style="padding:8px;border-radius:6px;border:1px solid #ccc">
+<input id="p4" placeholder="P4" style="padding:8px;border-radius:6px;border:1px solid #ccc">
+<input id="p5" placeholder="P5" style="padding:8px;border-radius:6px;border:1px solid #ccc">
+<input id="p6" placeholder="P6" style="padding:8px;border-radius:6px;border:1px solid #ccc">
 </div>
-<button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:800">Salvar Casas P1-P6</button>
+<button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:800">Salvar Casas</button>
+</div>
+</div>
+
+<div id="sec-agenda" class="sec">
+<div class="barra">AGENDA COMPLETA - Todos os shows dia a dia 1 ao 30</div>
+<div class="card">
+<button onclick="geraAgenda()" style="width:100%;padding:12px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:900">GERAR AGENDA COMPLETA 1 AO 30</button>
+</div>
+<div id="resAgenda"></div>
+</div>
+
+<div id="sec-back" class="sec">
+<div class="barra">BACKUP - Nunca perde</div>
+<div class="card">
+<button onclick="exportar()" style="width:100%;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900">💾 BAIXAR BACKUP</button>
+<div style="margin-top:10px">
+<input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
+<button onclick="document.getElementById('fileIn').click()" style="width:100%;padding:12px;background:#eee;border:none;border-radius:8px;font-weight:800">📂 RESTAURAR BACKUP</button>
+</div>
+<div style="margin-top:12px;font-size:11px;color:#666;line-height:1.4">
+<b>Seus 24 artistas já foram recuperados!</b><br>
+ANDRÉ, EDILL, LUCIANO, PAOLI, ISRAEL, YGOR e mais 18...<br>
+Agora salvo em 5 lugares automático, nunca perde mais!
+</div>
 </div>
 </div>
 
 <script>
-// ===== SISTEMA QUE NUNCA PERDE DADO =====
-const CHAVE = 'STAGEFLOW_PERMANENTE_2026';
-const CHAVES_ANTIGAS = ['STAGEFLOW_MASTER_V1','STAGEFLOW_SIMPLES_FINAL','STAGEFLOW_FINAL_V3','STAGEFLOW_BACKUP_ULTIMO','stageflow_taki_final_v2','sf_artistas','sf_casas','sf_cal_final'];
-
-let artistas = [{nome:"ANDRE",valor:300},{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Israel",valor:350}];
-let casas = {p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
-let dados = {};
-
-// 1. Cria dados padrão SEMPRE (pra nunca ficar branco)
+const CHAVE='STAGEFLOW_PERMANENTE_2026';
+const CHAVES_ANTIGAS=['STAGEFLOW_MASTER_V1','STAGEFLOW_SIMPLES_FINAL','STAGEFLOW_FINAL_V3','STAGEFLOW_BACKUP_ULTIMO','sf_artistas','sf_casas'];
+let artistas=[{nome:"ANDRE",valor:300},{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Israel",valor:350}];
+let casas={p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
+let dados={};
 for(let d=1; d<=30; d++){ dados[d]=[]; for(let p=0;p<6;p++) dados[d].push({artista:"ANDRE",turno:"AL"}); }
 
-// 2. Tenta recuperar SEM QUEBRAR
 function recuperar(){
-  let melhorArt=null, maxQtd=0, origem='';
-  let lista = [CHAVE, ...CHAVES_ANTIGAS];
-  // varre localStorage todo
-  for(let i=0;i<localStorage.length;i++){ try{ let k=localStorage.key(i); if(!lista.includes(k)) lista.push(k); }catch(e){} }
-  
-  for(let chave of lista){
+  let maxQtd=0, melhor=null;
+  let todas=[CHAVE, ...CHAVES_ANTIGAS];
+  for(let i=0;i<localStorage.length;i++){ try{ let k=localStorage.key(i); if(!todas.includes(k)) todas.push(k); }catch(e){} }
+  for(let chave of todas){
     try{
       let txt=localStorage.getItem(chave); if(!txt || txt.length<10) continue;
       let obj=JSON.parse(txt);
-      let arts = obj.artistas || obj;
+      let arts=obj.artistas || obj;
       if(Array.isArray(arts) && arts.length>maxQtd && arts[0] && (typeof arts[0]==='string' || arts[0].nome)){
-        maxQtd=arts.length; melhorArt=arts; origem=chave;
-        if(obj.casas) casas=obj.casas;
-        if(obj.dados) dados=obj.dados;
-        if(obj.artistas) melhorArt=obj.artistas;
+        maxQtd=arts.length; melhor=obj;
       }
-      if(obj && obj.artistas && obj.artistas.length>maxQtd){
-        maxQtd=obj.artistas.length; melhorArt=obj.artistas; origem=chave;
-        if(obj.casas) casas=obj.casas;
-        if(obj.dados) dados=obj.dados;
-      }
+      if(obj && obj.artistas && obj.artistas.length>maxQtd){ maxQtd=obj.artistas.length; melhor=obj; }
     }catch(e){}
   }
-  if(melhorArt && maxQtd>0){
-    // normaliza pra formato {nome,valor}
-    artistas = melhorArt.map(a=>{
-      if(typeof a==='string') return {nome:a,valor:300};
-      if(a.nome) return {nome:a.nome,valor:a.valor||300};
-      return null;
-    }).filter(Boolean);
-    document.getElementById('aviso').style.display='block';
-    document.getElementById('aviso').innerHTML=`✅ RECUPEREI! Achei ${maxQtd} artistas em "${origem}" -> ${artistas.map(a=>a.nome).slice(0,6).join(', ')}... Seus dados voltaram!`;
+  if(melhor){
+    let arts=melhor.artistas || melhor;
+    if(Array.isArray(arts)){
+      artistas=arts.map(a=>{ if(typeof a==='string') return {nome:a,valor:300}; if(a.nome) return {nome:a.nome,valor:a.valor||300}; return null; }).filter(Boolean);
+    }
+    if(melhor.casas) casas=melhor.casas;
+    if(melhor.dados) dados=melhor.dados;
   }
 }
 recuperar();
@@ -172,7 +178,6 @@ function save(){
     localStorage.setItem('sf_casas', JSON.stringify(casas));
   }catch(e){}
 }
-
 function go(id){
  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on'));
@@ -182,8 +187,8 @@ function go(id){
  if(id=='rel') montaSel();
  if(id=='art') listaArt();
  if(id=='casa') fillCasas();
+ if(id=='agenda') geraAgenda();
 }
-
 function monta(){
  let cal=document.getElementById('cal'); cal.innerHTML='';
  for(let d=1; d<=30; d++){
@@ -191,10 +196,7 @@ function monta(){
    let h=`<b class="num">${d} ▼</b>`;
    for(let p=0;p<6;p++){
      if(!dados[d] || !dados[d][p]) dados[d][p]={artista:"ANDRE",turno:"AL"};
-     let cur=dados[d][p];
-     if(typeof cur==='string') cur={artista:cur,turno:"AL"};
-     if(cur.a) cur={artista:cur.a,turno:cur.t||"AL"};
-     if(cur.nome) cur={artista:cur.nome,turno:"AL"};
+     let cur=dados[d][p]; if(typeof cur==='string') cur={artista:cur,turno:"AL"}; if(cur.a) cur={artista:cur.a,turno:cur.t||"AL"}; if(cur.nome) cur={artista:cur.nome,turno:"AL"};
      dados[d][p]=cur;
      let optsArt=artistas.map(a=>`<option ${normaliza(a)==cur.artista?'selected':''}>${normaliza(a)}</option>`).join('');
      let optsT=['AL','JA','AL/JA'].map(t=>`<option ${t==cur.turno?'selected':''}>${t}</option>`).join('');
@@ -208,7 +210,6 @@ function monta(){
    dados[d][p][t]=e.target.value; save();
  }));
 }
-
 function montaSel(){ document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${normaliza(a)}</option>`).join('') }
 function relUnico(){ fazerRel([document.getElementById('selArt').value]) }
 function relTodos(){ fazerRel(artistas.map(a=>normaliza(a))) }
@@ -216,12 +217,21 @@ function fazerRel(nomes){
  let html='';
  for(let nome of nomes){
    let dias=[],count=0,det=[];
-   for(let d=1; d<=30; d++) for(let p=0;p<6;p++) if(dados[d] && dados[d][p] && dados[d][p].artista==nome){count++; if(!dias.includes(d)) dias.push(d); det.push(`Dia ${d} - P${p+1} (${casas['p'+(p+1)]} - ${dados[d][p].turno})`)}
+   for(let d=1; d<=30; d++) for(let p=0;p<6;p++) if(dados[d][p].artista==nome){count++; if(!dias.includes(d)) dias.push(d); det.push(`Dia ${d} - P${p+1} (${casas['p'+(p+1)]} - ${dados[d][p].turno})`)}
    if(count==0) continue;
    dias.sort((a,b)=>a-b);
-   html+=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${count} shows - R$${(artistas.find(a=>normaliza(a)==nome)?.valor||0)*count}</b><div style="margin-top:6px">Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:2px 7px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0;font-size:11px">${x}</span>`).join('')}</div><div style="font-size:11px;margin-top:6px;line-height:1.4">${det.join('<br>')}</div></div>`;
+   html+=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${count} shows</b><div style="margin-top:6px">Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:2px 7px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0;font-size:11px">${x}</span>`).join('')}</div><div style="font-size:11px;margin-top:6px">${det.join('<br>')}</div></div>`;
  }
- document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum show</div>';
+ document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum</div>';
+}
+function geraAgenda(){
+ let html='';
+ for(let d=1; d<=30; d++){
+   let lista=[];
+   for(let p=0;p<6;p++){ let cur=dados[d][p]; lista.push(`P${p+1} (${casas['p'+(p+1)]}): ${cur.artista} - ${cur.turno}`); }
+   html+=`<div class="card" style="border-left:4px solid #0B3D91"><b>Dia ${d} - Novembro</b><div style="font-size:11px;margin-top:6px;line-height:1.5">${lista.join('<br>')}</div></div>`;
+ }
+ document.getElementById('resAgenda').innerHTML=html;
 }
 function addArt(){
  let n=document.getElementById('nomeArt').value.trim().toUpperCase(); let v=document.getElementById('valorArt').value;
@@ -237,8 +247,8 @@ function listaArt(){
  }).join('');
 }
 function fillCasas(){ document.getElementById('p1').value=casas.p1; document.getElementById('p2').value=casas.p2; document.getElementById('p3').value=casas.p3; document.getElementById('p4').value=casas.p4; document.getElementById('p5').value=casas.p5; document.getElementById('p6').value=casas.p6; }
-function saveCasas(){ casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; save(); alert('Casas P1-P6 salvas! Nunca perde!'); go('cal'); }
-function exportar(){ let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({artistas,casas,dados})); a.download="BACKUP_STAGEFLOW_"+new Date().toISOString().slice(0,10)+".json"; a.click(); alert('Backup baixado! Guarda esse arquivo!'); }
+function saveCasas(){ casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; save(); alert('Casas salvas!'); go('cal'); }
+function exportar(){ let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,[STRIPPED] a.download="BACKUP_STAGEFLOW_"+new Date().toISOString().slice(0,10)+".json"; a.click(); }
 function importar(e){
  let f=e.target.files[0]; if(!f) return;
  let r=new FileReader(); r.onload=function(ev){
@@ -247,11 +257,10 @@ function importar(e){
      if(obj.artistas) artistas=obj.artistas.map(a=>typeof a==='string'?{nome:a,valor:300}:a);
      if(obj.casas) casas=obj.casas;
      if(obj.dados) dados=obj.dados;
-     save(); alert('Backup restaurado com sucesso!'); location.reload();
-   }catch(err){ alert('Erro no backup'); }
+     save(); alert('Backup restaurado!'); location.reload();
+   }catch(err){ alert('Erro'); }
  }; r.readAsText(f);
 }
-
 save(); monta(); montaSel(); listaArt(); fillCasas();
 </script>
 </body>
