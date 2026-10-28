@@ -2,127 +2,124 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - CALENDARIO OFICIAL</title>
+<title>STAGEFLOW PRO</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial}
-body{display:flex;min-height:100vh;background:#f3f3f3}
-.sidebar{width:280px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;display:flex;flex-direction:column;z-index:1000;border-radius:0 16px 16px 0}
-.logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding:6px 8px}
-.logo-icon{width:32px;height:32px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.logo-icon div{background:#8B5CF6;border-radius:3px}
-.logo b{font-size:16px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{display:flex;min-height:100vh;background:#fff}
+.sidebar{width:260px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;z-index:100;display:flex;flex-direction:column}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:0 8px}
+.logo-box{width:28px;height:28px;background:#7C5CFC;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px}
+.logo-box div{background:#fff;border-radius:2px}
 .menu{flex:1}
-.menu button{width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border:none;border-radius:10px;background:transparent;color:#9AA0B4;font-size:13px;font-weight:600;text-align:left;cursor:pointer;margin-bottom:4px}
+.menu button{width:100%;padding:12px 14px;border:none;border-radius:8px;background:transparent;color:#8B90A0;font-size:13px;font-weight:600;text-align:left;cursor:pointer;margin-bottom:2px}
 .menu button.active{background:#7C5CFC;color:#fff}
-.backup-row{display:flex;gap:8px;margin:16px 0}
-.backup-row button{flex:1;padding:10px;border:none;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
-.btn-exp{background:#1DD1A1} .btn-imp{background:#FFC93C}
-.user{margin-top:auto;background:#1A1A2E;padding:10px 12px;border-radius:12px;display:flex;gap:10px;align-items:center}
+.backup{display:flex;gap:8px;margin-top:16px}
+.backup button{flex:1;padding:9px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;background:#2A2A3A;color:#fff}
+.user{margin-top:auto;background:#1A1A2E;padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center}
 .user .av{width:32px;height:32px;background:#7C5CFC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
-.main{flex:1;margin-left:280px;background:#fff}
-.top{height:0}
-.calendario-header{background:#3E3E3E;color:#fff;padding:22px 26px;font-size:36px;font-weight:900;line-height:1.1;letter-spacing:.5px}
-.calendario-header small{font-size:36px}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:12px;background:#fff}
-.week div{background:#E8E8E8;text-align:center;padding:16px 0;font-size:16px;color:#444;border-radius:4px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:0 12px 20px;background:#fff}
-.cell{border:1px solid #C8C8C8;background:#fff;min-height:178px;padding:8px 8px 10px;border-radius:6px}
+.main{flex:1;margin-left:260px;background:#fff}
+.top-bar{background:#fff;padding:10px 16px;display:flex;gap:10px;border-bottom:1px solid #eee}
+.top-bar button{padding:8px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:12px}
+.header-title{background:#3A3A3A;color:#fff;padding:18px 20px;font-size:28px;font-weight:900;letter-spacing:.3px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#fff}
+.week div{background:#E9E9E9;text-align:center;padding:12px 0;font-size:13px;color:#333;font-weight:600}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#fff}
+.cell{border:1px solid #BBBBBB;min-height:132px;padding:6px 7px;background:#fff;border-radius:4px}
 .cell.empty{background:#EDEDED;border-color:#E0E0E0}
-.num{font-size:28px;font-weight:900;color:#1E3A8A;display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.num span{font-size:14px;color:#1E3A8A}
-.line{font-size:11.5px;color:#222;display:flex;gap:3px;line-height:1.35;margin-top:2px}
-.line b{font-weight:700;min-width:22px}
-.line select{border:none;background:transparent;font-size:11.5px;width:100%;cursor:pointer;appearance:none}
-.actions{padding:12px;display:flex;gap:10px}
-.actions button{padding:10px 18px;border:none;border-radius:10px;background:#10101E;color:#fff;font-weight:800;cursor:pointer}
+.num{font-size:20px;font-weight:900;color:#1E3A8A;margin-bottom:4px;display:flex;justify-content:space-between}
+.num span{font-size:12px}
+.line{font-size:10px;line-height:1.3;display:flex;gap:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.line b{min-width:20px;font-weight:800}
+.line select{border:none;background:transparent;font-size:10px;width:100%;cursor:pointer;appearance:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.footer-info{background:#D6EAF8;text-align:center;padding:8px;font-size:11px;color:#333}
+
+/* IMPRESSAO HORIZONTAL CORRETA */
 @media print{
-@page{size:landscape;margin:8mm}
-.sidebar,.actions{display:none!important}
+@page{size:A4 landscape;margin:10mm}
+body{display:block}
+.sidebar,.top-bar{display:none!important}
 .main{margin-left:0!important}
-.calendario-header{font-size:28px!important;padding:16px!important}
-.week div{padding:10px 0!important;font-size:13px!important}
-.cell{min-height:140px!important}
+.header-title{font-size:22px!important;padding:12px 16px!important}
+.week{gap:4px!important;padding:6px!important}
+.week div{padding:8px 0!important;font-size:10px!important}
+.cal{gap:4px!important;padding:0 6px!important}
+.cell{min-height:108px!important;padding:4px 5px!important}
+.num{font-size:16px!important}
+.line{font-size:8.5px!important}
+.line select{font-size:8.5px!important}
 }
+
+/* MOBILE - MANTEM 7 COLUNAS COM SCROLL SE PRECISAR */
 @media(max-width:900px){
-.sidebar{left:-300px}.sidebar.show{left:0}
+.sidebar{display:none}
 .main{margin-left:0}
-.cal{grid-template-columns:1fr!important} .week{display:none}
-.cell{min-height:auto!important;padding:16px!important}
-.line{font-size:15px} .line select{font-size:15px}
+.header-title{font-size:20px}
+.cal{overflow-x:auto}
+.cell{min-height:110px}
 }
 </style>
 </head>
 <body>
-<div class="sidebar" id="sidebar">
-<div class="logo"><div class="logo-icon"><div></div><div></div><div></div><div></div></div><b>Stageflow Pro</b></div>
+<div class="sidebar">
+<div class="logo"><div class="logo-box"><div></div><div></div><div></div><div></div></div><b>Stageflow Pro</b></div>
 <div class="menu">
-<button>📊 Dashboard</button>
-<button class="active">📅 Agendamento Mensal Planejamento</button>
-<button>👥 Artistas</button>
-<button>🏢 Casas</button>
-<button>💲 Financeiro</button>
-<button>📈 Relatorios</button>
-<button>⚙️ Configurações</button>
-<button>❓ Ajuda</button>
-<div class="backup-row">
-<button class="btn-exp" onclick="exportar()">📤 Exportar</button>
-<button class="btn-imp" onclick="document.getElementById('imp').click()">📥 Importar</button>
+<button>Dashboard</button>
+<button class="active">Agendamento Mensal Planejamento</button>
+<button>Artistas</button>
+<button>Casas</button>
+<button>Financeiro</button>
+<button>Relatorios</button>
+<button>Configurações</button>
+<button>Ajuda</button>
+<div class="backup">
+<button onclick="exportar()">Exportar</button>
+<button onclick="document.getElementById('imp').click()">Importar</button>
 <input type="file" id="imp" hidden accept=".json" onchange="importar(this)">
 </div>
 </div>
-<div class="user"><div class="av">JD</div><div><div style="font-size:13px;font-weight:700">João Duarte</div><small style="color:#9AA0B4">Admin</small></div></div>
+<div class="user"><div class="av">JD</div><div><div style="font-size:12px;font-weight:700">João Duarte</div><div style="font-size:10px;color:#8B90A0">Admin</div></div></div>
 </div>
 
 <div class="main">
-<div class="actions">
-<button onclick="document.getElementById('sidebar').classList.toggle('show')">☰ Menu</button>
-<button onclick="window.print()">🖨️ Imprimir Calendário Completo na Horizontal</button>
+<div class="top-bar">
+<button onclick="window.print()">Imprimir Calendario Horizontal</button>
+<button onclick="exportar()">Exportar Backup</button>
 </div>
-<div class="calendario-header">STAGEFLOW PRO • CALENDÁRIO<br>NOVEMBRO 2026</div>
+<div class="header-title">STAGEFLOW PRO • CALENDARIO NOVEMBRO 2026</div>
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
-<div style="background:#CDE8F5;text-align:center;padding:10px;font-size:13px">Todos os dias com P1 • P2 • P3 • P4 • P5 • P6 • Dropdown selecionável • Layout limpo e profissional</div>
+<div class="footer-info">Todos os dias com P1 • P2 • P3 • P4 • P5 • P6 • Dropdown selecionavel • Layout limpo e profissional</div>
 </div>
 
 <script>
-const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Terça Eli","Vila Chopp - Grill","Grill - Luciano Gon","Gar do Zé - Y Gon","Vago"];
-let base={};
-for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"];
-let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-oficial-novembro'))}catch(e){}
+const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel","Gar do Ze - Y Gon","Vago","Terca Eli","Grill - Luciano Gon"];
+let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
+let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-pro-limpo'))}catch(e){}
 store=store||base;
 function opts(v){return lista.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}
 function render(){
 const cal=document.getElementById('cal'); cal.innerHTML='';
-let firstDay=0; // 1 nov 2026 = domingo (ajuste visual igual seu print)
-for(let i=0;i<firstDay;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);}
 for(let d=1;d<=30;d++){
-let a=store[d];
+let a=store[d]||base[d];
 let div=document.createElement('div'); div.className='cell';
-div.innerHTML=`<div class="num">${d} <span>▼</span></div>
+div.innerHTML=`<div class="num">${d} <span>v</span></div>
 <div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(a[0])}</select></div>
-<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(a[1])}</select> <span>▼</span></div>
-<div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(a[2])}</select> <span>▼</span></div>
+<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(a[1])}</select></div>
+<div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(a[2])}</select></div>
 <div class="line"><b>P4:</b><select data-d="${d}" data-i="3">${opts(a[3])}</select></div>
 <div class="line"><b>P5:</b><select data-d="${d}" data-i="4">${opts(a[4])}</select></div>
-<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(a[5])}</select> <span>▼</span></div>`;
+<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(a[5])}</select></div>`;
 cal.appendChild(div);
 }
-// Completa com vazios pra fechar a grade (igual seu print com 5 quadrados cinzas no final)
-let total=cal.children.length; let falta=35-total; if(falta<0) falta=42-total;
-for(let i=0;i<falta;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);}
+let total=cal.children.length; let falta=35-total; if(total<=35) { for(let i=0;i<falta;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);} }
 cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
 store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('stageflow-oficial-novembro',JSON.stringify(store));
+localStorage.setItem('stageflow-pro-limpo',JSON.stringify(store));
 }));
 }
 window.onload=render;
-function exportar(){
-let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));a.download="backup-stageflow-"+new Date().toISOString().slice(0,10)+".json";a.click();
-}
-function importar(inp){
-let f=inp.files[0]; if(!f) return;
-let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-oficial-novembro',e.target.result); location.reload();}; r.readAsText(f);
-}
+function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));a.download="backup-novembro.json";a.click();}
+function importar(inp){let f=inp.files[0]; if(!f) return; let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-pro-limpo',e.target.result); location.reload();}; r.readAsText(f);}
 </script>
 </body>
 </html>
