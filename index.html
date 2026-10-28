@@ -3,106 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - P1 P2 P3 P4 P5 P6</title>
+<title>STAGEFLOW PRO - MOBILE FIX</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{display:flex;min-height:100vh;background:#0f0f1e}
-.sidebar{width:260px;background:#10101E;color:#fff;padding:20px 14px}
-.sidebar h2{font-size:15px;margin-bottom:22px;letter-spacing:1px}
-.menu button{width:100%;padding:14px 12px;border:none;border-radius:12px;text-align:left;font-weight:800;font-size:13px;color:#8B90A0;background:transparent;margin-bottom:8px;cursor:pointer;display:flex;gap:8px}
-.menu button.active{background:#7B5CFF;color:#fff;box-shadow:0 4px 14px rgba(123,92,255,.4)}
-.main{flex:1;background:#f5f5f7;overflow:auto}
-.top{padding:16px 20px;background:#0F3A4F;color:#fff;display:flex;align-items:center;gap:10px}
-.top b{font-size:18px;letter-spacing:.3px}
+.sidebar{width:260px;background:#10101E;color:#fff;padding:20px 14px;position:fixed;height:100vh;left:0;top:0;z-index:1000;transition:.3s;overflow:auto}
+.sidebar.hide{left:-280px}
+.sidebar h2{font-size:15px;margin-bottom:22px}
+.menu button{width:100%;padding:14px 12px;border:none;border-radius:12px;text-align:left;font-weight:800;font-size:13px;color:#8B90A0;background:transparent;margin-bottom:8px;cursor:pointer}
+.menu button.active{background:#7B5CFF;color:#fff}
+.main{flex:1;margin-left:260px;background:#f5f5f7;overflow:auto;min-height:100vh}
+.top{padding:14px 16px;background:#0F3A4F;color:#fff;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.top .hamb{font-size:22px;background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:8px;display:none;cursor:pointer}
+.top b{font-size:15px}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:12px 12px 0}
-.week div{background:#D9D9D9;text-align:center;padding:12px 0;font-size:13px;font-weight:700;color:#333;border-radius:4px}
+.week div{background:#D9D9D9;text-align:center;padding:10px 0;font-size:12px;font-weight:700;border-radius:4px}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:8px 12px 30px}
-.cell{border:1px solid #d0d0d0;background:#fff;padding:7px 6px;min-height:232px;border-radius:6px}
+.cell{border:1px solid #d0d0d0;background:#fff;padding:6px;min-height:232px;border-radius:8px}
 .cell.gray{background:#E5E5E5}
-.num{font-size:21px;font-weight:900;color:#222;display:flex;justify-content:space-between;align-items:center}
-.num span{font-size:12px;color:#7B5CFF}
+.num{font-size:18px;font-weight:900;display:flex;justify-content:space-between}
 .line{display:flex;align-items:center;gap:3px;margin-top:4px}
-.line b{font-size:10px;width:20px;color:#111}
-.sel{flex:1;padding:5px 4px;border:1px solid #A5B4FC;border-radius:7px;background:#F8FAFF;font-size:10px;font-weight:700;color:#222;cursor:pointer}
-.sel:focus{outline:2px solid #7B5CFF}
-.foot{padding:10px;text-align:center;font-size:11px;color:#666}
+.line b{font-size:10px;width:20px}
+.sel{flex:1;padding:5px 4px;border:1px solid #A5B4FC;border-radius:7px;background:#F8FAFF;font-size:10px;font-weight:700;cursor:pointer}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999}
+.overlay.show{display:block}
+/* MOBILE */
+@media(max-width:900px){
+.sidebar{left:-280px}
+.sidebar.show{left:0}
+.main{margin-left:0}
+.top .hamb{display:block}
+.week{grid-template-columns:repeat(2,1fr)}
+.cal{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:500px){
+.week{grid-template-columns:1fr}
+.cal{grid-template-columns:1fr}
+.cell{min-height:auto}
+}
 </style>
 </head>
 <body>
-<div class="sidebar">
+<div class="overlay" id="overlay" onclick="toggle()"></div>
+<div class="sidebar" id="side">
 <h2>🔷 STAGEFLOW PRO</h2>
 <div class="menu">
 <button>🏠 Dashboard</button>
-<button class="active">📅 Agendamento Mensal<br>Planejamento</button>
+<button class="active">📅 Agendamento Mensal Planejamento</button>
 <button>🎸 Artistas</button>
 <button>💰 Financeiro</button>
 </div>
 </div>
 <div class="main">
-<div class="top">📅 <b>STAGEFLOW PRO • CALENDÁRIO — NOVEMBRO 2026 • P1 P2 P3 P4 P5 P6</b></div>
+<div class="top">
+<button class="hamb" onclick="toggle()">☰</button>
+<b>STAGEFLOW PRO • NOVEMBRO 2026 • P1 P2 P3 P4 P5 P6</b>
+</div>
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
-<div class="foot">Todos os dias com P1 • P2 • P3 • P4 • P5 • P6 • Dropdown com seta ▼ • 100% editável • Salva automático</div>
 </div>
 
 <script>
-// LISTAS EDITÁVEIS - adicione mais aqui
-const casasMusicos = ["","Cais - Eli","Vila Chopp - Grill","Grill do Zé - Y Gon","Grill - Luciano","Grill - Lucian","Grill - Luciano Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Vago","Eli","Grill","Y Gon","Luciano","Israel","Cais","Vila Chopp","Omau"];
-
-// Ordem do seu calendário original (1-15, 23-30 + cinzas)
-const ordem = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,23,24,25,26,27,28,29,30,null,null,null,null,null];
-
-// Dados base iguais da sua foto, MAS agora com P1-P6 sempre
-const baseOriginal = {
-1: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
-2: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
-3: ["Cais - Eli","Vila Chopp - Grill","Bar do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
-4: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
-5: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
-6: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
-7: ["Cais - Eli","Vila Chopp - Grill","Grill do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"]
-};
-
-function garante6(arr){
-let a = (arr||[]).slice();
-while(a.length<6) a.push("Vago");
-return a.slice(0,6);
+function toggle(){
+document.getElementById('side').classList.toggle('show');
+document.getElementById('overlay').classList.toggle('show');
 }
-
-let base = {};
-for(let i=1;i<=30;i++){
-base[i]=garante6(baseOriginal[i]||["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"]);
-}
-
-let store = JSON.parse(localStorage.getItem('stageflow-P1-P6-FINAL')||'null') || base;
-
-function options(selected){
-return casasMusicos.map(v=>`<option value="${v}" ${v===selected?'selected':''}>${v||'-- escolha --'}</option>`).join('');
-}
-
+const lista=["","Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Grill do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Vago","Eli","Grill","Y Gon","Luciano","Israel"];
+const ordem=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,23,24,25,26,27,28,29,30,null,null,null,null,null];
+function garante6(a){let b=(a||[]).slice();while(b.length<6)b.push("Vago");return b.slice(0,6);}
+let base={};for(let i=1;i<=30;i++)base[i]=garante6(["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"]);
+let store=JSON.parse(localStorage.getItem('stageflow-MOBILE')||'null')||base;
+function opts(s){return lista.map(v=>`<option ${v===s?'selected':''}>${v||'-- escolha --'}</option>`).join('');}
 function render(){
-const cal=document.getElementById('cal');
-cal.innerHTML='';
+const cal=document.getElementById('cal');cal.innerHTML='';
 ordem.forEach(d=>{
-if(d===null){const e=document.createElement('div');e.className='cell gray';cal.appendChild(e);return;}
-const arr=garante6(store[d]);
-const cell=document.createElement('div');cell.className='cell';
-let html=`<div class="num">${d}<span>▼</span></div>`;
-for(let i=0;i<6;i++){
-html+=`<div class="line"><b>P${i+1}</b><select class="sel" data-dia="${d}" data-idx="${i}">${options(arr[i])}</select></div>`;
-}
-cell.innerHTML=html;
-cal.appendChild(cell);
+if(d===null){let e=document.createElement('div');e.className='cell gray';cal.appendChild(e);return;}
+let arr=garante6(store[d]);let cell=document.createElement('div');cell.className='cell';
+let h=`<div class="num">${d}<span>▼</span></div>`;
+for(let i=0;i<6;i++){h+=`<div class="line"><b>P${i+1}</b><select class="sel" data-dia="${d}" data-idx="${i}">${opts(arr[i])}</select></div>`;}
+cell.innerHTML=h;cal.appendChild(cell);
 });
-document.querySelectorAll('.sel').forEach(sel=>{
-sel.addEventListener('change',e=>{
-const dia=e.target.dataset.dia;
-const idx=e.target.dataset.idx;
-store[dia]=garante6(store[dia]);
-store[dia][idx]=e.target.value;
-localStorage.setItem('stageflow-P1-P6-FINAL',JSON.stringify(store));
-});
-});
+document.querySelectorAll('.sel').forEach(s=>s.addEventListener('change',e=>{
+let dia=e.target.dataset.dia,idx=e.target.dataset.idx;
+store[dia]=garante6(store[dia]);store[dia][idx]=e.target.value;
+localStorage.setItem('stageflow-MOBILE',JSON.stringify(store));
+}));
 }
 render();
 </script>
