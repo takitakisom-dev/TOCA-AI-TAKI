@@ -3,143 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STAGEFLOW PRO C/ CACHE - FIX</title>
+<title>STAGEFLOW PRO DEFINITIVO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f2f2f5}
-.top{background:#10101e;color:#fff;padding:10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:999}
+body{background:#fff}
+.top{background:#10101e;color:#fff;padding:10px;display:flex;gap:6px}
 .top b{flex:1;font-size:12px}
-.top button{padding:8px 12px;border:none;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer;background:#fff;color:#000}
-.btnMenu{background:#FFD600;color:#000;padding:12px 16px;border:none;border-radius:10px;font-weight:900;font-size:13px;cursor:pointer;margin:8px;display:block;width:calc(100% - 16px)}
-.drawer{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#10101e;color:#fff;z-index:2000;transition:0.3s;padding:16px}
-.drawer.open{left:0}
-.drawer button{width:100%;padding:12px;margin-bottom:8px;border:none;border-radius:8px;font-weight:800;text-align:left;background:#222;color:#fff}
-.drawer .close{background:#FFD600;color:#000;text-align:center;margin-top:20px}
-.fundo{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1500;display:none}
-.fundo.show{display:block}
-.barra{background:#222;color:#fff;padding:7px;text-align:center;font-weight:900;font-size:11px}
+.top button{padding:8px 12px;border:none;border-radius:8px;font-weight:800}
+.btnMenu{background:#FFD600;color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;margin:8px;width:calc(100% - 16px)}
+.barra{background:#000;color:#fff;padding:6px;text-align:center;font-weight:900;font-size:11px}
 .grade{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:4px}
 .dsem{background:#ddd;padding:6px 0;text-align:center;font-weight:800;font-size:10px;border-radius:4px}
-.dia{background:#fff;border:1.2px solid #333;border-radius:6px;padding:4px;min-height:165px}
-.dia .num{font-size:11px;font-weight:900;color:#0B3D91;background:#EFEFFF;padding:2px 4px;border-radius:4px}
-.l{font-size:7px;font-weight:700;display:flex;gap:2px;margin-top:2px;align-items:center}
-.l i{width:16px;font-style:normal}
-.l select{flex:1;padding:2px;border-radius:3px;border:1px solid #aaa;font-size:7px;font-weight:700}
-.l select.t{width:36px;background:#EFE8FF;color:#4A2AC0;font-weight:900}
+.dia{background:#fff;border:1px solid #333;border-radius:6px;padding:4px;min-height:170px}
+.num{font-weight:900;color:#0B3D91;font-size:11px}
+.l{font-size:7px;display:flex;gap:2px;margin-top:2px}
+.l select{flex:1;font-size:7px;border:1px solid #aaa;border-radius:3px}
+.l select.t{width:34px;background:#EFE8FF}
+.card{background:#fff;border-radius:10px;padding:12px;margin:8px;border:1px solid #ddd}
 .sec{display:none}.sec.show{display:block}
-.card{background:#fff;border-radius:10px;padding:12px;margin:8px}
 </style>
 </head>
 <body>
-
-<div class="top">
-<b>STAGEFLOW PRO • NOV 2026 • C/ CACHE FIX</b>
-<button onclick="window.print()">🖨️ 1 Folha</button>
-<button onclick="exportar()">💾 Backup</button>
-</div>
-
-<button class="btnMenu" onclick="openMenu()">☰ MENU COMPLETO - CLIQUE AQUI</button>
-
-<div class="fundo" id="fundo" onclick="closeMenu()"></div>
-<div class="drawer" id="drawer">
-<h3>☰ MENU</h3>
-<button onclick="go('cal');closeMenu()">📅 Grade Mensal 1-30</button>
-<button onclick="go('rel');closeMenu()">📊 Relatório + Cachê</button>
-<button onclick="go('art');closeMenu()">🎤 Artistas + Cachê</button>
-<button onclick="go('casa');closeMenu()">🏠 Casas P1-P6</button>
-<button onclick="go('agenda');closeMenu()">📋 Agenda Completa</button>
-<button onclick="limparTudo()">🧹 Limpar e Resetar (se ficar branco)</button>
-<button class="close" onclick="closeMenu()">✖ FECHAR</button>
-</div>
-
-<div id="sec-cal" class="sec show">
-<div class="barra">NOV 2026 • 1 DOM AO 30 SEG • P1-P6 • AL/JA • CACHÊ NO RELATÓRIO</div>
+<div class="top"><b>STAGEFLOW PRO • NOV 2026 • DEFINITIVO</b><button onclick="window.print()">🖨️</button></div>
+<button class="btnMenu" onclick="alert('Menu: Grade 1-30 já está na tela. Artistas com cachê no botão abaixo')">☰ MENU - GRADE 1-30 ABAIXO</button>
+<div class="barra">NOV 2026 • 1 DOM AO 30 SEG • P1-P6 • AL=Almoço JA=Janta AL/JA=Junto • COM CACHÊ</div>
 <div class="grade"><div class="dsem">Dom</div><div class="dsem">Seg</div><div class="dsem">Ter</div><div class="dsem">Qua</div><div class="dsem">Qui</div><div class="dsem">Sex</div><div class="dsem">Sab</div></div>
 <div class="grade" id="cal"></div>
-</div>
 
-<div id="sec-rel" class="sec"><div class="barra">RELATÓRIO - DIAS + CACHÊ TOTAL</div><div class="card"><select id="selArt" style="width:100%;padding:12px;font-weight:800;border-radius:8px"></select><button onclick="relTodos()" style="width:100%;margin-top:8px;padding:12px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:900">VER RELATÓRIO</button></div><div id="resRel"></div></div>
-
-<div id="sec-art" class="sec">
-<div class="barra">ARTISTAS - NOME + CACHÊ</div>
 <div class="card">
-<div style="display:flex;gap:8px">
-<input id="nomeArt" placeholder="Nome ex: ANDRE" style="flex:1;padding:12px;border-radius:8px;border:1px solid #ccc;font-weight:800">
-<input id="cacheArt" type="number" placeholder="Cachê R$ 350" style="width:120px;padding:12px;border-radius:8px;border:1px solid #ccc;font-weight:800">
+<h3>🎤 ARTISTAS - NOME + CACHÊ</h3>
+<div style="display:flex;gap:6px;margin-top:8px">
+<input id="nomeArt" placeholder="NOME ex: ANDRE" style="flex:1;padding:10px;border:1px solid #ccc;border-radius:8px;font-weight:800">
+<input id="cacheArt" type="number" placeholder="R$ 350" style="width:100px;padding:10px;border:1px solid #ccc;border-radius:8px;font-weight:800">
 </div>
 <button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR NOME + CACHÊ</button>
-<div id="listaArt" style="margin-top:10px"></div>
+<div id="listaArt"></div>
+<div id="relatorio" style="margin-top:12px"></div>
 </div>
-</div>
-
-<div id="sec-casa" class="sec"><div class="barra">CASAS P1-P6</div><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="p1" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p2" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p3" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p4" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p5" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p6" style="padding:10px;border-radius:8px;border:1px solid #ccc"></div><button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900">Salvar</button></div></div>
-<div id="sec-agenda" class="sec"><div class="barra">AGENDA COMPLETA</div><div id="resAgenda"></div></div>
-<div id="sec-back" class="sec"><div class="barra">BACKUP</div><div class="card"><button onclick="exportar()" style="width:100%;padding:14px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900">💾 BAIXAR BACKUP</button></div></div>
 
 <script>
-// DADOS PADRÃO - GARANTE QUE SEMPRE TEM
-let artistas=[
+// SEMPRE COMEÇA LIMPO - NÃO LÊ CACHE VELHO
+var artistas = [
 {nome:"ANDRE",cache:300},{nome:"EDILL",cache:350},{nome:"LUCIANO",cache:300},{nome:"PAOLI",cache:320},{nome:"ISRAEL",cache:300},{nome:"YGOR",cache:280}
 ];
-let casas={p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Ze",p5:"Omau",p6:"Vago"};
-let dados={};
-
-function criaDados(){ let d={}; for(let i=1;i<=30;i++){ d[i]=[]; for(let p=0;p<6;p++) d[i].push({a:"ANDRE",t:"AL"}); } return d; }
-dados=criaDados();
-
-function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show');}
-function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show');}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show'); if(id=='cal')monta(); if(id=='rel'){montaSel();relTodos();} if(id=='art')listaArt(); if(id=='casa')fillCasas(); if(id=='agenda')agenda();}
-function salvar(){try{localStorage.setItem('STAGEFLOW_CACHE_V2',JSON.stringify({artistas,casas,dados}));}catch(e){}}
-function limparTudo(){ if(confirm('Limpar tudo e voltar ao padrão?')){ localStorage.removeItem('STAGEFLOW_CACHE_V2'); localStorage.removeItem('STAGEFLOW_CACHE'); localStorage.removeItem('STAGEFLOW_FINAL'); location.reload(); } }
+var casas = {p1:"Cais",p2:"Vila",p3:"Grill",p4:"Ze",p5:"Omau",p6:"Vago"};
+var dados = {};
+for(var d=1; d<=30; d++){ dados[d]=[]; for(var p=0;p<6;p++) dados[d].push({a:"ANDRE",t:"AL"}); }
 
 function monta(){
- try{
-  let cal=document.getElementById('cal'); 
-  if(!cal) return;
-  cal.innerHTML='';
-  let nomesDia=['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
-  for(let d=1;d<=30;d++){
-   if(!dados[d] || dados[d].length!=6) dados[d]=[{a:"ANDRE",t:"AL"},{a:"ANDRE",t:"AL"},{a:"ANDRE",t:"AL"},{a:"ANDRE",t:"AL"},{a:"ANDRE",t:"AL"},{a:"ANDRE",t:"AL"}];
-   let diaSem=nomesDia[(d-1)%7];
-   let h='<div class="num">'+d+' '+diaSem+'</div>';
-   for(let p=0;p<6;p++){
-    let cur=dados[d][p] || {a:"ANDRE",t:"AL"};
-    let opts=artistas.map(a=>'<option value="'+a.nome+'" '+(a.nome==cur.a?'selected':'')+'>'+a.nome+' R$'+a.cache+'</option>').join('');
-    let optsT='<option value="AL" '+(cur.t=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.t=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.t=='AL/JA'?'selected':'')+'>AL/JA</option>';
-    h+='<div class="l"><i>P'+(p+1)+':</i><select onchange="dados['+d+']['+p+'].a=this.value; salvar()">'+opts+'</select><select class="t" onchange="dados['+d+']['+p+'].t=this.value; salvar()">'+optsT+'</select></div>';
-   }
-   let div=document.createElement('div'); div.className='dia'; div.innerHTML=h; cal.appendChild(div);
+ var cal = document.getElementById('cal');
+ cal.innerHTML = '';
+ var diasSem = ['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
+ for(var dia=1; dia<=30; dia++){
+  var ds = diasSem[(dia-1)%7];
+  var html = '<div class="num">'+dia+' '+ds+'</div>';
+  for(var p=0; p<6; p++){
+   var cur = dados[dia][p];
+   var optArt = '';
+   for(var i=0;i<artistas.length;i++){ optArt += '<option value="'+artistas[i].nome+'" '+(artistas[i].nome==cur.a?'selected':'')+'>'+artistas[i].nome+' R$'+artistas[i].cache+'</option>'; }
+   var optT = '<option '+(cur.t=='AL'?'selected':'')+'>AL</option><option '+(cur.t=='JA'?'selected':'')+'>JA</option><option '+(cur.t=='AL/JA'?'selected':'')+'>AL/JA</option>';
+   html += '<div class="l">P'+(p+1)+':<select onchange="dados['+dia+']['+p+'].a=this.value; atualizaRel()">'+optArt+'</select><select class="t" onchange="dados['+dia+']['+p+'].t=this.value">'+optT+'</select></div>';
   }
- }catch(e){ console.log('erro monta',e); document.getElementById('cal').innerHTML='<div style=padding:20px>Erro, clique em MENU > Limpar e Resetar</div>';}
-}
-
-function montaSel(){try{document.getElementById('selArt').innerHTML=artistas.map(a=>'<option>'+a.nome+'</option>').join('');}catch(e){}}
-function relTodos(){
- let html='';
- for(let art of artistas){
-  let nome=art.nome; let det=[]; let dias=[];
-  for(let d=1;d<=30;d++) if(dados[d]) for(let p=0;p<6;p++) if(dados[d][p] && dados[d][p].a==nome){ if(!dias.includes(d)) dias.push(d); det.push('Dia '+d+' P'+(p+1)+' ('+casas['p'+(p+1)]+' '+dados[d][p].t+' R$'+art.cache+')'); }
-  if(det.length==0) continue;
-  let total=det.length*art.cache;
-  html+='<div class="card" style="border-left:4px solid #7C5CFC"><b>'+nome+' - '+det.length+' shows - Dias: '+dias.join(', ')+'</b><div style="font-size:13px;margin-top:6px;color:#0A7A2A;font-weight:900">TOTAL: '+det.length+' x R$'+art.cache+' = R$ '+total+'</div><div style="font-size:11px;margin-top:6px">'+det.join('<br>')+'</div></div>';
+  var div = document.createElement('div'); div.className='dia'; div.innerHTML=html; cal.appendChild(div);
  }
- document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum show</div>';
+ atualizaRel();
 }
-function agenda(){let html=''; for(let d=1;d<=30;d++){let l=[]; if(!dados[d]) continue; for(let p=0;p<6;p++){let ca=(artistas.find(x=>x.nome==dados[d][p].a)||{cache:0}).cache; l.push('P'+(p+1)+' ('+casas['p'+(p+1)]+'): '+dados[d][p].a+' - '+dados[d][p].t+' - R$'+ca);} html+='<div class="card"><b>Dia '+d+'</b><div style="font-size:11px;margin-top:6px">'+l.join('<br>')+'</div></div>';} document.getElementById('resAgenda').innerHTML=html;}
-function addArt(){let n=document.getElementById('nomeArt').value.trim().toUpperCase(); let c=parseFloat(document.getElementById('cacheArt').value)||0; if(!n)return; let idx=artistas.findIndex(x=>x.nome==n); if(idx>=0) artistas[idx].cache=c; else artistas.push({nome:n,cache:c}); document.getElementById('nomeArt').value=''; document.getElementById('cacheArt').value=''; salvar(); listaArt(); montaSel(); monta();}
-function listaArt(){document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:10px;background:#f5f5f5;border-radius:8px;margin-top:6px"><div><b>'+a.nome+'</b><br><span style="color:#0A7A2A;font-weight:900">R$ '+a.cache+'</span></div><button onclick="artistas.splice('+i+',1);salvar();listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:6px 10px;border-radius:6px;font-weight:800;color:#C00">X</button></div>').join('');}
-function fillCasas(){try{document.getElementById('p1').value=casas.p1;document.getElementById('p2').value=casas.p2;document.getElementById('p3').value=casas.p3;document.getElementById('p4').value=casas.p4;document.getElementById('p5').value=casas.p5;document.getElementById('p6').value=casas.p6;}catch(e){}}
-function saveCasas(){casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; salvar(); go('cal');}
-function exportar(){let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,[STRIPPED] a.download="BACKUP_"+new Date().toISOString().slice(0,10)+".json"; a.click();}
+function addArt(){
+ var n = document.getElementById('nomeArt').value.toUpperCase().trim();
+ var c = parseFloat(document.getElementById('cacheArt').value)||0;
+ if(!n) return;
+ var idx = -1;
+ for(var i=0;i<artistas.length;i++) if(artistas[i].nome==n) idx=i;
+ if(idx>=0) artistas[idx].cache=c; else artistas.push({nome:n,cache:c});
+ document.getElementById('nomeArt').value=''; document.getElementById('cacheArt').value='';
+ listaArt(); monta();
+}
+function listaArt(){
+ var h='';
+ for(var i=0;i<artistas.length;i++){ h+='<div style="display:flex;justify-content:space-between;padding:8px;background:#f2f2f2;border-radius:8px;margin-top:6px"><b>'+artistas[i].nome+' <span style="color:green">R$'+artistas[i].cache+'</span></b><button onclick="artistas.splice('+i+',1);listaArt();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:4px">X</button></div>'; }
+ document.getElementById('listaArt').innerHTML=h;
+}
+function atualizaRel(){
+ var html='<h4>📊 Relatório + Cachê Total</h4>';
+ for(var i=0;i<artistas.length;i++){
+  var art=artistas[i]; var qtd=0;
+  for(var d=1;d<=30;d++) for(var p=0;p<6;p++) if(dados[d][p].a==art.nome) qtd++;
+  if(qtd>0) html+='<div style="padding:6px;border-left:4px solid #7C5CFC;margin-top:6px;background:#fff"> <b>'+art.nome+'</b>: '+qtd+' shows x R$'+art.cache+' = <b style="color:green">R$ '+(qtd*art.cache)+'</b></div>';
+ }
+ document.getElementById('relatorio').innerHTML=html;
+}
 
-// TENTA CARREGAR BACKUP NOVO, SE FALHAR USA PADRÃO
-try{
- let txt=localStorage.getItem('STAGEFLOW_CACHE_V2');
- if(txt){ let o=JSON.parse(txt); if(o.artistas && o.artistas.length>0){ artistas=o.artistas.map(x=>typeof x=='string'?{nome:x,cache:300}:x); casas=o.casas||casas; if(o.dados && o.dados[1]) dados=o.dados; } }
-}catch(e){ console.log('cache velho ignorado'); dados=criaDados(); }
-
-monta(); montaSel(); listaArt(); fillCasas();
+// FORÇA MONTAR DE QUALQUER JEITO
+window.onload = function(){ setTimeout(monta,100); };
+monta();
+listaArt();
 </script>
 </body>
 </html>
