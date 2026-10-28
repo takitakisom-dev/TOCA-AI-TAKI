@@ -3,45 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STAGEFLOW PRO COMPLETO FINAL</title>
+<title>STAGEFLOW PRO 1-30 COMPLETO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#f2f2f5}
-.top{background:#10101e;color:#fff;padding:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;position:sticky;top:0;z-index:1000}
+.top{background:#10101e;color:#fff;padding:10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:999}
 .top b{flex:1;font-size:12px}
-.top button{padding:9px 12px;border:none;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer}
-.green{background:#7CFF9A;color:#000}
-.white{background:#fff;color:#000}
-.btnMenu{background:#FFD600;color:#000;padding:12px 16px;border:none;border-radius:10px;font-weight:900;font-size:13px;cursor:pointer;margin:8px;display:flex;gap:8px;align-items:center}
-.drawer{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#10101e;color:#fff;z-index:2000;transition:0.3s;padding:16px;overflow-y:auto}
+.top button{padding:8px 12px;border:none;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer;background:#fff;color:#000}
+.btnMenu{background:#FFD600;color:#000;padding:12px 16px;border:none;border-radius:10px;font-weight:900;font-size:13px;cursor:pointer;margin:8px;display:block;width:calc(100% - 16px)}
+.drawer{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#10101e;color:#fff;z-index:2000;transition:0.3s;padding:16px}
 .drawer.open{left:0}
-.drawer h3{margin-bottom:12px;font-size:16px}
-.drawer button{width:100%;padding:12px;margin-bottom:8px;border:none;border-radius:8px;font-weight:800;text-align:left;cursor:pointer;background:#222;color:#fff}
-.drawer button:hover{background:#333}
-.drawer .close{background:#FFD600;color:#000;margin-top:16px;text-align:center}
+.drawer button{width:100%;padding:12px;margin-bottom:8px;border:none;border-radius:8px;font-weight:800;text-align:left;background:#222;color:#fff}
+.drawer .close{background:#FFD600;color:#000;text-align:center;margin-top:20px}
 .fundo{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1500;display:none}
 .fundo.show{display:block}
 .barra{background:#222;color:#fff;padding:7px;text-align:center;font-weight:900;font-size:11px}
-.grade{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:4px;background:#f2f2f5}
+.grade{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:4px}
 .dsem{background:#ddd;padding:6px 0;text-align:center;font-weight:800;font-size:10px;border-radius:4px}
-.dia{background:#fff;border:1.2px solid #333;border-radius:6px;padding:4px;min-height:155px}
-.dia .num{font-size:12px;font-weight:900;color:#0B3D91}
+.dia{background:#fff;border:1.2px solid #333;border-radius:6px;padding:4px;min-height:165px}
+.dia .num{font-size:11px;font-weight:900;color:#0B3D91;background:#EFEFFF;padding:2px 4px;border-radius:4px}
 .l{font-size:7px;font-weight:700;display:flex;gap:2px;margin-top:2px;align-items:center}
 .l i{width:16px;font-style:normal}
 .l select{flex:1;padding:2px;border-radius:3px;border:1px solid #aaa;font-size:7px;font-weight:700}
-.l select.t{width:32px;background:#EFE8FF;color:#4A2AC0;font-weight:900}
+.l select.t{width:36px;background:#EFE8FF;color:#4A2AC0;font-weight:900}
 .sec{display:none}.sec.show{display:block}
 .card{background:#fff;border-radius:10px;padding:12px;margin:8px}
-@media print{@page{size:A4 landscape;margin:3mm} .top,.btnMenu,.drawer,.fundo{display:none!important} .barra{font-size:6px!important;padding:2px!important;background:#000!important;color:#fff!important} .grade{gap:2px!important;padding:2px!important;background:#fff!important} .dsem{font-size:5px!important;padding:1px 0!important} .dia{height:36mm!important;min-height:0!important;padding:2px!important;border:0.6px solid #000!important;overflow:hidden} .dia .num{font-size:6px!important} .l{font-size:4.5px!important;margin-top:0!important} .l select{font-size:4.5px!important;height:8px!important;padding:0!important;-webkit-appearance:none}}
+@media print{@page{size:A4 landscape;margin:3mm} .top,.btnMenu,.drawer,.fundo{display:none!important} .grade{gap:2px!important} .dia{height:36mm!important;min-height:0!important;overflow:hidden} .l select{font-size:4px!important;height:8px!important}}
 </style>
 </head>
 <body>
 
 <div class="top">
-<b>STAGEFLOW PRO • NOV 2026 • COMPLETO</b>
-<button class="green" onclick="go('rel')">📊 Relatório</button>
-<button class="white" onclick="window.print()">🖨️ Imprimir 1 Folha</button>
-<button class="white" onclick="exportar()">💾 Backup</button>
+<b>STAGEFLOW PRO • NOV 2026 • 1 AO 30</b>
+<button onclick="window.print()">🖨️ 1 Folha</button>
+<button onclick="exportar()">💾 Backup</button>
 </div>
 
 <button class="btnMenu" onclick="openMenu()">☰ MENU COMPLETO - CLIQUE AQUI</button>
@@ -49,147 +44,64 @@ body{background:#f2f2f5}
 <div class="fundo" id="fundo" onclick="closeMenu()"></div>
 <div class="drawer" id="drawer">
 <h3>☰ MENU COMPLETO</h3>
-<button onclick="go('cal');closeMenu()">📅 Grade Mensal</button>
+<button onclick="go('cal');closeMenu()">📅 Grade Mensal 1-30</button>
 <button onclick="go('rel');closeMenu()">📊 Relatório Artista</button>
 <button onclick="go('art');closeMenu()">🎤 Artistas</button>
 <button onclick="go('casa');closeMenu()">🏠 Casas P1-P6</button>
 <button onclick="go('agenda');closeMenu()">📋 Agenda Completa</button>
 <button onclick="go('back');closeMenu()">💾 Backup / Restaurar</button>
 <button onclick="window.print();closeMenu()">🖨️ Imprimir 1 Folha</button>
-<button class="close" onclick="closeMenu()">✖ FECHAR</button>
+<button class="close" onclick="closeMenu()">✖ FECHAR MENU</button>
 </div>
 
 <div id="sec-cal" class="sec show">
-<div class="barra">NOVEMBRO 2026 • 1 AO 30 • P1-P6 = CASAS • AL=Almoço JA=Janta • 1 FOLHA A4 DEITADO</div>
+<div class="barra">NOVEMBRO 2026 • 1 DOM AO 30 SEG • P1-P6 = CASAS • AL=Almoço JA=Janta AL/JA=Almoço e Janta</div>
 <div class="grade"><div class="dsem">Dom</div><div class="dsem">Seg</div><div class="dsem">Ter</div><div class="dsem">Qua</div><div class="dsem">Qui</div><div class="dsem">Sex</div><div class="dsem">Sab</div></div>
 <div class="grade" id="cal"></div>
 </div>
 
-<div id="sec-rel" class="sec">
-<div class="barra">RELATÓRIO POR ARTISTA - DIAS 1,2,3...</div>
-<div class="card">
-<select id="selArt" style="width:100%;padding:12px;font-weight:800;border-radius:8px"></select>
-<button onclick="relTodos()" style="width:100%;margin-top:8px;padding:12px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:900">VER RELATÓRIO COMPLETO</button>
-</div>
-<div id="resRel"></div>
-</div>
-
-<div id="sec-art" class="sec">
-<div class="barra">ARTISTAS</div>
-<div class="card">
-<input id="nomeArt" placeholder="Nome ex: ANDRE" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;font-weight:800">
-<button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR ARTISTA</button>
-<div id="listaArt" style="margin-top:10px"></div>
-</div>
-</div>
-
-<div id="sec-casa" class="sec">
-<div class="barra">CASAS P1-P6</div>
-<div class="card">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<input id="p1" style="padding:10px;border-radius:8px;border:1px solid #ccc" placeholder="P1">
-<input id="p2" style="padding:10px;border-radius:8px;border:1px solid #ccc" placeholder="P2">
-<input id="p3" style="padding:10px;border-radius:8px;border:1px solid #ccc" placeholder="P3">
-<input id="p4" style="padding:10px;border-radius:8px;border:1px solid #ccc" placeholder="P4">
-<input id="p5" style="padding:10px;border-radius:8px;border:1px solid #ccc" placeholder="P5">
-<input id="p6" style="padding:10px;border-radius:8px;border:1px solid #ccc" placeholder="P6">
-</div>
-<button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900">Salvar Casas</button>
-</div>
-</div>
-
-<div id="sec-agenda" class="sec">
-<div class="barra">AGENDA COMPLETA - TODOS OS SHOWS 1 AO 30</div>
-<div id="resAgenda"></div>
-</div>
-
-<div id="sec-back" class="sec">
-<div class="barra">BACKUP - NUNCA PERDE</div>
-<div class="card">
-<button onclick="exportar()" style="width:100%;padding:14px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900;font-size:14px">💾 BAIXAR BACKUP AGORA</button>
-<input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
-<button onclick="document.getElementById('fileIn').click()" style="width:100%;margin-top:10px;padding:14px;background:#eee;border:none;border-radius:8px;font-weight:800">📂 RESTAURAR BACKUP</button>
-<div style="margin-top:12px;font-size:12px;color:#444">Seus artistas ficam salvos automático no navegador. Baixe o backup todo dia pra garantir!</div>
-</div>
-</div>
+<div id="sec-rel" class="sec"><div class="barra">RELATÓRIO POR ARTISTA - DIAS 1,2,3...</div><div class="card"><select id="selArt" style="width:100%;padding:12px;font-weight:800;border-radius:8px"></select><button onclick="relTodos()" style="width:100%;margin-top:8px;padding:12px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:900">VER RELATÓRIO</button></div><div id="resRel"></div></div>
+<div id="sec-art" class="sec"><div class="barra">ARTISTAS</div><div class="card"><input id="nomeArt" placeholder="Nome ex: ANDRE" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;font-weight:800"><button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR</button><div id="listaArt" style="margin-top:10px"></div></div></div>
+<div id="sec-casa" class="sec"><div class="barra">CASAS P1-P6</div><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="p1" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p2" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p3" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p4" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p5" style="padding:10px;border-radius:8px;border:1px solid #ccc"><input id="p6" style="padding:10px;border-radius:8px;border:1px solid #ccc"></div><button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900">Salvar Casas</button></div></div>
+<div id="sec-agenda" class="sec"><div class="barra">AGENDA COMPLETA - TODOS P1-P6</div><div id="resAgenda"></div></div>
+<div id="sec-back" class="sec"><div class="barra">BACKUP</div><div class="card"><button onclick="exportar()" style="width:100%;padding:14px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:900">💾 BAIXAR BACKUP</button><input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)"><button onclick="document.getElementById('fileIn').click()" style="width:100%;margin-top:10px;padding:14px;background:#eee;border:none;border-radius:8px;font-weight:800">📂 RESTAURAR BACKUP</button></div></div>
 
 <script>
 let artistas=["ANDRE","EDILL","LUCIANO","PAOLI","ISRAEL","YGOR","Eli","Grill","Y Gon","Vago","Bruno","Marcos","Leo","Felipe","Rafa","Diego","Thiago","Nando","Ze","Cais","Vila","Omau","Bar","Chopp"];
 let casas={p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Ze",p5:"Omau",p6:"Vago"};
-let dados={};
-for(let d=1; d<=30; d++){ dados[d]=[]; for(let p=0;p<6;p++) dados[d].push({a:"ANDRE",t:"AL"}); }
-
-function openMenu(){ document.getElementById('drawer').classList.add('open'); document.getElementById('fundo').classList.add('show'); }
-function closeMenu(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('fundo').classList.remove('show'); }
-
-function go(id){
- document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
- document.getElementById('sec-'+id).classList.add('show');
- if(id=='cal') monta();
- if(id=='rel'){ montaSel(); relTodos(); }
- if(id=='art') listaArt();
- if(id=='casa') fillCasas();
- if(id=='agenda') agenda();
-}
-
-function salvar(d,p,tipo,val){
- dados[d][p][tipo]=val;
- try{ localStorage.setItem('STAGEFLOW_FINAL_100',JSON.stringify({artistas:artistas,casas:casas,dados:dados})); }catch(e){}
-}
-
+let dados={}; for(let d=1;d<=30;d++){dados[d]=[]; for(let p=0;p<6;p++) dados[d].push({a:"ANDRE",t:"AL"});}
+function openMenu(){document.getElementById('drawer').classList.add('open');document.getElementById('fundo').classList.add('show');}
+function closeMenu(){document.getElementById('drawer').classList.remove('open');document.getElementById('fundo').classList.remove('show');}
+function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.getElementById('sec-'+id).classList.add('show'); if(id=='cal')monta(); if(id=='rel'){montaSel();relTodos();} if(id=='art')listaArt(); if(id=='casa')fillCasas(); if(id=='agenda')agenda();}
+function salvar(d,p,tipo,val){dados[d][p][tipo]=val; try{localStorage.setItem('STAGEFLOW_FINAL',JSON.stringify({artistas,casas,dados}));}catch(e){}}
 function monta(){
- let cal=document.getElementById('cal'); 
- cal.innerHTML='';
- for(let d=1; d<=30; d++){
-   let h='<div class="num">'+d+' ▼</div>';
-   for(let p=0;p<6;p++){
-     let cur=dados[d][p];
-     let opts=artistas.map(a=>'<option value="'+a+'" '+(a==cur.a?'selected':'')+'>'+a+'</option>').join('');
-     let optsT='<option value="AL" '+(cur.t=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.t=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.t=='AL/JA'?'selected':'')+'>AL/JA</option>';
-     h+='<div class="l"><i>P'+(p+1)+':</i><select onchange="salvar('+d+','+p+',\'a\',this.value)">'+opts+'</select><select class="t" onchange="salvar('+d+','+p+',\'t\',this.value)">'+optsT+'</select></div>';
-   }
-   let div=document.createElement('div'); div.className='dia'; div.innerHTML=h; cal.appendChild(div);
+ let cal=document.getElementById('cal'); cal.innerHTML='';
+ let nomesDia=['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
+ for(let d=1;d<=30;d++){
+  let diaSem=nomesDia[(d-1)%7];
+  let h='<div class="num">'+d+' '+diaSem+'</div>';
+  for(let p=0;p<6;p++){
+   let cur=dados[d][p];
+   let opts=artistas.map(a=>'<option value="'+a+'" '+(a==cur.a?'selected':'')+'>'+a+'</option>').join('');
+   let optsT='<option value="AL" '+(cur.t=='AL'?'selected':'')+'>AL</option><option value="JA" '+(cur.t=='JA'?'selected':'')+'>JA</option><option value="AL/JA" '+(cur.t=='AL/JA'?'selected':'')+'>AL/JA</option>';
+   h+='<div class="l"><i>P'+(p+1)+':</i><select onchange="salvar('+d+','+p+',\'a\',this.value)">'+opts+'</select><select class="t" onchange="salvar('+d+','+p+',\'t\',this.value)">'+optsT+'</select></div>';
+  }
+  let div=document.createElement('div'); div.className='dia'; div.innerHTML=h; cal.appendChild(div);
  }
- let resto=7-(30%7); if(resto<7) for(let i=0;i<resto;i++){let e=document.createElement('div'); e.className='dia'; e.style.background='#efefef'; cal.appendChild(e);}
 }
+function montaSel(){document.getElementById('selArt').innerHTML=artistas.map(a=>'<option>'+a+'</option>').join('');}
+function relTodos(){let html=''; for(let nome of artistas){let dias=[]; let det=[]; for(let d=1;d<=30;d++) for(let p=0;p<6;p++) if(dados[d][p].a==nome){if(!dias.includes(d))dias.push(d); det.push('Dia '+d+' P'+(p+1)+' ('+casas['p'+(p+1)]+' '+dados[d][p].t+')');} if(dias.length==0)continue; dias.sort((a,b)=>a-b); html+='<div class="card" style="border-left:4px solid #7C5CFC"><b>'+nome+': '+dias.length+' shows - Dias: '+dias.join(', ')+'</b><div style="font-size:11px;margin-top:6px">'+det.join('<br>')+'</div></div>';} document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum show</div>';}
+function agenda(){let html=''; for(let d=1;d<=30;d++){let l=[]; for(let p=0;p<6;p++) l.push('P'+(p+1)+' ('+casas['p'+(p+1)]+'): '+dados[d][p].a+' - '+dados[d][p].t); html+='<div class="card" style="border-left:4px solid #0B3D91"><b>Dia '+d+'</b><div style="font-size:11px;margin-top:6px;line-height:1.6">'+l.join('<br>')+'</div></div>';} document.getElementById('resAgenda').innerHTML=html;}
+function addArt(){let n=document.getElementById('nomeArt').value.trim().toUpperCase(); if(!n)return; if(!artistas.includes(n)) artistas.push(n); document.getElementById('nomeArt').value=''; salvar(1,0,'a','ANDRE'); listaArt(); montaSel(); monta();}
+function listaArt(){document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-top:6px"><b>'+a+'</b><button onclick="artistas.splice('+i+',1);listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px;font-weight:800;color:#C00">X</button></div>').join('');}
+function fillCasas(){document.getElementById('p1').value=casas.p1;document.getElementById('p2').value=casas.p2;document.getElementById('p3').value=casas.p3;document.getElementById('p4').value=casas.p4;document.getElementById('p5').value=casas.p5;document.getElementById('p6').value=casas.p6;}
+function saveCasas(){casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; salvar(1,0,'a','ANDRE'); alert('Casas salvas!'); go('cal');}
+function exportar(){let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({artistas,casas,dados})); a.download="BACKUP_STAGEFLOW_"+new Date().toISOString().slice(0,10)+".json"; a.click();}
+function importar(e){let f=e.target.files[0]; if(!f)return; let r=new FileReader(); r.onload=function(ev){try{let o=JSON.parse(ev.target.result); if(o.artistas) artistas=o.artistas; if(o.casas) casas=o.casas; if(o.dados) dados=o.dados; salvar(1,0,'a','ANDRE'); location.reload();}catch(err){alert('Erro');}}; r.readAsText(f);}
 
-function montaSel(){ document.getElementById('selArt').innerHTML=artistas.map(a=>'<option>'+a+'</option>').join(''); }
-function relTodos(){
- let html='';
- for(let nome of artistas){
-  let dias=[]; let det=[];
-  for(let d=1; d<=30; d++) for(let p=0;p<6;p++) if(dados[d][p].a==nome){ if(!dias.includes(d)) dias.push(d); det.push('Dia '+d+' P'+(p+1)+' ('+casas['p'+(p+1)]+' '+dados[d][p].t+')'); }
-  if(dias.length==0) continue;
-  dias.sort((a,b)=>a-b);
-  html+='<div class="card" style="border-left:4px solid #7C5CFC"><b>'+nome+': '+dias.length+' shows - Dias: '+dias.join(', ')+'</b><div style="font-size:11px;margin-top:6px">'+det.join('<br>')+'</div></div>';
- }
- document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum show ainda</div>';
-}
-function agenda(){
- let html='';
- for(let d=1; d<=30; d++){
-  let l=[]; for(let p=0;p<6;p++) l.push('P'+(p+1)+' ('+casas['p'+(p+1)]+'): '+dados[d][p].a+' - '+dados[d][p].t);
-  html+='<div class="card" style="border-left:4px solid #0B3D91"><b>Dia '+d+' - Novembro</b><div style="font-size:11px;margin-top:6px;line-height:1.6">'+l.join('<br>')+'</div></div>';
- }
- document.getElementById('resAgenda').innerHTML=html;
-}
-function addArt(){ let n=document.getElementById('nomeArt').value.trim().toUpperCase(); if(!n) return; if(!artistas.includes(n)) artistas.push(n); document.getElementById('nomeArt').value=''; salvar(1,0,'a',artistas[0]); listaArt(); montaSel(); monta(); }
-function listaArt(){ document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>'<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-top:6px"><b>'+a+'</b><button onclick="artistas.splice('+i+',1);listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px;font-weight:800;color:#C00">X</button></div>').join(''); }
-function fillCasas(){ document.getElementById('p1').value=casas.p1; document.getElementById('p2').value=casas.p2; document.getElementById('p3').value=casas.p3; document.getElementById('p4').value=casas.p4; document.getElementById('p5').value=casas.p5; document.getElementById('p6').value=casas.p6; }
-function saveCasas(){ casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; salvar(1,0,'a',artistas[0]); alert('Casas salvas!'); go('cal'); }
-function exportar(){ let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({artistas:artistas,casas:casas,dados:dados})); a.download="BACKUP_STAGEFLOW_"+new Date().toISOString().slice(0,10)+".json"; a.click(); }
-function importar(e){ let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=function(ev){ try{ let o=JSON.parse(ev.target.result); if(o.artistas) artistas=o.artistas.map(x=>typeof x==='string'?x:x.nome); if(o.casas) casas=o.casas; if(o.dados) dados=o.dados; salvar(1,0,'a',artistas[0]); location.reload(); }catch(err){ alert('Erro no arquivo'); } }; r.readAsText(f); }
-
-// INICIA GARANTIDO
+// CARREGA NA HORA - IMPOSSIVEL FICAR BRANCO
 monta(); montaSel(); listaArt(); fillCasas();
-
-// tenta recuperar depois sem quebrar
-setTimeout(()=>{
- try{
-  let txt=localStorage.getItem('STAGEFLOW_FINAL_100') || localStorage.getItem('STAGEFLOW_PERMANENTE_2026');
-  if(txt){ let o=JSON.parse(txt); if(o.artistas && o.artistas.length>0){ artistas=o.artistas.map(x=>typeof x==='string'?x:x.nome||x); casas=o.casas||casas; dados=o.dados||dados; monta(); montaSel(); listaArt(); fillCasas(); } }
- }catch(e){}
-},400);
+try{let txt=localStorage.getItem('STAGEFLOW_FINAL'); if(txt){let o=JSON.parse(txt); if(o.artistas){artistas=o.artistas; casas=o.casas; dados=o.dados; monta(); montaSel(); listaArt(); fillCasas();}}}catch(e){}
 </script>
 </body>
 </html>
