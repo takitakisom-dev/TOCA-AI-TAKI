@@ -1,121 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - FIX FINAL</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>STAGEFLOW PRO - 30 DIAS VISAO GERAL</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{display:flex;min-height:100vh;background:#fff}
-.sidebar{width:260px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;z-index:1000;display:flex;flex-direction:column;transition:.3s}
-.logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding:0 8px}
-.logo-box{width:28px;height:28px;background:#7C5CFC;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px}
-.logo-box div{background:#fff;border-radius:2px}
-.menu{flex:1;overflow-y:auto}
-.menu button{width:100%;padding:12px 14px;border:none;border-radius:8px;background:transparent;color:#8B90A0;font-size:13px;font-weight:600;text-align:left;cursor:pointer;margin-bottom:2px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{display:flex;background:#fff;min-height:100vh}
+.sidebar{width:250px;background:#10101E;color:#fff;position:fixed;left:0;top:0;height:100vh;padding:16px 12px;z-index:1000;display:flex;flex-direction:column;transition:.25s}
+.logo{font-weight:800;margin-bottom:20px}
+.menu{flex:1}
+.menu button{width:100%;padding:11px 12px;margin-bottom:2px;border:none;border-radius:8px;background:transparent;color:#9AA0B4;text-align:left;font-weight:600;font-size:13px;cursor:pointer}
 .menu button.active{background:#7C5CFC;color:#fff}
-.backup{display:flex;gap:8px;margin-top:16px}
-.backup button{flex:1;padding:10px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;background:#2A2A3A;color:#fff}
-.user{margin-top:20px;background:#1A1A2E;padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center}
-.user .av{width:32px;height:32px;background:#7C5CFC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
-.main{flex:1;margin-left:260px;background:#fff;display:flex;flex-direction:column;min-width:0}
-.top-bar{background:#fff;padding:10px 16px;display:flex;gap:10px;border-bottom:1px solid #eee;align-items:center}
-.top-bar button{padding:10px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:12px}
-.hamb{display:none;background:#10101E;color:#fff;border:none;width:40px;height:40px;border-radius:8px;font-size:22px;cursor:pointer}
-.header-title{background:#3A3A3A;color:#fff;padding:18px 20px;font-size:26px;font-weight:900}
-.scroll-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#fff;min-width:800px}
-.week div{background:#E9E9E9;text-align:center;padding:12px 0;font-size:13px;color:#333;font-weight:700;border-radius:4px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:0 12px 20px;background:#fff;min-width:800px}
-.cell{border:1.5px solid #555;background:#fff;min-height:210px;padding:12px 10px;border-radius:6px}
-.cell.empty{background:#EDEDED;border-color:#D0D0D0;min-height:50px}
-.num{font-size:24px;font-weight:900;color:#1E3A8A;margin-bottom:8px}
-.line{font-size:12.5px;line-height:1.5;display:flex;gap:4px;margin-top:3px}
-.line b{min-width:24px;font-weight:800}
-.line select{border:none;background:transparent;font-size:12.5px;width:100%;cursor:pointer;font-weight:600;white-space:normal;word-break:break-word}
-.footer-info{background:#D6EAF8;text-align:center;padding:8px;font-size:11px}
-@media print{
-@page{size:A4 landscape;margin:8mm}
-.sidebar,.top-bar{display:none!important}
-.main{margin-left:0!important}
-.scroll-wrap{overflow:visible!important}
-.week,.cal{min-width:0!important}
-}
+.main{margin-left:250px;flex:1;min-width:0}
+.top{padding:10px 14px;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#fff;position:sticky;top:0;z-index:10}
+.top button{padding:10px 14px;border-radius:8px;border:1px solid #ddd;background:#fff;font-weight:700;cursor:pointer;font-size:12px}
+.btn-menu{display:none;background:#10101E;color:#fff;border:none;width:40px;height:40px;border-radius:8px;font-size:22px}
+.header{background:#3A3A3A;color:#fff;padding:16px 20px;font-size:22px;font-weight:900}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:10px 12px;background:#fff}
+.week div{background:#E9E9E9;padding:8px 0;text-align:center;font-weight:700;font-size:12px;border-radius:4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#fff}
+.cell{border:1.2px solid #333;background:#fff;min-height:175px;padding:8px 6px;border-radius:5px;overflow:hidden}
+.cell.empty{background:#EDEDED;border-color:#ccc;min-height:40px}
+.num{font-size:18px;font-weight:900;color:#1E3A8A;margin-bottom:5px}
+.linha{font-size:10.5px;display:flex;gap:2px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.linha b{min-width:20px;font-weight:800}
+.linha select{border:none;background:transparent;width:100%;font-size:10.5px;font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* MOBILE - AGORA MOSTRA OS 30 DIAS DE UMA VEZ, 7 COLUNAS */
 @media(max-width:900px){
-.sidebar{left:-280px}
-.sidebar.show{left:0}
+.sidebar{left:-260px}.sidebar.show{left:0}
 .main{margin-left:0}
-.hamb{display:block}
-.header-title{font-size:18px}
-.week,.cal{min-width:700px}
-.cell.empty{display:none} /* REMOVE OS 6 CINZAS NO CELULAR */
-.cell{min-height:190px}
+.btn-menu{display:block}
+.header{font-size:16px;padding:12px}
+.week{gap:4px;padding:6px}
+.week div{font-size:9px;padding:6px 0}
+.cal{gap:4px;padding:0 6px 12px}
+.cell{min-height:155px;padding:5px 4px}
+.num{font-size:14px;margin-bottom:3px}
+.linha{font-size:8.5px;line-height:1.25}
+.linha select{font-size:8.5px}
+}
+
+@media print{
+@page{size:A4 landscape;margin:6mm}
+.sidebar,.top{display:none!important}
+.main{margin-left:0!important}
+.cell{min-height:110px!important}
+.linha,.linha select{font-size:8px!important}
 }
 </style>
 </head>
 <body>
-<div class="sidebar" id="sidebar">
-<div class="logo"><div class="logo-box"><div></div><div></div><div></div><div></div></div><b>Stageflow Pro</b></div>
+<div class="sidebar" id="side">
+<div class="logo">Stageflow Pro</div>
 <div class="menu">
 <button>Dashboard</button>
-<button class="active">Agendamento Mensal Planejamento</button>
+<button class="active">Agendamento Mensal</button>
 <button>Artistas</button>
 <button>Casas</button>
 <button>Financeiro</button>
 <button>Relatorios</button>
-<button>Configuracoes</button>
-<button>Ajuda</button>
-<div class="backup">
-<button onclick="exportar()">Exportar</button>
-<button onclick="document.getElementById('imp').click()">Importar</button>
-<input type="file" id="imp" hidden accept=".json" onchange="importar(this)">
+<div style="margin-top:12px;display:flex;gap:6px">
+<button style="background:#2A2A3A;color:#fff" onclick="exportar()">Exportar</button>
+<button style="background:#2A2A3A;color:#fff" onclick="document.getElementById('f').click()">Importar</button>
+<input type="file" id="f" hidden accept=".json" onchange="importar(this)">
 </div>
 </div>
-<div class="user"><div class="av">JD</div><div><div style="font-size:12px;font-weight:700">Joao Duarte</div><div style="font-size:10px;color:#8B90A0">Admin</div></div></div>
+<div style="margin-top:auto;background:#1A1A2E;padding:10px;border-radius:10px;font-size:12px">JD - Joao Duarte</div>
 </div>
 
 <div class="main">
-<div class="top-bar">
-<button class="hamb" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button>
-<button onclick="window.print()">Imprimir Horizontal</button>
-<button onclick="exportar()">Exportar Backup</button>
+<div class="top">
+<button class="btn-menu" onclick="document.getElementById('side').classList.toggle('show')">☰</button>
+<button onclick="window.print()">Imprimir Horizontal 30 Dias</button>
+<button onclick="exportar()">Exportar</button>
 </div>
-<div class="header-title">STAGEFLOW PRO - CALENDARIO NOVEMBRO 2026</div>
-<div class="scroll-wrap">
-<div class="week"><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div><div>Domingo</div></div>
+<div class="header">STAGEFLOW PRO - CALENDARIO NOVEMBRO 2026 - SEGUNDA A DOMINGO</div>
+<div class="week"><div>SEGUNDA</div><div>TERCA</div><div>QUARTA</div><div>QUINTA</div><div>SEXTA</div><div>SABADO</div><div>DOMINGO</div></div>
 <div class="cal" id="cal"></div>
-</div>
-<div class="footer-info">Arraste pro lado no celular - Segunda a Domingo - Quadrados largos editaveis</div>
 </div>
 
 <script>
-const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
+const opcoes=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
 let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
-let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-fix-final'))}catch(e){}
-store=store||base;
-function opts(v){return lista.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}
-function render(){
-const cal=document.getElementById('cal'); cal.innerHTML='';
-for(let i=0;i<6;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);}
-for(let d=1;d<=30;d++){
-let a=store[d]||base[d];
-let div=document.createElement('div'); div.className='cell';
-div.innerHTML=`<div class="num">${d}</div>
-<div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(a[0])}</select></div>
-<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(a[1])}</select></div>
-<div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(a[2])}</select></div>
-<div class="line"><b>P4:</b><select data-d="${d}" data-i="3">${opts(a[3])}</select></div>
-<div class="line"><b>P5:</b><select data-d="${d}" data-i="4">${opts(a[4])}</select></div>
-<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(a[5])}</select></div>`;
-cal.appendChild(div);
+let dados=JSON.parse(localStorage.getItem('stageflow_30dias_visao')||'null')||base;
+function opts(v){return opcoes.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}
+const cal=document.getElementById('cal');
+function desenhar(){
+cal.innerHTML='';
+// Novembro 2026 comeca domingo, entao 6 vazios pra comecar na segunda
+for(let i=0;i<6;i++){let d=document.createElement('div');d.className='cell empty';cal.appendChild(d);}
+for(let dia=1;dia<=30;dia++){
+let a=dados[dia];
+let el=document.createElement('div');el.className='cell';
+el.innerHTML=`<div class="num">${dia}</div>
+<div class="linha"><b>P1:</b><select data-d="${dia}" data-i="0">${opts(a[0])}</select></div>
+<div class="linha"><b>P2:</b><select data-d="${dia}" data-i="1">${opts(a[1])}</select></div>
+<div class="linha"><b>P3:</b><select data-d="${dia}" data-i="2">${opts(a[2])}</select></div>
+<div class="linha"><b>P4:</b><select data-d="${dia}" data-i="3">${opts(a[3])}</select></div>
+<div class="linha"><b>P5:</b><select data-d="${dia}" data-i="4">${opts(a[4])}</select></div>
+<div class="linha"><b>P6:</b><select data-d="${dia}" data-i="5">${opts(a[5])}</select></div>`;
+cal.appendChild(el);
 }
 cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
-store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('stageflow-fix-final',JSON.stringify(store));
+dados[e.target.dataset.d][e.target.dataset.i]=e.target.value;
+localStorage.setItem('stageflow_30dias_visao',JSON.stringify(dados));
 }));
 }
-window.onload=render;
-function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,[STRIPPED]
-function importar(inp){let f=inp.files[0]; if(!f) return; let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-fix-final',e.target.result); location.reload();}; r.readAsText(f);}
+desenhar();
+function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(dados));a.download="stageflow-novembro-2026.json";a.click();}
+function importar(inp){let file=inp.files[0];if(!file)return;let r=new FileReader();r.onload=e=>{localStorage.setItem('stageflow_30dias_visao',e.target.result);location.reload()};r.readAsText(file)}
 </script>
 </body>
 </html>
