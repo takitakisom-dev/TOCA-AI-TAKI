@@ -3,253 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STAGEFLOW PRO - NUNCA PERDE</title>
+<title>STAGEFLOW PRO - FUNCIONA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#f2f2f5}
-.top{background:#10101e;color:#fff;padding:8px 10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:1000;flex-wrap:wrap}
+.top{background:#10101e;color:#fff;padding:10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:1000}
 .top b{flex:1;font-size:12px}
-.top button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer}
-.btn-green{background:#7CFF9A;color:#000}
-.btn-white{background:#fff;color:#000}
-.btn-red{background:#FF4D4D;color:#fff}
-.menu{padding:8px;background:#fff;display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid #ddd;position:sticky;top:48px;z-index:999}
+.top button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;font-size:11px}
+.green{background:#7CFF9A;color:#000}
+.white{background:#fff;color:#000}
+.menu{padding:8px;background:#fff;display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid #ddd}
 .menu button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;background:#eee;font-size:11px}
 .menu button.on{background:#10101e;color:#fff}
-.header{background:#333;color:#fff;padding:8px;text-align:center;font-weight:900;font-size:12px}
-.wrap{overflow-x:auto}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:6px;background:#f2f2f5;min-width:900px}
-.week div{background:#E9E9E9;padding:6px 0;text-align:center;font-weight:800;font-size:10px;border-radius:4px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:0 6px 12px;background:#f2f2f5;min-width:900px}
-.cell{background:#fff;border:1.2px solid #555;border-radius:8px;padding:4px;min-height:155px}
-.num{font-size:13px;font-weight:900;color:#0B3D91}
-.linha{display:flex;gap:2px;align-items:center;margin-top:2px;font-size:8px;font-weight:700}
-.linha b{width:18px}
-.sel-art{flex:1;padding:3px 1px;border:1px solid #DDD;border-radius:4px;background:#F7F7FA;font-size:8px;font-weight:700;min-width:0}
-.sel-turno{width:32px;padding:3px 0;border:1px solid #7C5CFC;border-radius:4px;background:#EFE8FF;font-size:8px;font-weight:900;color:#4A2AC0;text-align:center}
+.barra{background:#333;color:#fff;padding:8px;text-align:center;font-weight:900;font-size:12px}
+.grade{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:6px;background:#f2f2f5}
+.dsem{background:#E9E9E9;padding:6px 0;text-align:center;font-weight:800;font-size:10px;border-radius:4px}
+.dia{background:#fff;border:1.5px solid #000;border-radius:8px;padding:5px;min-height:165px}
+.dia b.num{font-size:14px;color:#0B3D91;display:block;margin-bottom:3px}
+.l{font-size:8px;font-weight:700;display:flex;gap:2px;align-items:center;margin-top:3px}
+.l i{width:18px;font-style:normal}
+.l select{flex:1;padding:3px 1px;border-radius:4px;border:1px solid #ccc;font-size:8px;font-weight:700}
+.l select.t{width:34px;background:#EFE8FF;border-color:#7C5CFC;color:#4A2AC0;font-weight:900}
 .sec{display:none}.sec.show{display:block}
 .card{background:#fff;border-radius:10px;padding:12px;margin:10px}
-.aviso{background:#FFF3CD;border:2px solid #FFC107;padding:12px;border-radius:10px;margin:10px;font-size:12px;font-weight:700}
-@media print{@page{size:A4 landscape;margin:5mm}.top,.menu,.aviso{display:none!important}}
+@media print{@page{size:A4 landscape;margin:5mm}.top,.menu{display:none!important}}
+@media(max-width:700px){.grade{grid-template-columns:1fr 1fr;}.dsem{display:none}.dia{min-height:auto}}
 </style>
 </head>
 <body>
 
 <div class="top">
-<b>STAGEFLOW PRO • RECUPERAÇÃO AUTOMÁTICA</b>
-<button class="btn-green" onclick="go('rel')">📊 Relatório</button>
-<button class="btn-white" onclick="window.print()">🖨️ Imprimir</button>
-<button class="btn-white" onclick="exportar()">💾 Backup</button>
+<b>STAGEFLOW PRO • NOV 2026 • VISAO TOTAL</b>
+<button class="green" onclick="go('rel')">📊 Relatorio</button>
+<button class="white" onclick="window.print()">🖨️ Imprimir</button>
 </div>
-
-<div id="avisoRec" class="aviso" style="display:none"></div>
 
 <div class="menu">
 <button id="b-cal" class="on" onclick="go('cal')">📅 Grade Mensal</button>
-<button id="b-rel" onclick="go('rel')">📊 Relatório</button>
+<button id="b-rel" onclick="go('rel')">📊 Relatorio Artista</button>
 <button id="b-art" onclick="go('art')">🎤 Artistas</button>
-<button id="b-casa" onclick="go('casa')">🏠 Casas P1-P6</button>
 </div>
 
 <div id="sec-cal" class="sec show">
-<div class="header">NOVEMBRO 2026 • VISÃO TOTAL 30 DIAS • P1-P6 = CASAS • AL/JA</div>
-<div class="wrap">
-<div class="week"><div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div></div>
-<div class="cal" id="cal"></div>
+<div class="barra">NOVEMBRO 2026 • 1 AO 30 • P1-P6 = CASAS • AL/JA • ROLE PRO LADO</div>
+<div style="overflow-x:auto">
+<div class="grade" id="semana"><div class="dsem">Dom</div><div class="dsem">Seg</div><div class="dsem">Ter</div><div class="dsem">Qua</div><div class="dsem">Qui</div><div class="dsem">Sex</div><div class="dsem">Sab</div></div>
+<div class="grade" id="cal"></div>
 </div>
 </div>
 
 <div id="sec-rel" class="sec">
-<div class="header">RELATÓRIO POR ARTISTA</div>
+<div class="barra">RELATORIO POR ARTISTA</div>
 <div class="card">
 <select id="selArt" style="width:100%;padding:10px;font-weight:800;border-radius:8px"></select>
-<div style="display:flex;gap:6px;margin-top:8px">
-<button onclick="relUnico()" style="flex:1;padding:10px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:800">Ver André</button>
-<button onclick="relTodos()" style="flex:1;padding:10px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:800">Ver Todos</button>
-</div>
+<button onclick="fazRel()" style="width:100%;margin-top:8px;padding:12px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:900">VER DIAS DO ANDRE - 1,2,3,4...</button>
 </div>
 <div id="resRel"></div>
 </div>
 
 <div id="sec-art" class="sec">
 <div class="card">
-<input id="nomeArt" placeholder="Nome ex: ANDRÉ" style="width:70%;padding:10px;border-radius:8px;border:1px solid #ccc">
-<input id="valorArt" type="number" placeholder="Cachê R$" style="width:28%;padding:10px;border-radius:8px;border:1px solid #ccc">
-<button onclick="addArt()" style="width:100%;margin-top:8px;padding:10px;border:none;border-radius:8px;background:#7C5CFC;color:#fff;font-weight:900">SALVAR ARTISTA - NUNCA PERDE</button>
-<div id="listaArt" style="margin-top:10px"></div>
-</div>
-</div>
-
-<div id="sec-casa" class="sec">
-<div class="card">
-<div style="display:flex;gap:6px;flex-wrap:wrap">
-<input id="p1" placeholder="P1" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-<input id="p2" placeholder="P2" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-<input id="p3" placeholder="P3" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-<input id="p4" placeholder="P4" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-<input id="p5" placeholder="P5" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-<input id="p6" placeholder="P6" style="flex:1;padding:8px;border-radius:6px;border:1px solid #ccc">
-</div>
-<button onclick="saveCasas()" style="width:100%;margin-top:8px;padding:10px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:800">Salvar Casas</button>
+<input id="novoArt" placeholder="Nome ex: ANDRE" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc">
+<button onclick="addArt()" style="width:100%;margin-top:8px;padding:10px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR</button>
+<div id="listaArt"></div>
 </div>
 </div>
 
 <script>
-// ===== RECUPERAÇÃO TOTAL - PROCURA EM TUDO =====
-const CHAVE_FIXA = 'STAGEFLOW_PERMANENTE_2026';
-const CHAVES_ANTIGAS = [
- 'STAGEFLOW_MASTER_V1','STAGEFLOW_SIMPLES_FINAL','STAGEFLOW_FINAL_V3',
- 'STAGEFLOW_BACKUP_ULTIMO','stageflow_taki_final_v2','stageflow_final_perfeito',
- 'sf_casas','sf_artistas','sf_cal_final','sf_cal_limpo','sf_cal_alja',
- 'sf_casas_p1p6','sf_artistas_v2','stageflow_taki','stageflow_pro',
- 'STAGEFLOW_PERMANENTE_2026','STAGEFLOW_SIMPLES_FINAL_CAL','STAGEFLOW_FINAL_V3'
-];
-
-function recuperarTudo(){
- let melhor=null, maxArtistas=0, origem='';
- // 1. Procura nas chaves conhecidas
- for(let chave of CHAVES_ANTIGAS){
-   try{
-     let txt=localStorage.getItem(chave);
-     if(!txt) continue;
-     let obj=JSON.parse(txt);
-     let artistas=obj.artistas || (Array.isArray(obj)?obj:null) || obj;
-     if(Array.isArray(artistas) && artistas.length>maxArtistas){
-       maxArtistas=artistas.length;
-       melhor=obj.artistas?obj: {artistas:obj, casas:{p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"}, dados:null};
-       origem=chave;
-     }
-     if(obj.artistas && obj.artistas.length>maxArtistas){
-       maxArtistas=obj.artistas.length;
-       melhor=obj;
-       origem=chave;
-     }
-   }catch(e){}
- }
- // 2. Varre TODO o localStorage (qualquer chave)
- for(let i=0;i<localStorage.length;i++){
-   try{
-     let chave=localStorage.key(i);
-     if(CHAVES_ANTIGAS.includes(chave)) continue;
-     let txt=localStorage.getItem(chave);
-     if(!txt || txt.length<10) continue;
-     let obj=JSON.parse(txt);
-     if(obj && obj.artistas && obj.artistas.length>maxArtistas){
-       maxArtistas=obj.artistas.length;
-       melhor=obj;
-       origem=chave+' (varredura)';
-     }
-   }catch(e){}
- }
- return {dados:melhor, origem, qtd:maxArtistas};
-}
-
-let recuperado = recuperarTudo();
-let artistas = ["ANDRÉ","Eli","Grill","Luciano","Y Gon","Israel","Vago"];
-let casas = {p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
+// DADOS FIXOS - SEM LEITURA QUE QUEBRA
+let artistas = ["ANDRE","Eli","Grill","Luciano","Y Gon","Israel","Vago"];
 let dados = {};
 
-if(recuperado.dados){
-  if(recuperado.dados.artistas) artistas=recuperado.dados.artistas;
-  if(recuperado.dados.casas) casas=recuperado.dados.casas;
-  if(recuperado.dados.dados) dados=recuperado.dados.dados;
-  if(Array.isArray(recuperado.dados) && recuperado.dados.length>0 && typeof recuperado.dados[0]==='object' && recuperado.dados[0].nome){
-    artistas=recuperado.dados;
+for(let d=1; d<=30; d++){
+  dados[d]=[];
+  for(let p=0;p<6;p++) dados[d].push({a:"ANDRE",t:"AL"});
+}
+
+// Tenta recuperar SEM quebrar a tela
+try{
+  let rec = localStorage.getItem('STAGEFLOW_PERMANENTE_2026');
+  if(rec){
+    let j=JSON.parse(rec);
+    if(j.artistas && j.artistas.length>2) artistas=j.artistas.map(x=>typeof x==='string'?x:(x.nome||"ANDRE"));
   }
-  document.getElementById('avisoRec').style.display='block';
-  document.getElementById('avisoRec').innerHTML=`✅ RECUPEREI SEUS DADOS! Achei ${recuperado.qtd} artistas em "${recuperado.origem}" - Nomes: ${artistas.map(a=>typeof a==='string'?a:a.nome).slice(0,5).join(', ')}... Seus cachês voltaram!`;
-}else{
-  document.getElementById('avisoRec').style.display='block';
-  document.getElementById('avisoRec').innerHTML=`⚠️ Não achei backup antigo, começando com lista padrão. Mas agora salvo em 5 lugares, nunca mais perde!`;
-}
-
-if(!dados[1] || !dados[1][0]){
- for(let i=1;i<=30;i++) dados[i]=Array(6).fill(0).map(()=>({artista: (artistas[0]?.nome||artistas[0]||"ANDRÉ"), turno:"AL"}));
-}
-
-function normalizaArtista(a){
- if(typeof a==='string') return a;
- if(a && a.nome) return a.nome;
- return "ANDRÉ";
-}
-
-function save(){
- let pacote={artistas,casas,dados,salvoEm:new Date().toISOString()};
- // Salva em 5 lugares ao mesmo tempo!
- localStorage.setItem(CHAVE_FIXA, JSON.stringify(pacote));
- localStorage.setItem('STAGEFLOW_BACKUP_ULTIMO', JSON.stringify(pacote));
- localStorage.setItem('STAGEFLOW_BACKUP_'+new Date().toISOString().slice(0,10), JSON.stringify(pacote));
- localStorage.setItem('sf_artistas', JSON.stringify(artistas));
- localStorage.setItem('sf_casas', JSON.stringify(casas));
-}
+}catch(e){}
 
 function go(id){
  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on'));
  document.getElementById('sec-'+id).classList.add('show');
- let btn=document.getElementById('b-'+id); if(btn) btn.classList.add('on');
+ document.getElementById('b-'+id).classList.add('on');
  if(id=='cal') monta();
  if(id=='rel') montaSel();
  if(id=='art') listaArt();
- if(id=='casa') fillCasas();
 }
-
-function optsArt(v){
- let lista=artistas.map(a=>normalizaArtista(a));
- return lista.map(a=>`<option ${a==v?'selected':''}>${a}</option>`).join('');
-}
-function optsTurno(v){return ['AL','JA','AL/JA'].map(t=>`<option ${t==v?'selected':''}>${t}</option>`).join('')}
 
 function monta(){
- let cal=document.getElementById('cal'); cal.innerHTML='';
- for(let d=1;d<=30;d++){
-   let div=document.createElement('div'); div.className='cell';
-   let html=`<div class="num"><div>${d}</div></div>`;
+ let cal=document.getElementById('cal');
+ cal.innerHTML='';
+ for(let d=1; d<=30; d++){
+   let div=document.createElement('div');
+   div.className='dia';
+   let h=`<b class="num">${d} ▼</b>`;
    for(let p=0;p<6;p++){
-     let cur=dados[d][p]||{artista:normalizaArtista(artistas[0]),turno:"AL"};
-     if(typeof cur==='string') cur={artista:cur,turno:"AL"};
-     if(cur.nome) cur={artista:cur.nome,turno:"AL"};
-     html+=`<div class="linha"><b>P${p+1}:</b><select class="sel-art" data-d="${d}" data-p="${p}" data-t="artista">${optsArt(cur.artista)}</select><select class="sel-turno" data-d="${d}" data-p="${p}" data-t="turno">${optsTurno(cur.turno)}</select></div>`;
+     let artOp=artistas.map(a=>`<option ${a==dados[d][p].a?'selected':''}>${a}</option>`).join('');
+     let turnoOp=`<option ${dados[d][p].t=='AL'?'selected':''}>AL</option><option ${dados[d][p].t=='JA'?'selected':''}>JA</option><option ${dados[d][p].t=='AL/JA'?'selected':''}>AL/JA</option>`;
+     h+=`<div class="l"><i>P${p+1}:</i><select data-d="${d}" data-p="${p}" class="art">${artOp}</select><select data-d="${d}" data-p="${p}" class="t">${turnoOp}</select></div>`;
    }
-   div.innerHTML=html; cal.appendChild(div);
+   div.innerHTML=h;
+   cal.appendChild(div);
  }
- let resto=7-(30%7); if(resto<7) for(let i=0;i<resto;i++){let e=document.createElement('div'); e.className='cell'; e.style.background='#EFEFEF'; cal.appendChild(e);}
- cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{let d=e.target.dataset.d,p=e.target.dataset.p,t=e.target.dataset.t; dados[d][p][t]=e.target.value; save()}));
+ // completa
+ let resto=7-(30%7); if(resto<7) for(let i=0;i<resto;i++){let e=document.createElement('div'); e.className='dia'; e.style.background='#efefef'; e.innerHTML=''; cal.appendChild(e);}
+
+ cal.querySelectorAll('select').forEach(s=>{
+   s.addEventListener('change', e=>{
+     let d=e.target.dataset.d, p=e.target.dataset.p;
+     if(e.target.classList.contains('art')) dados[d][p].a=e.target.value;
+     else dados[d][p].t=e.target.value;
+     try{ localStorage.setItem('STAGEFLOW_PERMANENTE_2026', JSON.stringify({artistas:artistas,dados:dados})) }catch(err){}
+   });
+ });
 }
 
-function montaSel(){document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${normalizaArtista(a)}</option>`).join('')}
-function relUnico(){fazerRel([document.getElementById('selArt').value])}
-function relTodos(){fazerRel(artistas.map(a=>normalizaArtista(a)))}
-function fazerRel(nomes){
- let html='';
- for(let nome of nomes){
-   let dias=[],count=0,det=[];
-   for(let d=1;d<=30;d++) for(let p=0;p<6;p++) if(dados[d][p].artista==nome){count++; if(!dias.includes(d)) dias.push(d); det.push(`Dia ${d} - P${p+1} (${casas['p'+(p+1)]} - ${dados[d][p].turno})`)}
-   if(count==0) continue;
-   dias.sort((a,b)=>a-b);
-   html+=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${count} shows</b><div style="margin-top:6px">Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:2px 7px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0;font-size:11px">${x}</span>`).join('')}</div><div style="font-size:11px;margin-top:6px">${det.join('<br>')}</div></div>`;
- }
- document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum show</div>';
+function montaSel(){ document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${a}</option>`).join('') }
+
+function fazRel(){
+ let nome=document.getElementById('selArt').value;
+ let dias=[];
+ for(let d=1; d<=30; d++) for(let p=0;p<6;p++) if(dados[d][p].a==nome) if(!dias.includes(d)) dias.push(d);
+ dias.sort((a,b)=>a-b);
+ document.getElementById('resRel').innerHTML=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${dias.length} shows</b><br><br>Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:3px 8px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0">${x}</span>`).join('')}<br><br>${dias.map(x=>`Dia ${x} - P1 a P6`).join('<br>')}</div>`;
 }
+
 function addArt(){
- let n=document.getElementById('nomeArt').value.trim().toUpperCase();
- let v=document.getElementById('valorArt').value;
+ let n=document.getElementById('novoArt').value.trim().toUpperCase();
  if(!n) return;
- artistas.push({nome:n,valor:parseFloat(v)||0});
- document.getElementById('nomeArt').value=''; document.getElementById('valorArt').value='';
- save(); listaArt(); montaSel(); monta();
+ artistas.push(n);
+ document.getElementById('novoArt').value='';
+ try{ localStorage.setItem('STAGEFLOW_PERMANENTE_2026', JSON.stringify({artistas:artistas,dados:dados})) }catch(e){}
+ listaArt(); montaSel(); monta();
 }
 function listaArt(){
- document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>{
-   let nome=normalizaArtista(a); let valor=(a.valor||0);
-   return `<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-bottom:4px"><b>${nome} - R$${valor}</b><button onclick="artistas.splice(${i},1);save();listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px">X</button></div>`;
- }).join('');
+ document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-top:6px"><b>${a}</b><button onclick="artistas.splice(${i},1);try{localStorage.setItem('STAGEFLOW_PERMANENTE_2026',JSON.stringify({artistas:artistas,dados:dados}))}catch(e){};listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px">X</button></div>`).join('');
 }
-function fillCasas(){document.getElementById('p1').value=casas.p1;document.getElementById('p2').value=casas.p2;document.getElementById('p3').value=casas.p3;document.getElementById('p4').value=casas.p4;document.getElementById('p5').value=casas.p5;document.getElementById('p6').value=casas.p6;}
-function saveCasas(){casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; save(); alert('Casas salvas!');}
-function exportar(){let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,[STRIPPED] a.download="BACKUP_STAGEFLOW_"+new Date().toISOString().slice(0,10)+".json"; a.click(); alert('Backup baixado! Guarda esse arquivo, nunca perde!')}
 
-save(); monta(); montaSel(); listaArt(); fillCasas();
+monta(); montaSel(); listaArt();
 </script>
 </body>
 </html>
