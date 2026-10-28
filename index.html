@@ -2,57 +2,53 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - FINAL CORRIGIDO</title>
+<title>STAGEFLOW PRO - FIX FINAL</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{display:flex;min-height:100vh;background:#fff}
-.sidebar{width:260px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;z-index:1000;display:flex;flex-direction:column;transition:.3s;overflow-y:auto}
+.sidebar{width:260px;background:#10101E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;z-index:1000;display:flex;flex-direction:column;transition:.3s}
 .logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding:0 8px}
 .logo-box{width:28px;height:28px;background:#7C5CFC;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px}
 .logo-box div{background:#fff;border-radius:2px}
-.menu{flex:1}
+.menu{flex:1;overflow-y:auto}
 .menu button{width:100%;padding:12px 14px;border:none;border-radius:8px;background:transparent;color:#8B90A0;font-size:13px;font-weight:600;text-align:left;cursor:pointer;margin-bottom:2px}
 .menu button.active{background:#7C5CFC;color:#fff}
 .backup{display:flex;gap:8px;margin-top:16px}
 .backup button{flex:1;padding:10px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;background:#2A2A3A;color:#fff}
 .user{margin-top:20px;background:#1A1A2E;padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center}
 .user .av{width:32px;height:32px;background:#7C5CFC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
-.main{flex:1;margin-left:260px;background:#fff;display:flex;flex-direction:column}
-.top-bar{background:#fff;padding:10px 16px;display:flex;gap:10px;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+.main{flex:1;margin-left:260px;background:#fff;display:flex;flex-direction:column;min-width:0}
+.top-bar{background:#fff;padding:10px 16px;display:flex;gap:10px;border-bottom:1px solid #eee;align-items:center}
 .top-bar button{padding:10px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;font-weight:700;cursor:pointer;font-size:12px}
 .hamb{display:none;background:#10101E;color:#fff;border:none;width:40px;height:40px;border-radius:8px;font-size:22px;cursor:pointer}
-.header-title{background:#3A3A3A;color:#fff;padding:18px 20px;font-size:28px;font-weight:900}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#fff}
+.header-title{background:#3A3A3A;color:#fff;padding:18px 20px;font-size:26px;font-weight:900}
+.scroll-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#fff;min-width:800px}
 .week div{background:#E9E9E9;text-align:center;padding:12px 0;font-size:13px;color:#333;font-weight:700;border-radius:4px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:0 12px 20px;background:#fff}
-.cell{border:1.5px solid #777;background:#fff;min-height:195px;padding:10px 10px;border-radius:6px;display:flex;flex-direction:column}
-.cell.empty{background:#EDEDED;border-color:#D0D0D0}
-.num{font-size:24px;font-weight:900;color:#1E3A8A;margin-bottom:6px}
-.line{font-size:12px;line-height:1.4;display:flex;gap:4px;margin-top:3px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;padding:0 12px 20px;background:#fff;min-width:800px}
+.cell{border:1.5px solid #555;background:#fff;min-height:210px;padding:12px 10px;border-radius:6px}
+.cell.empty{background:#EDEDED;border-color:#D0D0D0;min-height:50px}
+.num{font-size:24px;font-weight:900;color:#1E3A8A;margin-bottom:8px}
+.line{font-size:12.5px;line-height:1.5;display:flex;gap:4px;margin-top:3px}
 .line b{min-width:24px;font-weight:800}
-.line select{border:none;background:transparent;font-size:12px;width:100%;cursor:pointer;white-space:normal;word-break:break-word;font-weight:600}
+.line select{border:none;background:transparent;font-size:12.5px;width:100%;cursor:pointer;font-weight:600;white-space:normal;word-break:break-word}
 .footer-info{background:#D6EAF8;text-align:center;padding:8px;font-size:11px}
-
-/* IMPRESSAO NA HORIZONTAL */
 @media print{
 @page{size:A4 landscape;margin:8mm}
 .sidebar,.top-bar{display:none!important}
 .main{margin-left:0!important}
-.cell{min-height:135px!important}
+.scroll-wrap{overflow:visible!important}
+.week,.cal{min-width:0!important}
 }
-
-/* MOBILE - COM MENU VOLTANDO */
 @media(max-width:900px){
-.sidebar{left:-280px;position:fixed}
+.sidebar{left:-280px}
 .sidebar.show{left:0}
 .main{margin-left:0}
 .hamb{display:block}
-.header-title{font-size:20px}
-.cal{grid-template-columns:1fr!important}
-.week{display:none}
-.cell{min-height:auto!important;padding:16px!important}
-.line{font-size:15px}
-.line select{font-size:15px}
+.header-title{font-size:18px}
+.week,.cal{min-width:700px}
+.cell.empty{display:none} /* REMOVE OS 6 CINZAS NO CELULAR */
+.cell{min-height:190px}
 }
 </style>
 </head>
@@ -80,24 +76,25 @@ body{display:flex;min-height:100vh;background:#fff}
 <div class="main">
 <div class="top-bar">
 <button class="hamb" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button>
-<button onclick="window.print()">Imprimir Calendario Horizontal</button>
+<button onclick="window.print()">Imprimir Horizontal</button>
 <button onclick="exportar()">Exportar Backup</button>
 </div>
 <div class="header-title">STAGEFLOW PRO - CALENDARIO NOVEMBRO 2026</div>
+<div class="scroll-wrap">
 <div class="week"><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div><div>Domingo</div></div>
 <div class="cal" id="cal"></div>
-<div class="footer-info">Segunda a Domingo - P1 a P6 - Clique para editar</div>
+</div>
+<div class="footer-info">Arraste pro lado no celular - Segunda a Domingo - Quadrados largos editaveis</div>
 </div>
 
 <script>
-const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel","Gar do Ze - Y Gon","Vago"];
+const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
 let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Ze - Y Gon","Omau - Vago","Vago - Israel"];
-let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-segunda-domingo'))}catch(e){}
+let store=null; try{store=JSON.parse(localStorage.getItem('stageflow-fix-final'))}catch(e){}
 store=store||base;
 function opts(v){return lista.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}
 function render(){
 const cal=document.getElementById('cal'); cal.innerHTML='';
-// NOVEMBRO 2026: 1 cai no DOMINGO, entao se semana comeca na SEGUNDA, precisa de 6 vazios antes
 for(let i=0;i<6;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);}
 for(let d=1;d<=30;d++){
 let a=store[d]||base[d];
@@ -113,12 +110,12 @@ cal.appendChild(div);
 }
 cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
 store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('stageflow-segunda-domingo',JSON.stringify(store));
+localStorage.setItem('stageflow-fix-final',JSON.stringify(store));
 }));
 }
 window.onload=render;
-function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));a.download="backup-novembro-2026.json";a.click();}
-function importar(inp){let f=inp.files[0]; if(!f) return; let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-segunda-domingo',e.target.result); location.reload();}; r.readAsText(f);}
+function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,[STRIPPED]
+function importar(inp){let f=inp.files[0]; if(!f) return; let r=new FileReader(); r.onload=e=>{localStorage.setItem('stageflow-fix-final',e.target.result); location.reload();}; r.readAsText(f);}
 </script>
 </body>
 </html>
