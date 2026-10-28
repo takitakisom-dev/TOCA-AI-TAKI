@@ -2,100 +2,135 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - FIX CELULAR</title>
+<title>Stageflow Pro</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{display:flex;min-height:100vh;background:#0f0f1e}
-.sidebar{width:280px;background:#10101E;color:#fff;padding:20px 14px;position:fixed;height:100vh;left:0;top:0;z-index:1000;transition:.3s}
-.sidebar h2{font-size:16px;margin-bottom:14px}
-.backup{display:flex;gap:8px;margin-bottom:18px}
-.backup button{flex:1;padding:10px 6px;border:none;border-radius:10px;font-size:12px;font-weight:900;cursor:pointer}
-.btn-exp{background:#1DD1A1} .btn-imp{background:#FFC93C}
-.menu button{width:100%;padding:14px 12px;border:none;border-radius:12px;text-align:left;font-weight:800;font-size:13px;color:#8B90A0;background:transparent;margin-bottom:8px;cursor:pointer}
-.menu button.active{background:#7B5CFF;color:#fff}
-.main{flex:1;margin-left:280px;background:#f5f5f7;min-height:100vh}
-.top{padding:12px 14px;background:#0F3A4F;color:#fff;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.hamb{display:none;background:rgba(255,255,255,.2);border:none;color:#fff;width:38px;height:38px;border-radius:10px;font-size:22px}
-.btn-print{padding:10px 16px;border:none;border-radius:10px;background:#fff;color:#0F3A4F;font-weight:900}
-.header-cal{background:#4D4D4D;color:#fff;padding:18px 16px;font-size:34px;font-weight:900}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial}
+body{display:flex;min-height:100vh;background:#F4F4F6}
+.sidebar{width:280px;background:#0F0F1E;color:#fff;padding:18px 12px;position:fixed;left:0;top:0;height:100vh;display:flex;flex-direction:column;z-index:1000;transition:.3s;border-radius:0 16px 16px 0}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding:6px 8px}
+.logo-icon{width:32px;height:32px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.logo-icon div{background:#8B5CF6;border-radius:3px} .logo-icon div:nth-child(2){background:#A78BFA} .logo-icon div:nth-child(3){background:#7C3AED} .logo-icon div:nth-child(4){background:#8B5CF6}
+.logo b{font-size:16px}
+.menu{flex:1}
+.menu button{width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border:none;border-radius:10px;background:transparent;color:#9AA0B4;font-size:13px;font-weight:600;text-align:left;cursor:pointer;margin-bottom:4px}
+.menu button.active{background:#7C5CFC;color:#fff}
+.menu button span.icon{width:20px;text-align:center}
+.backup-row{display:flex;gap:8px;margin:14px 0}
+.backup-row button{flex:1;padding:10px;border:none;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
+.btn-exp{background:#1DD1A1;color:#000} .btn-imp{background:#FFC93C;color:#000}
+.user{margin-top:auto;background:#1A1A2E;padding:10px 12px;border-radius:12px;display:flex;align-items:center;gap:10px}
+.user .av{width:32px;height:32px;background:#7C5CFC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.user small{color:#9AA0B4;display:block}
+.main{flex:1;margin-left:280px}
+.top{height:64px;background:#193A4D;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:100}
+.hamb{display:none;width:40px;height:40px;border:none;border-radius:10px;background:rgba(255,255,255,.15);color:#fff;font-size:22px}
+.btn-print{background:#fff;color:#193A4D;border:none;padding:10px 18px;border-radius:10px;font-weight:800;cursor:pointer}
+.header-cal{background:#4A4A4A;color:#fff;padding:22px;font-size:38px;font-weight:900}
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:6px;background:#fff}
-.week div{background:#DCDCDC;text-align:center;padding:16px 0}
+.week div{background:#E1E1E1;text-align:center;padding:16px 0;font-size:14px}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:8px;background:#fff}
-.cell{border:1.5px solid #777;background:#fff;min-height:210px;padding:10px;border-radius:8px}
+.cell{border:1.5px solid #7A7A7A;background:#fff;min-height:220px;padding:10px;border-radius:8px}
+.cell.gray{background:#E9E9E9}
 .num{font-size:32px;font-weight:900;color:#333;display:flex;justify-content:space-between}
-.line{display:flex;gap:6px;margin-top:5px;font-size:13.5px;align-items:flex-start}
+.line{display:flex;gap:6px;margin-top:5px;font-size:13.5px}
 .line b{min-width:28px;font-weight:900}
-.line select{border:none;background:transparent;font-size:13.5px;font-weight:700;width:100%;appearance:none;cursor:pointer;white-space:normal;word-break:break-word}
-
-/* FIX CELULAR - AQUI ESTAVA O PROBLEMA */
+.line select{border:none;background:transparent;font-size:13.5px;font-weight:700;width:100%;cursor:pointer}
+.view{display:none} .view.active{display:block}
 @media(max-width:900px){
-.sidebar{left:-300px} .sidebar.show{left:0}
-.main{margin-left:0}
-.hamb{display:block}
+.sidebar{left:-300px;border-radius:0} .sidebar.show{left:0}
+.main{margin-left:0} .hamb{display:block}
 .header-cal{font-size:26px}
-.week{display:none} /* esconde Domingo Segunda no celular */
-.cal{grid-template-columns:1fr !important;gap:12px;padding:12px}
-.cell{min-height:auto !important;padding:16px !important;border-radius:14px}
-.num{font-size:26px;margin-bottom:8px}
-.line{font-size:16px !important;margin-top:8px}
-.line select{font-size:16px !important}
-.line b{font-size:16px}
+.cal{grid-template-columns:1fr !important} .week{display:none}
+.cell{min-height:auto !important;padding:18px !important}
+.line{font-size:16px} .line select{font-size:16px}
 }
 @media print{.sidebar,.top{display:none!important} .main{margin-left:0!important}}
 </style>
 </head>
 <body>
 <div class="sidebar" id="sidebar">
-<h2>🔷 STAGEFLOW PRO</h2>
-<div class="backup">
+<div class="logo"><div class="logo-icon"><div></div><div></div><div></div><div></div></div><b>Stageflow Pro</b></div>
+<div class="menu">
+<button><span class="icon">🗂️</span> Dashboard</button>
+<button class="active" data-view="agenda"><span class="icon">📅</span> Agendamento Mensal Planejamento</button>
+<button data-view="artistas"><span class="icon">👥</span> Artistas</button>
+<button data-view="casas"><span class="icon">🏢</span> Casas</button>
+<button data-view="financeiro"><span class="icon">$</span> Financeiro</button>
+<button data-view="relatorios"><span class="icon">📊</span> Relatorios</button>
+<button><span class="icon">⚙️</span> Configurações</button>
+<button><span class="icon">❓</span> Ajuda</button>
+<div class="backup-row">
 <button class="btn-exp" onclick="exportar()">📤 Exportar</button>
 <button class="btn-imp" onclick="document.getElementById('imp').click()">📥 Importar</button>
-<input type="file" id="imp" style="display:none" accept=".json" onchange="importar(this)">
-</div>
-<div class="menu">
-<button>🏠 Dashboard</button>
-<button class="active">📅 Agendamento Mensal</button>
-<button>🎸 Artistas</button>
-<button>🏠 Casas</button>
-<button>💰 Financeiro</button>
-<button>📊 Relatórios</button>
+<input type="file" id="imp" hidden accept=".json" onchange="importar(this)">
 </div>
 </div>
+<div class="user"><div class="av">JD</div><div><b style="font-size:13px">João Duarte</b><small>Admin</small></div></div>
+</div>
+
 <div class="main">
 <div class="top">
-<div style="display:flex;align-items:center;gap:10px"><button class="hamb" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button><b>NOVEMBRO 2026</b></div>
+<div style="display:flex;align-items:center;gap:12px"><button class="hamb" onclick="document.getElementById('sidebar').classList.toggle('show')">☰</button><b>NOVEMBRO 2026</b></div>
 <button class="btn-print" onclick="window.print()">🖨️ Imprimir Calendário</button>
 </div>
+<div id="agenda" class="view active">
 <div class="header-cal">NOVEMBRO 2026</div>
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
 </div>
+<div id="financeiro" class="view"><div style="padding:24px"><h2>Financeiro</h2><br><button onclick="window.print()">🖨️ Imprimir Financeiro</button></div></div>
+<div id="artistas" class="view"><div style="padding:24px"><h2>Artistas</h2><br><button onclick="window.print()">🖨️ Imprimir Artistas</button></div></div>
+<div id="casas" class="view"><div style="padding:24px"><h2>Casas</h2><br><button onclick="window.print()">🖨️ Imprimir Casas</button></div></div>
+<div id="relatorios" class="view"><div style="padding:24px"><h2>Relatórios</h2></div></div>
+</div>
+
 <script>
-const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Gar do Zé - Y Gon","Vago"];
+const casas=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Gar do Zé - Y Gon","Vago"];
 let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"];
-let store=JSON.parse(localStorage.getItem('fix-celular-final')||'null')||base;
-function opts(s){return lista.map(v=>`<option ${v===s?'selected':''}>${v}</option>`).join('');}
+let saved=null; try{saved=JSON.parse(localStorage.getItem('stageflow-pro-oficial'))}catch(e){}
+let store=saved||base;
+function opts(sel){return casas.map(c=>`<option ${c===sel?'selected':''}>${c}</option>`).join('')}
 function render(){
-const cal=document.getElementById('cal'); cal.innerHTML='';
+const el=document.getElementById('cal'); if(!el) return; el.innerHTML='';
 for(let d=1;d<=30;d++){
-let arr=store[d]; let div=document.createElement('div'); div.className='cell';
-div.innerHTML=`<div class="num">${d} <span>▼</span></div>
-<div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(arr[0])}</select></div>
-<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(arr[1])}</select></div>
-<div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(arr[2])}</select></div>
-<div class="line"><b>P4:</b><select data-d="${d}" data-i="3">${opts(arr[3])}</select></div>
-<div class="line"><b>P5:</b><select data-d="${d}" data-i="4">${opts(arr[4])}</select></div>
-<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(arr[5])}</select></div>`;
-cal.appendChild(div);
+let a=store[d]||base[d];
+let div=document.createElement('div'); div.className='cell';
+div.innerHTML=`<div class="num">${d} <span style="font-size:16px">▼</span></div>
+<div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(a[0])}</select></div>
+<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(a[1])}</select></div>
+<div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(a[2])}</select></div>
+<div class="line"><b>P4:</b><select data-d="${d}" data-i="3">${opts(a[3])}</select></div>
+<div class="line"><b>P5:</b><select data-d="${d}" data-i="4">${opts(a[4])}</select></div>
+<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(a[5])}</select></div>`;
+el.appendChild(div);
 }
-document.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
-store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('fix-celular-final',JSON.stringify(store));
+for(let i=0;i<5;i++){let g=document.createElement('div'); g.className='cell gray'; el.appendChild(g);}
+el.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
+let d=e.target.dataset.d, i=e.target.dataset.i;
+store[d][i]=e.target.value;
+localStorage.setItem('stageflow-pro-oficial',JSON.stringify(store));
 }));
 }
-render();
-function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,[STRIPPED]
-function importar(i){let f=i.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{localStorage.setItem('fix-celular-final',e.target.result);location.reload();};r.readAsText(f);}
+window.addEventListener('load',render);
+document.querySelectorAll('.menu button[data-view]').forEach(b=>{
+b.addEventListener('click',()=>{
+document.querySelectorAll('.menu button').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById(b.dataset.view).classList.add('active');
+if(window.innerWidth<=900) document.getElementById('sidebar').classList.remove('show');
+});
+});
+function exportar(){
+let data="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));
+let a=document.createElement('a'); a.href=data; a.download="backup-stageflow-"+new Date().toISOString().slice(0,10)+".json"; a.click();
+}
+function importar(inp){
+let f=inp.files[0]; if(!f) return;
+let r=new FileReader();
+r.onload=e=>{ try{ localStorage.setItem('stageflow-pro-oficial',e.target.result); location.reload(); }catch(err){alert('Erro no backup')} };
+r.readAsText(f);
+}
 </script>
 </body>
 </html>
