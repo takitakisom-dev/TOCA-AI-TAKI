@@ -1,199 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel - PEDE AI PRO PREMIUM</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Playfair+Display:wght@700&family=Bebas+Neue&family=Raleway:wght@700&family=Poppins:wght@700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAGEFLOW PRO - P1 P2 P3 P4 P5 P6</title>
 <style>
-:root{--bg:#0a0a0a;--card:#1a1a1a;--accent:#00ff88;--text:#fff;--font:'Montserrat',sans-serif}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);transition:.4s}
-.header{background:var(--card);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--accent)}
-.btn-menu{font-size:26px;background:none;border:none;color:var(--accent);cursor:pointer}
-.menu{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#0f0f0f;border-right:3px solid var(--accent);z-index:999;transition:.35s;padding:18px 14px;overflow-y:auto}
-.menu.open{left:0}
-.menu a{display:flex;align-items:center;gap:10px;padding:14px 12px;margin:7px 0;background:#1e1e1e;border-radius:12px;color:#fff;text-decoration:none;font-weight:800;border-left:4px solid var(--accent);font-size:13px}
-.menu .separador{height:1px;background:#222;margin:14px 0}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;z-index:998}
-.overlay.show{display:block}
-.card{background:var(--card);border:1px solid #2a2a2a;border-radius:18px;padding:16px;margin:12px 8px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
-.sec{display:none} .sec.ativa{display:block}
-label{font-size:10px;color:var(--accent);font-weight:800;margin-top:8px;display:block;letter-spacing:1px}
-input,select,textarea{width:100%;background:#0f0f0f;border:1px solid #333;color:#fff;padding:13px;border-radius:12px;margin:3px 0 8px;font-family:var(--font)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn{padding:13px 14px;border:none;border-radius:12px;font-weight:800;cursor:pointer;margin:4px;font-family:var(--font)}
-.btn-verde{background:var(--accent);color:#000} .btn-azul{background:#00b0ff;color:#fff} .btn-vermelho{background:#ff1744;color:#fff}
-.btn-premium{background:linear-gradient(135deg,var(--accent),#fff);color:#000;box-shadow:0 0 15px var(--accent)}
-.tema{padding:14px;margin:6px;border-radius:14px;cursor:pointer;border:2px solid #333;text-align:center;font-weight:800;transition:.3s;min-height:60px;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.tema.ativo{border-color:var(--accent);transform:scale(1.05);box-shadow:0 0 20px var(--accent)}
-.tema small{font-size:10px;opacity:.8;font-weight:400;margin-top:4px}
-.musica{background:#242424;padding:10px;border-radius:12px;display:flex;justify-content:space-between;margin:5px 0}
-.qrbox{background:#fff;padding:10px;border-radius:14px;width:200px;margin:10px auto}
-#alerta{position:fixed;top:10px;left:10px;right:10px;background:var(--accent);color:#000;padding:16px;border-radius:14px;font-weight:800;text-align:center;display:none;z-index:9999}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{display:flex;min-height:100vh;background:#0f0f1e}
+.sidebar{width:260px;background:#10101E;color:#fff;padding:20px 14px}
+.sidebar h2{font-size:15px;margin-bottom:22px;letter-spacing:1px}
+.menu button{width:100%;padding:14px 12px;border:none;border-radius:12px;text-align:left;font-weight:800;font-size:13px;color:#8B90A0;background:transparent;margin-bottom:8px;cursor:pointer;display:flex;gap:8px}
+.menu button.active{background:#7B5CFF;color:#fff;box-shadow:0 4px 14px rgba(123,92,255,.4)}
+.main{flex:1;background:#f5f5f7;overflow:auto}
+.top{padding:16px 20px;background:#0F3A4F;color:#fff;display:flex;align-items:center;gap:10px}
+.top b{font-size:18px;letter-spacing:.3px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:12px 12px 0}
+.week div{background:#D9D9D9;text-align:center;padding:12px 0;font-size:13px;font-weight:700;color:#333;border-radius:4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:8px 12px 30px}
+.cell{border:1px solid #d0d0d0;background:#fff;padding:7px 6px;min-height:232px;border-radius:6px}
+.cell.gray{background:#E5E5E5}
+.num{font-size:21px;font-weight:900;color:#222;display:flex;justify-content:space-between;align-items:center}
+.num span{font-size:12px;color:#7B5CFF}
+.line{display:flex;align-items:center;gap:3px;margin-top:4px}
+.line b{font-size:10px;width:20px;color:#111}
+.sel{flex:1;padding:5px 4px;border:1px solid #A5B4FC;border-radius:7px;background:#F8FAFF;font-size:10px;font-weight:700;color:#222;cursor:pointer}
+.sel:focus{outline:2px solid #7B5CFF}
+.foot{padding:10px;text-align:center;font-size:11px;color:#666}
 </style>
 </head>
 <body>
-<div id="alerta">🔔 NOVO PEDIDO!</div>
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-<div class="header">
-<button class="btn-menu" onclick="toggleMenu()">☰</button>
-<b style="color:var(--accent);font-family:var(--font);letter-spacing:1px">PEDE AI PRO</b>
-<button class="btn-menu" onclick="abrirSec('config')">⚙️</button>
-</div>
-
-<div class="menu" id="menu">
-<h3 style="color:var(--accent)">☰ MENU PREMIUM</h3>
-<a href="#" onclick="abrirSec('cadastro');toggleMenu()">👤 CADASTRO (5 campos)</a>
-<a href="#" onclick="abrirSec('repertorio');toggleMenu()">🎵 REPERTÓRIO</a>
-<a href="#" onclick="abrirSec('aovivo');toggleMenu()">🔴 AO VIVO</a>
-<a href="#" onclick="abrirSec('sugestoesMenu');toggleMenu()">💡 SUGESTÕES GUARDADAS</a>
-
-<div class="separador"></div>
-<h4 style="color:var(--accent);font-size:12px;margin:6px 0">🔧 BACKUP - VOCÊ PEDIU NO ÁUDIO</h4>
-<a href="#" onclick="exportarBackup();toggleMenu()" style="border-left-color:#00b0ff">📤 EXPORTAR BACKUP (salvar tudo)</a>
-<a href="#" onclick="document.getElementById('importFile').click()" style="border-left-color:#ff9100">📥 IMPORTAR BACKUP (restaurar)</a>
-<input type="file" id="importFile" accept=".json" style="display:none" onchange="importarBackup(event)">
-
-<div class="separador"></div>
-<h4 style="color:var(--accent);font-size:12px;margin:6px 0">📲 INSTALAR E COMPARTILHAR</h4>
-<a href="#" id="btnInstalar" onclick="instalarApp()" style="border-left-color:#00ff88">📲 INSTALAR APP DIRETO (no celular)</a>
-<a href="#" onclick="compartilharApp();toggleMenu()" style="border-left-color:#ffd700">🔗 COMPARTILHAR APP</a>
-
-<div class="separador"></div>
-<a href="#" onclick="abrirSec('config');toggleMenu()">⚙️ 10 TEMAS PREMIUM</a>
-<a href="#" onclick="toggleMenu()" style="border-left-color:#ff1744">❌ FECHAR</a>
-<small style="color:#555;font-size:8px;display:block;margin-top:16px">ID: <span id="idTxtMenu"></span></small>
-</div>
-
-<!-- CADASTRO -->
-<div id="sec-cadastro" class="sec ativa">
-<div class="card">
-<h3>👤 CADASTRO COMPLETO</h3>
-<label>NOME COMPLETO</label><input id="nomeCompleto" placeholder="André Silva de Oliveira">
-<label>NOME ARTÍSTICO</label><input id="nomeArtistico" value="ANDRÉ TAKI">
-<div class="grid"><div><label>ZAP</label><input id="whats" value="553499462882"></div><div><label>EMAIL</label><input id="email" type="email" placeholder="andre@email.com"></div></div>
-<h3 style="color:#ff9100">💰 PIX</h3>
-<div class="grid"><div><label>TIPO PIX</label><select id="pixTipo"><option>Telefone</option><option>CPF</option><option>Email</option><option>Chave Aleatória</option></select></div><div><label>CHAVE PIX</label><input id="pixKey" value="3499462882"></div></div>
-<input id="pixNome" placeholder="Titular PIX">
-<div style="display:flex;gap:6px"><button class="btn btn-azul" style="flex:1" onclick="salvarLista()">💾 LISTA</button><button class="btn btn-verde" style="flex:1" onclick="salvarNuvem()">☁️ NUVEM</button></div>
-<span id="msg" style="color:var(--accent);font-weight:bold;font-size:12px"></span><br><button class="btn btn-verde" onclick="destravarSom()">🔊 ATIVAR SOM</button>
+<div class="sidebar">
+<h2>🔷 STAGEFLOW PRO</h2>
+<div class="menu">
+<button>🏠 Dashboard</button>
+<button class="active">📅 Agendamento Mensal<br>Planejamento</button>
+<button>🎸 Artistas</button>
+<button>💰 Financeiro</button>
 </div>
 </div>
-
-<div id="sec-repertorio" class="sec"><div class="card"><h3>🎵 REPERTÓRIO</h3><div style="display:flex;gap:6px"><input id="novaMusica" placeholder="Música - Artista" style="flex:1"><button class="btn btn-verde" onclick="adicionarMusica()">➕</button></div><textarea id="repArea" rows="6"></textarea><div id="listaRep"></div><div style="text-align:center"><div class="qrbox"><div id="qrcode"></div></div><small id="linkTxt" style="color:var(--accent);word-break:break-all;font-size:10px"></small></div></div></div>
-
-<div id="sec-aovivo" class="sec"><div class="card"><h3>🔴 AO VIVO <span id="statusAoVivo" style="color:yellow">...</span></h3><div style="display:flex;gap:6px"><button class="btn btn-vermelho" style="flex:1" onclick="limparPedidos()">🗑️ LIMPAR TELA</button><button class="btn btn-azul" style="flex:1" onclick="abrirSec('sugestoesMenu')">💡 GUARDADAS</button></div><div id="aoVivo"><small>...</small></div></div></div>
-
-<div id="sec-sugestoesMenu" class="sec"><div class="card"><h3>💡 SUGESTÕES GUARDADAS (histórico infinito)</h3><div style="display:flex;gap:6px"><button class="btn btn-verde" style="flex:1" onclick="exportarSug()">📤 EXPORTAR</button><button class="btn btn-vermelho" style="flex:1" onclick="limparHistoricoSug()">🗑️ LIMPAR HISTÓRICO</button></div><div id="sugestoesGuardadas"></div><h3 style="color:#ff9100">Atuais</h3><div id="sugestoes"></div></div></div>
-
-<div id="sec-config" class="sec">
-<div class="card">
-<h3>⚙️ 10 TEMAS PREMIUM - Você pediu no áudio!</h3>
-<small style="color:#888">1 é o nosso primordial preto+verde que você amou! Os outros 9 são premium luxo!</small>
-<div class="grid" style="margin-top:10px">
-<div class="tema ativo" onclick="mudarTema('pretoVerde',this)" style="background:#0a0a0a;color:#00ff88;border-color:#00ff88;font-family:'Montserrat'">1 - PRETO VERDE <small>Primordial que você amou - Montserrat Bold</small></div>
-<div class="tema" onclick="mudarTema('goldNoir',this)" style="background:#000;color:#FFD700;font-family:'Playfair Display'"><span style="color:#FFD700">2 - GOLD NOIR</span><small>Preto + Dourado Luxo - Playfair Elegante</small></div>
-<div class="tema" onclick="mudarTema('royalPurple',this)" style="background:#1a0033;color:#d4af37;font-family:'Playfair Display'">3 - ROYAL PURPLE <small>Roxo Imperial + Ouro - Premium</small></div>
-<div class="tema" onclick="mudarTema('oceanElite',this)" style="background:#001f3f;color:#00e5ff;font-family:'Raleway'">4 - OCEAN ELITE <small>Azul Marinho + Ciano - Yacht Club</small></div>
-<div class="tema" onclick="mudarTema('sunsetPremium',this)" style="background:linear-gradient(135deg,#ff6a00,#ee0979);color:#fff;font-family:'Bebas Neue';font-size:20px">5 - SUNSET PREMIUM <small style="font-family:Arial">Laranja + Rosa Vibrante - Miami</small></div>
-<div class="tema" onclick="mudarTema('emeraldLux',this)" style="background:#00251a;color:#00e676;font-family:'Montserrat'">6 - EMERALD LUXURY <small>Verde Esmeralda - Joalheria</small></div>
-<div class="tema" onclick="mudarTema('roseGold',this)" style="background:#1a0a0a;color:#ffb6c1;font-family:'Poppins'">7 - ROSE GOLD <small>Preto + Rose - iPhone Premium</small></div>
-<div class="tema" onclick="mudarTema('crimsonNoir',this)" style="background:#1a0000;color:#ff1744;font-family:'Bebas Neue';font-size:20px">8 - CRIMSON NOIR <small style="font-family:Arial">Vinho + Vermelho - Adega Luxo</small></div>
-<div class="tema" onclick="mudarTema('icePlatinum',this)" style="background:#eceff1;color:#0d47a1;border-color:#90a4ae;font-family:'Raleway'">9 - ICE PLATINUM <small>Platina + Azul Gelo - Tesla</small></div>
-<div class="tema" onclick="mudarTema('titanium',this)" style="background:#212121;color:#e0e0e0;font-family:'Montserrat'">10 - TITANIUM <small>Cinza Titânio + Prata - Apple Pro</small></div>
-</div>
-</div>
+<div class="main">
+<div class="top">📅 <b>STAGEFLOW PRO • CALENDÁRIO — NOVEMBRO 2026 • P1 P2 P3 P4 P5 P6</b></div>
+<div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
+<div class="cal" id="cal"></div>
+<div class="foot">Todos os dias com P1 • P2 • P3 • P4 • P5 • P6 • Dropdown com seta ▼ • 100% editável • Salva automático</div>
 </div>
 
 <script>
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault(); deferredPrompt=e; document.getElementById('btnInstalar').innerHTML='📲 INSTALAR APP DIRETO (disponível!)'; document.getElementById('btnInstalar').style.background='#00ff88'; document.getElementById('btnInstalar').style.color='#000';});
+// LISTAS EDITÁVEIS - adicione mais aqui
+const casasMusicos = ["","Cais - Eli","Vila Chopp - Grill","Grill do Zé - Y Gon","Grill - Luciano","Grill - Lucian","Grill - Luciano Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Vago","Eli","Grill","Y Gon","Luciano","Israel","Cais","Vila Chopp","Omau"];
 
-const firebaseConfig={apiKey:"AIzaSyD8JftaM8BwYLKa_3TAjHqN1ub151Myvgo",authDomain:"pede-ai-pro.firebaseapp.com",databaseURL:"https://pede-ai-pro-default-rtdb.firebaseio.com",projectId:"pede-ai-pro",storageBucket:"pede-ai-pro.firebasestorage.app",messagingSenderId:"549558191964",appId:"1:549558191964:web:40614401989e404af6a399"};
-firebase.initializeApp(firebaseConfig); const db=firebase.database();
-let rep=JSON.parse(localStorage.getItem('taki_rep_final')||'[]');
-let ultimoId=localStorage.getItem('taki_last_id')||"";
-let cadastro=JSON.parse(localStorage.getItem('taki_cadastro5')||'{}');
-let histSug=JSON.parse(localStorage.getItem('taki_hist_sug')||'[]');
+// Ordem do seu calendário original (1-15, 23-30 + cinzas)
+const ordem = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,23,24,25,26,27,28,29,30,null,null,null,null,null];
 
-function toggleMenu(){document.getElementById('menu').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show');}
-function abrirSec(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('ativa')); document.getElementById('sec-'+id).classList.add('ativa'); if(id==='sugestoesMenu')renderHistSug();}
-function carregarCadastro(){document.getElementById('nomeCompleto').value=cadastro.nomeCompleto||""; document.getElementById('nomeArtistico').value=cadastro.nomeArtistico||"ANDRÉ TAKI"; document.getElementById('whats').value=cadastro.whats||"553499462882"; document.getElementById('email').value=cadastro.email||""; document.getElementById('pixTipo').value=cadastro.pixTipo||"Telefone"; document.getElementById('pixKey').value=cadastro.pixKey||"3499462882"; document.getElementById('pixNome').value=cadastro.pixNome||"";}
-function getCadastroObj(){return{nomeCompleto:document.getElementById('nomeCompleto').value.trim(),nomeArtistico:document.getElementById('nomeArtistico').value.trim(),whats:document.getElementById('whats').value.trim(),email:document.getElementById('email').value.trim(),pixTipo:document.getElementById('pixTipo').value,pixKey:document.getElementById('pixKey').value.trim(),pixNome:document.getElementById('pixNome').value.trim()};}
-function getId(){let n=document.getElementById('nomeArtistico').value||"ANDRÉ TAKI"; let f=document.getElementById('whats').value||"553499462882"; return btoa(n+"|"+f).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');}
-function destravarSom(){let ctx=new (window.AudioContext||window.webkitAudioContext)(); ctx.resume(); document.getElementById('msg').innerText="✅ SOM ATIVADO!"; if(Notification&&Notification.permission!=="granted")Notification.requestPermission(); testarSom();}
-function testarSom(){try{let ctx=new (window.AudioContext||window.webkitAudioContext)(); let n=ctx.currentTime; [523,659,784,1046].forEach((f,i)=>{let o=ctx.createOscillator(),g=ctx.createGain(); o.frequency.value=f; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(0,n+i*0.1); g.gain.linearRampToValueAtTime(0.4,n+i*0.1+0.05); g.gain.exponentialRampToValueAtTime(0.01,n+i*0.1+0.6); o.start(n+i*0.1); o.stop(n+i*0.1+0.6);});}catch(e){}}
-function render(){let d=document.getElementById('listaRep'); d.innerHTML=""; rep.forEach((m,i)=>{d.innerHTML+=`<div class="musica"><span>${m}</span><button style="background:#ff1744;color:#fff;border:none;padding:6px 10px;border-radius:8px" onclick="remover(${i})">X</button></div>`}); document.getElementById('repArea').value=rep.join('\n');}
-function adicionarMusica(){let m=document.getElementById('novaMusica').value.trim(); if(!m)return; rep.unshift(m); document.getElementById('novaMusica').value=""; render(); salvarLista();}
-function remover(i){rep.splice(i,1); render(); salvarLista();}
-function salvarLista(){let c=getCadastroObj(); localStorage.setItem('taki_cadastro5',JSON.stringify(c)); localStorage.setItem('taki_rep_final',JSON.stringify(rep)); document.getElementById('msg').innerText="✅ SALVO NA LISTA!"; render();}
-function salvarNuvem(){let c=getCadastroObj(); if(!c.nomeCompleto||!c.nomeArtistico||!c.whats||!c.email||!c.pixKey){alert('Preencha os 5 campos!'); abrirSec('cadastro'); return;} localStorage.setItem('taki_cadastro5',JSON.stringify(c)); localStorage.setItem('taki_rep_final',JSON.stringify(rep)); let id=getId(); ultimoId=id; localStorage.setItem('taki_last_id',id); db.ref('empresas/'+id).set({nomeCompleto:c.nomeCompleto,nome:c.nomeArtistico,fone:c.whats,email:c.email,pix:c.pixKey,pixTipo:c.pixTipo,pixNome:c.pixNome,repertorio:rep,showLiberado:true,atualizado:new Date().toISOString()}).then(()=>{document.getElementById('msg').innerText="☁️ SALVO NA NUVEM!"; let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link; document.getElementById('idTxtMenu').innerText=id; ouvirTudo(); testarSom();});}
-function ouvirTudo(){let id=ultimoId||getId(); db.ref('empresas/'+id+'/pedidos').off(); db.ref('empresas/'+id+'/sugestoes').off(); db.ref('empresas/'+id+'/pedidos').on('child_added',s=>{mostrarPedido(s.val()); tocarAlerta();}); db.ref('empresas/'+id+'/sugestoes').on('child_added',s=>{mostrarSug(s.val()); guardarHistSug(s.val());}); document.getElementById('statusAoVivo').innerText="Ouvindo ✅";}
-function mostrarPedido(p){let div=document.getElementById('aoVivo'); if(div.innerHTML.includes('...'))div.innerHTML=""; div.innerHTML=`<div class="m-vivo">🔔 PEDIDO<br>👤 <b>${p.nome}</b> - 💬 ${p.recado}<br>🎵 <b style="color:var(--accent)">${p.musica}</b> - 💰 ${p.valor}<br><small>${p.hora}</small></div>`+div.innerHTML;}
-function mostrarSug(p){let div=document.getElementById('sugestoes'); if(div.innerHTML.includes('Nenhuma')||div.innerHTML.includes('...'))div.innerHTML=""; div.innerHTML=`<div class="m-vivo" style="border-left-color:#ff9100">💡 SUGESTÃO<br>👤 <b>${p.nome}</b> - 🎵 <b style="color:#ff9100">${p.musica}</b><br><small>${p.hora}</small></div>`+div.innerHTML;}
-function guardarHistSug(p){histSug.unshift(p); if(histSug.length>300)histSug=histSug.slice(0,300); localStorage.setItem('taki_hist_sug',JSON.stringify(histSug)); renderHistSug();}
-function renderHistSug(){let div=document.getElementById('sugestoesGuardadas'); if(histSug.length===0){div.innerHTML="<small style='color:#888'>Nenhuma guardada...</small>"; return;} div.innerHTML=""; histSug.forEach(p=>{div.innerHTML+=`<div class="m-vivo" style="border-left-color:#ff9100">💾 ${p.musica} - ${p.nome}<br><small>${p.hora}</small> <button class="btn btn-verde" style="padding:6px" onclick="addRep('${p.musica.replace(/'/g,"\\'")}')">➕ Rep</button></div>`});}
-function addRep(m){document.getElementById('novaMusica').value=m; abrirSec('repertorio'); adicionarMusica();}
-function tocarAlerta(){let a=document.getElementById('alerta'); a.style.display='block'; setTimeout(()=>a.style.display='none',3000); testarSom(); if(navigator.vibrate)navigator.vibrate([300,100,300]);}
-function limparPedidos(){if(!confirm('Limpar tela inicial?'))return; db.ref('empresas/'+(ultimoId||getId())+'/pedidos').remove().then(()=>{document.getElementById('aoVivo').innerHTML="<small>Limpa ✅</small>";});}
-function limparSugestoes(){if(!confirm('Limpar sugestões atuais?'))return; db.ref('empresas/'+(ultimoId||getId())+'/sugestoes').remove().then(()=>{document.getElementById('sugestoes').innerHTML="<small>Limpa ✅</small>";});}
-function limparHistoricoSug(){if(!confirm('Apagar histórico guardado?'))return; histSug=[]; localStorage.setItem('taki_hist_sug','[]'); renderHistSug();}
-function exportarSug(){let txt=histSug.map(p=>`${p.musica} - ${p.nome}`).join('\n'); navigator.clipboard.writeText(txt); alert('Copiado');}
+// Dados base iguais da sua foto, MAS agora com P1-P6 sempre
+const baseOriginal = {
+1: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
+2: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
+3: ["Cais - Eli","Vila Chopp - Grill","Bar do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
+4: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
+5: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
+6: ["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"],
+7: ["Cais - Eli","Vila Chopp - Grill","Grill do Zé - Y Gon","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"]
+};
 
-// BACKUP QUE VOCÊ PEDIU NO ÁUDIO
-function exportarBackup(){
- let dados={cadastro:getCadastroObj(), repertorio:rep, historicoSugestoes:histSug, data:new Date().toISOString(), id:ultimoId||getId()};
- let blob=new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
- let url=URL.createObjectURL(blob); let a=document.createElement('a'); a.href=url; a.download=`backup-pede-ai-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
- alert('✅ BACKUP EXPORTADO! Arquivo baixado com tudo: cadastro 5 campos, repertório e histórico!');
-}
-function importarBackup(event){
- let file=event.target.files[0]; if(!file)return;
- let reader=new FileReader(); reader.onload=e=>{
-  try{
-   let dados=JSON.parse(e.target.result);
-   if(dados.cadastro){localStorage.setItem('taki_cadastro5',JSON.stringify(dados.cadastro)); cadastro=dados.cadastro; carregarCadastro();}
-   if(dados.repertorio){rep=dados.repertorio; localStorage.setItem('taki_rep_final',JSON.stringify(rep)); render();}
-   if(dados.historicoSugestoes){histSug=dados.historicoSugestoes; localStorage.setItem('taki_hist_sug',JSON.stringify(histSug)); renderHistSug();}
-   alert('✅ BACKUP IMPORTADO COM SUCESSO! Tudo restaurado! Agora clique em SALVAR NA NUVEM!');
-  }catch(err){alert('❌ Erro no backup: '+err.message);}
- }; reader.readAsText(file);
+function garante6(arr){
+let a = (arr||[]).slice();
+while(a.length<6) a.push("Vago");
+return a.slice(0,6);
 }
 
-// INSTALAR E COMPARTILHAR QUE VOCÊ PEDIU NO ÁUDIO
-function instalarApp(){
- if(deferredPrompt){deferredPrompt.prompt(); deferredPrompt.userChoice.then(choice=>{if(choice.outcome==='accepted'){alert('✅ App instalado! Procure na tela inicial!');} deferredPrompt=null;});}
- else{alert('📲 Para instalar:\n1. No Chrome: clique nos 3 pontinhos > Instalar app\n2. No iPhone: botão compartilhar > Adicionar à Tela Inicial\n\nIsso instala direto como você pediu no áudio!');}
-}
-function compartilharApp(){
- let id=ultimoId||getId(); let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${id}`;
- if(navigator.share){navigator.share({title:'Pede Ai Pro - ANDRÉ TAKI',text:'Peça sua música! Repertório completo!',url:link}).then(()=>{}).catch(()=>{});}
- else{navigator.clipboard.writeText(link); alert('🔗 Link copiado! Cole no WhatsApp, Instagram, etc:\n\n'+link);}
+let base = {};
+for(let i=1;i<=30;i++){
+base[i]=garante6(baseOriginal[i]||["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"]);
 }
 
-function mudarTema(nome,el){
- document.querySelectorAll('.tema').forEach(t=>t.classList.remove('ativo')); el.classList.add('ativo');
- let temas={
-  pretoVerde:{bg:'#0a0a0a',card:'#1a1a1a',accent:'#00ff88',font:"'Montserrat', sans-serif"},
-  goldNoir:{bg:'#000000',card:'#111000',accent:'#FFD700',font:"'Playfair Display', serif"},
-  royalPurple:{bg:'#0f001a',card:'#1a0033',accent:'#d4af37',font:"'Playfair Display', serif"},
-  oceanElite:{bg:'#001122',card:'#001f3f',accent:'#00e5ff',font:"'Raleway', sans-serif"},
-  sunsetPremium:{bg:'#1a0a00',card:'#2a1500',accent:'#ff6a00',font:"'Bebas Neue', cursive"},
-  emeraldLux:{bg:'#001a0f',card:'#00251a',accent:'#00e676',font:"'Montserrat', sans-serif"},
-  roseGold:{bg:'#1a0f0f',card:'#221515',accent:'#ffb6c1',font:"'Poppins', sans-serif"},
-  crimsonNoir:{bg:'#0f0000',card:'#1a0000',accent:'#ff1744',font:"'Bebas Neue', cursive"},
-  icePlatinum:{bg:'#f5f7fa',card:'#ffffff',accent:'#0d47a1',font:"'Raleway', sans-serif"},
-  titanium:{bg:'#121212',card:'#212121',accent:'#bdbdbd',font:"'Montserrat', sans-serif"}
- };
- let t=temas[nome];
- document.documentElement.style.setProperty('--bg',t.bg); document.documentElement.style.setProperty('--card',t.card); document.documentElement.style.setProperty('--accent',t.accent); document.documentElement.style.setProperty('--font',t.font);
- document.body.style.background=t.bg; document.body.style.fontFamily=t.font;
- localStorage.setItem('taki_tema',nome);
+let store = JSON.parse(localStorage.getItem('stageflow-P1-P6-FINAL')||'null') || base;
+
+function options(selected){
+return casasMusicos.map(v=>`<option value="${v}" ${v===selected?'selected':''}>${v||'-- escolha --'}</option>`).join('');
 }
-window.onload=()=>{if(rep.length===0)rep=["METADE - ADRIANA CALCANHOTO","EVIDÊNCIAS - CHITÃOZINHO E XORORÓ"]; carregarCadastro(); render(); renderHistSug(); if(ultimoId){let link=`https://takitakisom-dev.github.io/TOCA-AI-TAKI/cliente.html?c=${ultimoId}`; document.getElementById('qrcode').innerHTML=""; new QRCode(document.getElementById("qrcode"),{text:link,width:180,height:180}); document.getElementById('linkTxt').innerText=link; document.getElementById('idTxtMenu').innerText=ultimoId;} ouvirTudo(); let temaSalvo=localStorage.getItem('taki_tema')||'pretoVerde'; document.querySelector(`.tema[onclick*="${temaSalvo}"]`)?.click(); document.getElementById('repArea').addEventListener('input',e=>{rep=e.target.value.split('\n').filter(s=>s.trim());});}
+
+function render(){
+const cal=document.getElementById('cal');
+cal.innerHTML='';
+ordem.forEach(d=>{
+if(d===null){const e=document.createElement('div');e.className='cell gray';cal.appendChild(e);return;}
+const arr=garante6(store[d]);
+const cell=document.createElement('div');cell.className='cell';
+let html=`<div class="num">${d}<span>▼</span></div>`;
+for(let i=0;i<6;i++){
+html+=`<div class="line"><b>P${i+1}</b><select class="sel" data-dia="${d}" data-idx="${i}">${options(arr[i])}</select></div>`;
+}
+cell.innerHTML=html;
+cal.appendChild(cell);
+});
+document.querySelectorAll('.sel').forEach(sel=>{
+sel.addEventListener('change',e=>{
+const dia=e.target.dataset.dia;
+const idx=e.target.dataset.idx;
+store[dia]=garante6(store[dia]);
+store[dia][idx]=e.target.value;
+localStorage.setItem('stageflow-P1-P6-FINAL',JSON.stringify(store));
+});
+});
+}
+render();
 </script>
 </body>
 </html>
