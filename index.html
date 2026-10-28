@@ -2,48 +2,39 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - BACKUP + PRINT</title>
+<title>STAGEFLOW PRO - CASAS ENLARGUECIDAS</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{display:flex;min-height:100vh;background:#0f0f1e}
-.sidebar{width:270px;background:#10101E;color:#fff;padding:20px 14px;position:fixed;height:100vh;left:0;top:0;z-index:1000;transition:.3s;overflow:auto}
-.sidebar h2{font-size:15px;margin-bottom:12px}
+.sidebar{width:280px;background:#10101E;color:#fff;padding:20px 14px;position:fixed;height:100vh;left:0;top:0;z-index:1000;overflow:auto}
+.sidebar h2{font-size:16px;margin-bottom:14px}
 .backup{display:flex;gap:6px;margin-bottom:18px}
-.backup button{flex:1;padding:8px 6px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer}
+.backup button{flex:1;padding:9px 6px;border:none;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer}
 .btn-exp{background:#1DD1A1;color:#000} .btn-imp{background:#FFC93C;color:#000}
-.menu button{width:100%;padding:12px 10px;border:none;border-radius:10px;text-align:left;font-weight:800;font-size:12px;color:#8B90A0;background:transparent;margin-bottom:6px;cursor:pointer}
+.menu button{width:100%;padding:13px 12px;border:none;border-radius:11px;text-align:left;font-weight:800;font-size:13px;color:#8B90A0;background:transparent;margin-bottom:7px;cursor:pointer}
 .menu button.active{background:#7B5CFF;color:#fff}
-.main{flex:1;margin-left:270px;background:#f5f5f7;min-height:100vh}
-.top{padding:10px 14px;background:#0F3A4F;color:#fff;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.top-left{display:flex;align-items:center;gap:10px}
-.hamb{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;display:none;cursor:pointer}
-.top-right{display:flex;gap:8px}
-.top-right button{padding:7px 12px;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer}
-.btn-print{background:#fff;color:#0F3A4F}
-.view{display:none;padding:0}
-.view.active{display:block}
-.header-cal{background:#4D4D4D;color:#fff;padding:14px 16px;font-size:30px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:5px;background:#fff}
-.week div{background:#DCDCDC;text-align:center;padding:12px 0;font-size:13px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:0 5px 20px;background:#fff}
-.cell{border:1px solid #7A7A7A;background:#fff;min-height:160px;padding:5px 6px}
+.main{flex:1;margin-left:280px;background:#f5f5f7;min-height:100vh}
+.top{padding:12px 16px;background:#0F3A4F;color:#fff;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.top b{font-size:14px}
+.btn-print{padding:8px 14px;border:none;border-radius:8px;background:#fff;color:#0F3A4F;font-weight:800;cursor:pointer}
+.header-cal{background:#4D4D4D;color:#fff;padding:16px 18px;font-size:30px;font-weight:900}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:6px;background:#fff}
+.week div{background:#DCDCDC;text-align:center;padding:15px 0;font-size:14px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 8px 20px;background:#fff}
+.cell{border:1.5px solid #6A6A6A;background:#fff;min-height:240px;padding:10px 10px;border-radius:6px}
 .cell.gray{background:#E6E6E6}
-.num{font-size:26px;font-weight:900;color:#444;display:flex;justify-content:space-between}
-.line{font-size:11px;display:flex;gap:3px;margin-top:1px}
-.line b{min-width:20px}
-.line select{border:none;background:transparent;font-size:11px;font-weight:700;width:100%;appearance:none;cursor:pointer}
-.card{padding:20px}
-@media print{
-.sidebar,.top{display:none !important}
-.main{margin-left:0 !important}
-.view{display:none !important}
-.view.active{display:block !important}
-}
-@media(max-width:900px){.sidebar{left:-300px} .sidebar.show{left:0} .main{margin-left:0} .hamb{display:block}}
+.num{font-size:28px;font-weight:900;color:#333;display:flex;justify-content:space-between;margin-bottom:6px}
+.line{display:flex;gap:5px;margin-top:4px;font-size:13px;line-height:1.35;align-items:flex-start}
+.line b{min-width:26px;font-weight:900;color:#000}
+.line span{flex:1;word-break:break-word;white-space:normal}
+.line select{border:none;background:transparent;font-size:13px;font-weight:700;width:100%;cursor:pointer;appearance:none;white-space:normal;word-break:break-word}
+@media print{.sidebar,.top{display:none!important} .main{margin-left:0!important} .cal{grid-template-columns:repeat(3,1fr)!important} .cell{min-height:auto!important;break-inside:avoid}}
+@media(max-width:1100px){.cal{grid-template-columns:repeat(4,1fr)} .week{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:800px){.cal{grid-template-columns:repeat(2,1fr)} .week{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<div class="sidebar" id="sidebar">
+<div class="sidebar">
 <h2>🔷 STAGEFLOW PRO</h2>
 <div class="backup">
 <button class="btn-exp" onclick="exportar()">📤 Exportar</button>
@@ -51,96 +42,47 @@ body{display:flex;min-height:100vh;background:#0f0f1e}
 <input type="file" id="importFile" style="display:none" accept=".json" onchange="importar(this)">
 </div>
 <div class="menu">
-<button data-view="dash">🏠 Dashboard</button>
-<button data-view="agenda" class="active">📅 Agendamento Mensal</button>
-<button data-view="artistas">🎸 Artistas</button>
-<button data-view="casas">🏠 Casas</button>
-<button data-view="financeiro">💰 Financeiro</button>
-<button data-view="relatorios">📊 Relatórios</button>
+<button>🏠 Dashboard</button>
+<button class="active">📅 Agendamento Mensal</button>
+<button>🎸 Artistas</button>
+<button>🏠 Casas</button>
+<button>💰 Financeiro</button>
+<button>📊 Relatórios</button>
 </div>
 </div>
 <div class="main">
-<div class="top">
-<div class="top-left">
-<button class="hamb" onclick="toggleMenu()">☰</button>
-<b id="topTitle">Agendamento Mensal</b>
-</div>
-<div class="top-right">
-<button class="btn-print" onclick="window.print()">🖨️ Imprimir</button>
-</div>
-</div>
-
-<div class="view active" id="agenda">
-<div class="header-cal"><span>NOVEMBRO 2026</span><button onclick="window.print()" style="padding:8px 12px;border:none;border-radius:8px;font-weight:800;cursor:pointer">🖨️ Imprimir Calendário</button></div>
+<div class="top"><b>STAGEFLOW PRO • NOVEMBRO 2026</b><button class="btn-print" onclick="window.print()">🖨️ Imprimir Calendário</button></div>
+<div class="header-cal">NOVEMBRO 2026</div>
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
 </div>
-
-<div class="view" id="financeiro"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>💰 Financeiro</h2><button onclick="window.print()" style="padding:8px 12px;border-radius:8px;border:none;background:#0F3A4F;color:#fff;font-weight:800">🖨️ Imprimir Financeiro</button></div><br><p>Receitas, despesas, cachês... (aqui entra sua planilha financeira)</p><table border="1" cellpadding="8" width="100%" style="margin-top:15px;border-collapse:collapse"><tr><th>Data</th><th>Casa</th><th>Valor</th></tr><tr><td>05/11</td><td>Cais</td><td>R$ 800</td></tr></table></div></div>
-
-<div class="view" id="artistas"><div class="card"><div style="display:flex;justify-content:space-between"><h2>🎸 Artistas</h2><button onclick="window.print()" style="padding:8px 12px;border-radius:8px;border:none;background:#0F3A4F;color:#fff;font-weight:800">🖨️ Imprimir Artistas</button></div><br><p>Lista de artistas cadastrados...</p></div></div>
-
-<div class="view" id="dash"><div class="card"><h2>Dashboard</h2><p>Visão geral...</p><br><button onclick="window.print()">🖨️ Imprimir Dashboard</button></div></div>
-<div class="view" id="casas"><div class="card"><h2>Casas</h2><button onclick="window.print()">🖨️ Imprimir Casas</button></div></div>
-<div class="view" id="relatorios"><div class="card"><h2>Relatórios</h2><button onclick="window.print()">🖨️ Imprimir Relatórios</button></div></div>
-
-</div>
-
 <script>
-function toggleMenu(){document.getElementById('sidebar').classList.toggle('show');}
-document.querySelectorAll('.menu button').forEach(btn=>{
-btn.addEventListener('click',()=>{
-document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-document.getElementById(btn.dataset.view).classList.add('active');
-document.getElementById('topTitle').innerText=btn.innerText;
-if(window.innerWidth<=900) toggleMenu();
-});
-});
-const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Gar do Zé - Y Gon"];
+const lista=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel","Gar do Zé - Y Gon","Vago"];
 let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"];
-let store=JSON.parse(localStorage.getItem('stageflow-final-backup')||'null')||base;
+let store=JSON.parse(localStorage.getItem('stage-enlarge-final')||'null')||base;
 function opts(s){return lista.map(v=>`<option ${v===s?'selected':''}>${v}</option>`).join('');}
-function renderCal(){
+function render(){
 const cal=document.getElementById('cal'); cal.innerHTML='';
 for(let d=1;d<=30;d++){
 let arr=store[d]; let div=document.createElement('div'); div.className='cell';
 div.innerHTML=`<div class="num">${d}<span>▼</span></div>
-<div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(arr[0])}</select>▼</div>
-<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(arr[1])}</select>▼</div>
+<div class="line"><b>P1:</b><select data-d="${d}" data-i="0">${opts(arr[0])}</select></div>
+<div class="line"><b>P2:</b><select data-d="${d}" data-i="1">${opts(arr[1])}</select></div>
 <div class="line"><b>P3:</b><select data-d="${d}" data-i="2">${opts(arr[2])}</select></div>
 <div class="line"><b>P4:</b><select data-d="${d}" data-i="3">${opts(arr[3])}</select></div>
 <div class="line"><b>P5:</b><select data-d="${d}" data-i="4">${opts(arr[4])}</select></div>
-<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(arr[5])}</select>▼</div>`;
+<div class="line"><b>P6:</b><select data-d="${d}" data-i="5">${opts(arr[5])}</select></div>`;
 cal.appendChild(div);
 }
 for(let i=0;i<5;i++){let g=document.createElement('div');g.className='cell gray';cal.appendChild(g);}
-document.querySelectorAll('#cal select').forEach(s=>s.addEventListener('change',e=>{
+document.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
 store[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('stageflow-final-backup',JSON.stringify(store));
+localStorage.setItem('stage-enlarge-final',JSON.stringify(store));
 }));
 }
-renderCal();
-
-function exportar(){
-let dataStr="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));
-let a=document.createElement('a'); a.href=dataStr; a.download="backup-stageflow-"+new Date().toISOString().slice(0,10)+".json"; a.click();
-alert("Backup exportado com sucesso!");
-}
-function importar(input){
-let file=input.files[0]; if(!file) return;
-let reader=new FileReader();
-reader.onload=function(e){
-try{
-let json=JSON.parse(e.target.result);
-localStorage.setItem('stageflow-final-backup',JSON.stringify(json));
-alert("Backup importado! Recarregando...");
-location.reload();
-}catch(err){alert("Erro no arquivo de backup!");}
-};
-reader.readAsText(file);
-}
+render();
+function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(store));a.download="backup-stageflow.json";a.click();}
+function importar(input){let f=input.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{localStorage.setItem('stage-enlarge-final',e.target.result);location.reload();};r.readAsText(f);}
 </script>
 </body>
 </html>
