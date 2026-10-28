@@ -3,106 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STAGEFLOW PRO</title>
+<title>STAGEFLOW PRO - VISAO TOTAL</title>
 <style>
-body{margin:0;font-family:Arial;background:#f2f2f5}
-.top{background:#10101e;color:#fff;padding:12px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:10}
-.top b{flex:1}
-.card{background:#fff;margin:10px;border-radius:12px;padding:10px;border:1px solid #000}
-.dia{font-size:22px;font-weight:900;color:#0B3D91}
-.linha{display:flex;gap:5px;margin-top:6px;align-items:center;font-weight:700;font-size:12px}
-.linha b{width:28px}
-select{flex:1;padding:8px;border-radius:8px;border:1px solid #ccc;font-weight:700}
-.turno{width:60px;background:#EFE8FF;border-color:#7C5CFC;color:#4A2AC0;font-weight:900;text-align:center}
-.menu{display:flex;gap:6px;padding:10px;background:#fff;flex-wrap:wrap;position:sticky;top:56px;z-index:9}
-.menu button{padding:10px;border:none;border-radius:8px;font-weight:800;background:#eee}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f2f2f5}
+.top{background:#10101e;color:#fff;padding:8px 10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:1000;flex-wrap:wrap}
+.top b{flex:1;font-size:12px}
+.top button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer}
+.btn-green{background:#7CFF9A;color:#000}
+.btn-white{background:#fff;color:#000}
+.menu{padding:8px;background:#fff;display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid #ddd;position:sticky;top:48px;z-index:999}
+.menu button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;background:#eee;font-size:11px}
 .menu button.on{background:#10101e;color:#fff}
+.header{background:#333;color:#fff;padding:8px;text-align:center;font-weight:900;font-size:12px}
+.wrap{overflow-x:auto}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:6px;background:#f2f2f5;min-width:900px}
+.week div{background:#E9E9E9;padding:6px 0;text-align:center;font-weight:800;font-size:10px;border-radius:4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:0 6px 12px;background:#f2f2f5;min-width:900px}
+.cell{background:#fff;border:1.2px solid #555;border-radius:8px;padding:4px;min-height:155px}
+.num{font-size:13px;font-weight:900;color:#0B3D91;display:flex;justify-content:space-between}
+.num span{font-size:9px;color:#666}
+.linha{display:flex;gap:2px;align-items:center;margin-top:2px;font-size:8px;font-weight:700}
+.linha b{width:18px;font-size:8px}
+.sel-art{flex:1;padding:3px 1px;border:1px solid #DDD;border-radius:4px;background:#F7F7FA;font-size:8px;font-weight:700;min-width:0}
+.sel-turno{width:32px;padding:3px 0;border:1px solid #7C5CFC;border-radius:4px;background:#EFE8FF;font-size:8px;font-weight:900;color:#4A2AC0;text-align:center}
 .sec{display:none}.sec.show{display:block}
+.card{background:#fff;border-radius:10px;padding:12px;margin:10px}
+@media print{
+  @page{size:A4 landscape;margin:5mm}
+  .top,.menu{display:none!important}
+  .wrap{overflow:visible}
+  .week,.cal{min-width:100%!important}
+  .cell{min-height:130px}
+}
 </style>
 </head>
 <body>
 
-<div class="top"><b>STAGEFLOW PRO • NOV 2026 • 1 AO 30</b><button onclick="go('rel')" style="padding:8px 12px;border-radius:8px;border:none;background:#7CFF9A;font-weight:800">📊 Relatório</button></div>
+<div class="top">
+<b>STAGEFLOW PRO • NOV 2026 • VISÃO TOTAL MÊS</b>
+<button class="btn-green" onclick="go('rel')">📊 Relatório</button>
+<button class="btn-white" onclick="window.print()">🖨️ Imprimir</button>
+<button class="btn-white" onclick="toggleVisao()" id="btnVisao">📱 Lista</button>
+</div>
 
 <div class="menu">
-<button id="b-cal" class="on" onclick="go('cal')">📅 Calendário</button>
-<button id="b-rel" onclick="go('rel')">📊 Relatório Artista</button>
+<button id="b-cal" class="on" onclick="go('cal')">📅 Grade Mensal</button>
+<button id="b-rel" onclick="go('rel')">📊 Relatório por Artista</button>
 <button id="b-art" onclick="go('art')">🎤 Artistas</button>
+<button onclick="if(confirm('Exportar backup?'))exportar()">💾 Backup</button>
 </div>
 
 <div id="sec-cal" class="sec show">
-<div id="cal"></div>
+<div class="header" id="headCal">NOVEMBRO 2026 • 30 DIAS VISÃO TOTAL • ROLE PRO LADO NO CELULAR PRA VER SEMANA COMPLETA • P1-P6 = CASAS • AL/JA</div>
+<div class="wrap" id="wrapCal">
+<div class="week" id="weekRow"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
+<div class="cal" id="cal"></div>
+</div>
 </div>
 
 <div id="sec-rel" class="sec">
+<div class="header">RELATÓRIO POR ARTISTA - Quantos shows e dias</div>
 <div class="card">
-<select id="selArt" style="width:100%;padding:12px"></select>
-<button onclick="rel()" style="width:100%;margin-top:8px;padding:12px;border:none;border-radius:8px;background:#0A7A2A;color:#fff;font-weight:900">VER RELATÓRIO DO ANDRÉ</button>
+<select id="selArt" style="width:100%;padding:10px;font-weight:800;border-radius:8px"></select>
+<div style="display:flex;gap:6px;margin-top:8px">
+<button onclick="relUnico()" style="flex:1;padding:10px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:800">Ver André</button>
+<button onclick="relTodos()" style="flex:1;padding:10px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:800">Ver Todos</button>
+</div>
 </div>
 <div id="resRel"></div>
 </div>
 
 <div id="sec-art" class="sec">
 <div class="card">
-<input id="nomeArt" placeholder="Nome ex: ANDRÉ" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ccc">
-<button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;border:none;border-radius:8px;background:#7C5CFC;color:#fff;font-weight:900">SALVAR</button>
+<input id="nomeArt" placeholder="Nome ex: ANDRÉ" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc">
+<button onclick="addArt()" style="width:100%;margin-top:8px;padding:10px;border:none;border-radius:8px;background:#7C5CFC;color:#fff;font-weight:900">SALVAR ARTISTA</button>
 <div id="listaArt" style="margin-top:10px"></div>
 </div>
 </div>
 
 <script>
 let artistas = ["ANDRÉ","Eli","Grill","Luciano","Y Gon","Israel","Vago"];
-let casas = ["Cais","Vila Chopp","Grill","Bar do Zé","Omau","Vago"];
+let casas = {p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
+let dados = {};
+let modoLista = false;
+
+try{
+ let s = JSON.parse(localStorage.getItem('STAGEFLOW_FINAL_V3')||'null');
+ if(s){ if(s.artistas) artistas=s.artistas; if(s.casas) casas=s.casas; if(s.dados) dados=s.dados; }
+}catch(e){}
+
+if(!dados[1]){
+ for(let i=1;i<=30;i++) dados[i]=Array(6).fill(0).map(()=>({artista:"ANDRÉ",turno:"AL"}));
+}
+
+function save(){localStorage.setItem('STAGEFLOW_FINAL_V3',JSON.stringify({artistas,casas,dados}))}
 
 function go(id){
  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on'));
  document.getElementById('sec-'+id).classList.add('show');
- document.getElementById('b-'+id).classList.add('on');
+ let btn=document.getElementById('b-'+id); if(btn) btn.classList.add('on');
  if(id=='cal') monta();
  if(id=='rel') montaSel();
  if(id=='art') listaArt();
+ window.scrollTo(0,0);
 }
+
+function toggleVisao(){
+ modoLista=!modoLista;
+ let cal=document.getElementById('cal');
+ let week=document.getElementById('weekRow');
+ let wrap=document.getElementById('wrapCal');
+ let btn=document.getElementById('btnVisao');
+ if(modoLista){
+   cal.style.gridTemplateColumns='1fr';
+   cal.style.minWidth='100%';
+   week.style.display='none';
+   wrap.style.overflow='visible';
+   btn.innerText='📊 Grade';
+   document.getElementById('headCal').innerText='VISÃO LISTA - ROLE PRA BAIXO';
+ }else{
+   cal.style.gridTemplateColumns='repeat(7,1fr)';
+   cal.style.minWidth='900px';
+   week.style.display='grid';
+   wrap.style.overflow='auto';
+   btn.innerText='📱 Lista';
+   document.getElementById('headCal').innerText='VISÃO TOTAL MÊS - ROLE PRO LADO PRA VER SEMANA';
+ }
+ monta();
+}
+
+function optsArt(v){return artistas.map(a=>`<option ${a==v?'selected':''}>${a}</option>`).join('')}
+function optsTurno(v){return ['AL','JA','AL/JA'].map(t=>`<option ${t==v?'selected':''}>${t}</option>`).join('')}
 
 function monta(){
  let cal=document.getElementById('cal');
  cal.innerHTML='';
- for(let d=1;d<=30;d++){
-   let html=`<div class="card"><div class="dia">${d} ▼ - Dia ${d}</div>`;
-   for(let p=0;p<6;p++){
-     html+=`<div class="linha"><b>P${p+1}:</b><select id="d${d}p${p}">${artistas.map(a=>`<option ${a=='ANDRÉ'?'selected':''}>${a}</option>`).join('')}</select><select class="turno" id="d${d}p${p}t"><option>AL</option><option>JA</option><option>AL/JA</option></select></div>`;
+ if(modoLista){
+   for(let d=1;d<=30;d++){
+     let div=document.createElement('div'); div.className='cell'; div.style.minHeight='auto';
+     let html=`<div class="num" style="font-size:18px"><div>${d} ▼</div><span>Dia ${d}</span></div>`;
+     for(let p=0;p<6;p++){
+       let cur=dados[d][p]||{artista:"ANDRÉ",turno:"AL"};
+       html+=`<div class="linha" style="font-size:12px;margin-top:5px"><b>P${p+1}:</b><select style="flex:1;padding:7px;border-radius:8px;font-size:12px" data-d="${d}" data-p="${p}" data-t="artista">${optsArt(cur.artista)}</select><select class="turno" style="width:65px;padding:7px;font-size:12px" data-d="${d}" data-p="${p}" data-t="turno">${optsTurno(cur.turno)}</select></div>`;
+     }
+     div.innerHTML=html; cal.appendChild(div);
    }
-   html+=`</div>`;
-   cal.innerHTML+=html;
+ }else{
+   for(let d=1;d<=30;d++){
+     let div=document.createElement('div'); div.className='cell';
+     let html=`<div class="num"><div>${d}</div><span>${d}</span></div>`;
+     for(let p=0;p<6;p++){
+       let cur=dados[d][p]||{artista:"ANDRÉ",turno:"AL"};
+       html+=`<div class="linha"><b>P${p+1}:</b><select class="sel-art" data-d="${d}" data-p="${p}" data-t="artista">${optsArt(cur.artista)}</select><select class="sel-turno" data-d="${d}" data-p="${p}" data-t="turno">${optsTurno(cur.turno)}</select></div>`;
+     }
+     div.innerHTML=html; cal.appendChild(div);
+   }
+   // completa grade até 35
+   let resto=7-(30%7); if(resto<7) for(let i=0;i<resto;i++){let e=document.createElement('div'); e.className='cell'; e.style.background='#EFEFEF'; cal.appendChild(e);}
  }
+ cal.querySelectorAll('select').forEach(s=>{
+   s.addEventListener('change',e=>{
+     let d=e.target.dataset.d, p=e.target.dataset.p, t=e.target.dataset.t;
+     dados[d][p][t]=e.target.value; save();
+   });
+ });
 }
 
-function montaSel(){
- document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${a}</option>`).join('');
-}
-function rel(){
- let nome=document.getElementById('selArt').value;
- let dias=[];
- for(let d=1;d<=30;d++){
-   for(let p=0;p<6;p++){
-     let el=document.getElementById(`d${d}p${p}`);
-     if(el && el.value==nome) if(!dias.includes(d)) dias.push(d);
-   }
+function montaSel(){document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${a}</option>`).join('')}
+function relUnico(){fazerRel([document.getElementById('selArt').value])}
+function relTodos(){fazerRel(artistas)}
+function fazerRel(nomes){
+ let html='';
+ for(let nome of nomes){
+   let dias=[],count=0,det=[];
+   for(let d=1;d<=30;d++) for(let p=0;p<6;p++) if(dados[d][p].artista==nome){count++; if(!dias.includes(d)) dias.push(d); det.push(`Dia ${d} - P${p+1} (${casas['p'+(p+1)]} - ${dados[d][p].turno})`)}
+   if(count==0) continue;
+   dias.sort((a,b)=>a-b);
+   html+=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${count} shows</b><div style="margin-top:6px">Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:2px 7px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0;font-size:11px">${x}</span>`).join('')}</div><div style="font-size:11px;margin-top:6px;line-height:1.4">${det.join('<br>')}</div></div>`;
  }
- dias.sort((a,b)=>a-b);
- document.getElementById('resRel').innerHTML=`<div class="card"><b>${nome}: ${dias.length} dias</b><br><br>Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:3px 8px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0">${x}</span>`).join('')}<br><br>${dias.map(x=>`Dia ${x} - ${nome}`).join('<br>')}</div>`;
+ document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum</div>';
 }
-function addArt(){
- let n=document.getElementById('nomeArt').value.trim().toUpperCase();
- if(!n) return;
- artistas.push(n);
- document.getElementById('nomeArt').value='';
- listaArt(); montaSel(); monta();
- alert(n+' salvo!');
-}
-function listaArt(){
- document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-bottom:4px"><b>${a}</b><button onclick="artistas.splice(${i},1);listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px">X</button></div>`).join('');
-}
+function addArt(){let n=document.getElementById('nomeArt').value.trim().toUpperCase(); if(!n) return; artistas.push(n); document.getElementById('nomeArt').value=''; save(); listaArt(); montaSel();}
+function listaArt(){document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-bottom:4px"><b>${a}</b><button onclick="artistas.splice(${i},1);save();listaArt();montaSel()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px">X</button></div>`).join('')}
+function exportar(){let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({artistas,casas,dados})); a.download="stageflow_backup.json"; a.click()}
 
 monta();montaSel();listaArt();
 </script>
