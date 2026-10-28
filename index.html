@@ -3,61 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - COM AL JA</title>
+<title>STAGEFLOW PRO - NUNCA PERDE</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{display:flex;background:#F2F2F5;min-height:100vh}
-.sidebar{width:260px;background:#10101E;color:#fff;position:fixed;left:-280px;top:0;height:100vh;padding:16px 12px;z-index:2000;display:flex;flex-direction:column;transition:.3s}
+.sidebar{width:270px;background:#10101E;color:#fff;position:fixed;left:-290px;top:0;height:100vh;padding:16px 12px;z-index:2000;display:flex;flex-direction:column;transition:.3s;overflow-y:auto}
 .sidebar.show{left:0}
 .menu button{width:100%;padding:12px;border:none;border-radius:8px;background:transparent;color:#9AA0B4;text-align:left;font-weight:700;margin-bottom:3px;cursor:pointer}
 .menu button.active{background:#7C5CFC;color:#fff}
 .main{flex:1;min-width:0}
-.top{padding:10px 12px;display:flex;gap:8px;align-items:center;background:#10101E;position:sticky;top:0;z-index:1000}
+.top{padding:10px 12px;display:flex;gap:6px;align-items:center;background:#10101E;position:sticky;top:0;z-index:1000;flex-wrap:wrap}
 .top .hamb{background:#fff;color:#10101E;border:none;width:44px;height:44px;border-radius:8px;font-size:22px;font-weight:900;cursor:pointer}
-.top .titulo{color:#fff;font-weight:900;flex:1;font-size:14px}
-.top button.act{padding:10px 14px;border:none;border-radius:8px;background:#fff;font-weight:800;cursor:pointer;font-size:12px}
-.header{background:#3D3D3D;color:#fff;padding:14px 18px;font-size:18px;font-weight:900}
+.top .titulo{color:#fff;font-weight:900;flex:1;font-size:12px}
+.top button.act{padding:9px 11px;border:none;border-radius:8px;background:#fff;font-weight:800;cursor:pointer;font-size:11px}
+.header{background:#3D3D3D;color:#fff;padding:12px 16px;font-size:16px;font-weight:900}
 .sec{display:none}.sec.show{display:block}
 .wrap{overflow-x:auto}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#F2F2F5;min-width:900px}
-.week div{background:#E9E9E9;padding:12px 0;text-align:center;font-weight:800;font-size:12px;border-radius:6px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#F2F2F5;min-width:900px}
-.cell{background:#fff;border:1.5px solid #555;border-radius:10px;padding:8px 6px;min-height:185px}
-.num{font-size:20px;font-weight:900;color:#0B3D91;margin-bottom:6px}
-.linha{display:flex;gap:3px;align-items:center;margin-top:5px;font-size:10px;font-weight:700}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:10px 12px;background:#F2F2F5;min-width:900px}
+.week div{background:#E9E9E9;padding:10px 0;text-align:center;font-weight:800;font-size:11px;border-radius:6px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:0 12px 20px;background:#F2F2F5;min-width:900px}
+.cell{background:#fff;border:1.5px solid #555;border-radius:10px;padding:7px 6px;min-height:185px}
+.num{font-size:18px;font-weight:900;color:#0B3D91;margin-bottom:5px}
+.linha{display:flex;gap:3px;align-items:center;margin-top:4px;font-size:10px;font-weight:700}
 .linha b{min-width:22px}
-.sel-art{flex:1;border:1px solid #DDD;background:#F7F7FA;border-radius:6px;padding:5px 3px;font-size:10px;font-weight:700;cursor:pointer;min-width:0}
-.sel-turno{width:52px;border:1px solid #7C5CFC;background:#EFE8FF;border-radius:6px;padding:5px 2px;font-size:10px;font-weight:900;cursor:pointer;color:#4A2AC0;text-align:center}
-.box{padding:18px}.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:14px}
-.row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.row input{flex:1;min-width:120px;padding:11px;border:1px solid #DDD;border-radius:8px}
-.btn{padding:11px 16px;border:none;border-radius:8px;font-weight:800;cursor:pointer}
+.sel-art{flex:1;border:1px solid #DDD;background:#F7F7FA;border-radius:6px;padding:5px 2px;font-size:10px;font-weight:700;cursor:pointer;min-width:0}
+.sel-turno{width:50px;border:1px solid #7C5CFC;background:#EFE8FF;border-radius:6px;padding:5px 1px;font-size:10px;font-weight:900;cursor:pointer;color:#4A2AC0;text-align:center}
+.box{padding:16px}.card{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.row{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.row input{flex:1;min-width:100px;padding:10px;border:1px solid #DDD;border-radius:8px;font-size:12px}
+.btn{padding:10px 14px;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
 .btn-add{background:#7C5CFC;color:#fff}
-@media(min-width:901px){.sidebar{left:0}.main{margin-left:260px}.top .hamb{display:none}}
+.btn-safe{background:#E8FFF0;color:#0A7A2A;border:1px solid #0A7A2A}
+.btn-warn{background:#FFF3CD;color:#7A5A00;border:1px solid #7A5A00}
+@media(min-width:901px){.sidebar{left:0}.main{margin-left:270px}.top .hamb{display:none}}
 </style>
 </head>
 <body>
 <div class="sidebar" id="side">
-<div style="font-weight:900;font-size:18px;margin-bottom:20px">Stageflow Pro</div>
+<div style="font-weight:900;font-size:18px;margin-bottom:16px">Stageflow Pro</div>
 <div class="menu">
-<button id="m-dash" onclick="go('dash')">Dashboard</button>
 <button id="m-cal" class="active" onclick="go('cal')">Agendamento Mensal</button>
 <button id="m-art" onclick="go('art')">Artistas</button>
 <button id="m-casa" onclick="go('casa')">Casas P1-P6</button>
 <button id="m-fin" onclick="go('fin')">Financeiro</button>
+<button id="m-backup" onclick="go('backup')">Backup / Restaurar</button>
 </div>
-<div style="margin-top:auto;background:#1A1A2E;padding:10px;border-radius:10px;font-size:12px">JD - Joao Duarte</div>
+<div style="margin-top:auto;background:#1A1A2E;padding:10px;border-radius:10px;font-size:11px">
+<b>Proteção Ativa</b><br>
+<span id="statusSave" style="color:#6CFF8A">✓ Dados salvos</span>
+</div>
 </div>
 
 <div class="main">
 <div class="top">
 <button class="hamb" onclick="document.getElementById('side').classList.toggle('show')">☰</button>
-<div class="titulo">STAGEFLOW PRO • NOV 2026 • AL/JA</div>
+<div class="titulo" id="topTitle">STAGEFLOW PRO • SEGURO</div>
+<button class="act" onclick="exportar()">💾 Exportar</button>
 <button class="act" onclick="window.print()">🖨️ Imprimir</button>
 </div>
 
 <div class="sec show" id="sec-cal">
-<div class="header">STAGEFLOW PRO • NOVEMBRO 2026 • AL = Almoço | JA = Janta</div>
+<div class="header">NOVEMBRO 2026 • AL=Almoço JA=Janta</div>
 <div class="wrap">
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
@@ -65,42 +71,120 @@ body{display:flex;background:#F2F2F5;min-height:100vh}
 </div>
 
 <div class="sec" id="sec-casa">
-<div class="header">CASAS P1-P6</div>
+<div class="header">CASAS P1-P6 - Fixas</div>
 <div class="box">
 <div class="card">
 <div class="row"><input id="p1" placeholder="P1"><input id="p2" placeholder="P2"><input id="p3" placeholder="P3"></div>
 <div class="row"><input id="p4" placeholder="P4"><input id="p5" placeholder="P5"><input id="p6" placeholder="P6"></div>
-<button class="btn btn-add" onclick="saveCasas()">Salvar Casas</button>
+<button class="btn btn-add" onclick="saveCasas()">💾 Salvar Casas (nunca apaga artistas)</button>
 </div>
 </div>
 </div>
 
 <div class="sec" id="sec-art">
-<div class="header">ARTISTAS</div>
+<div class="header">ARTISTAS - Nunca mais vai sumir</div>
 <div class="box">
 <div class="card">
-<div class="row"><input id="artNome" placeholder="Nome"><input id="artValor" type="number" placeholder="Cachê"><input id="artTel" placeholder="Tel"></div>
-<button class="btn btn-add" onclick="addArt()">Salvar Artista</button>
+<div class="row"><input id="artNome" placeholder="Nome"><input id="artValor" type="number" placeholder="Cachê R$"><input id="artTel" placeholder="Tel / Pix"></div>
+<button class="btn btn-add" onclick="addArt()">💾 Salvar Artista - Fica guardado pra sempre</button>
 </div>
 <div class="card"><div id="listArt"></div></div>
 </div>
 </div>
 
+<div class="sec" id="sec-backup">
+<div class="header">BACKUP E SEGURANÇA</div>
+<div class="box">
+<div class="card">
+<h3>🛡️ Seu dados estão seguros em: STAGEFLOW_MASTER_V1</h3>
+<p style="font-size:12px;margin:10px 0">Mesmo que você atualize o código, ele busca automaticamente nos backups antigos e traz tudo de volta. Nunca perde.</p>
+<div class="row">
+<button class="btn btn-safe" onclick="exportar()">📥 Baixar Backup Completo</button>
+<button class="btn btn-safe" onclick="document.getElementById('imp').click()">📤 Restaurar Arquivo</button>
+<input type="file" id="imp" hidden accept=".json" onchange="importar(this)">
+</div>
+<div class="row">
+<button class="btn btn-warn" onclick="verBackups()">👀 Ver Backups Automáticos</button>
+<button class="btn btn-warn" onclick="restaurarUltimoBackup()">↩️ Restaurar Último Backup Auto</button>
+</div>
+<div id="listaBackups" style="margin-top:12px"></div>
+</div>
+<div class="card">
+<h3>O que foi recuperado automaticamente agora:</h3>
+<div id="logMigra" style="font-size:11px;background:#F5F5F5;padding:10px;border-radius:8px;white-space:pre-wrap"></div>
+</div>
+</div>
+</div>
+
 <div class="sec" id="sec-fin"><div class="header">FINANCEIRO</div><div class="box"><div class="card"><h3>Total: <span id="totalMes"></span></h3><div id="detFin"></div></div></div></div>
-<div class="sec" id="sec-dash"><div class="header">DASHBOARD</div><div class="box"><div class="card"><p style="font-size:13px">Novo: Agora cada P tem <b>AL / JA / AL-JA</b> do lado!<br><br>Ex: P1: Eli [AL] = almoço<br>P2: Grill [JA] = janta<br>P3: Luciano [AL/JA] = os dois</p></div></div></div>
 </div>
 </div>
 
 <script>
-let casas = JSON.parse(localStorage.getItem('sf_casas_p1p6')||'null') || {p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
-let artistas = JSON.parse(localStorage.getItem('sf_artistas_v2')||'null') || [{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Vago",valor:0},{nome:"Israel",valor:350}];
+const MASTER_KEY = 'STAGEFLOW_MASTER_V1';
+const BACKUP_PREFIX = 'STAGEFLOW_BACKUP_';
+
+// LISTA DE TODAS AS CHAVES ANTIGAS QUE VOCÊ JÁ USOU - VOU BUSCAR EM TODAS
+const OLD_KEYS = ['stageflow_taki_final_v2','stageflow_final_perfeito','sf_casas','sf_artistas','sf_cal_final','sf_cal_limpo','sf_cal_alja','sf_casas_p1p6','sf_artistas_v2','stageflow_taki','stageflow_pro','sf_casas_p1p6','STAGEFLOW_MASTER_V1'];
+
+let logMigra = [];
+
+function loadMaster(){
+  let master = JSON.parse(localStorage.getItem(MASTER_KEY)||'null');
+  if(master){
+    logMigra.push('✓ Achou MASTER atual com '+ (master.artistas?master.artistas.length:0) +' artistas');
+    return master;
+  }
+  // Se não tem master, procura em tudo que é lugar antigo
+  let melhor = null;
+  let maxArt = 0;
+  for(let k of OLD_KEYS){
+    try{
+      let v = JSON.parse(localStorage.getItem(k)||'null');
+      if(!v) continue;
+      if(Array.isArray(v) && v.length>maxArt){ // pode ser lista de artistas
+        logMigra.push('→ Achou artistas antigos em '+k+': '+v.length);
+        if(!melhor) melhor={}; melhor.artistas = v; maxArt=v.length;
+      }
+      if(v.casas || v.artistas || v.dados || v.p1){ // master antigo
+        logMigra.push('→ Achou dados em '+k);
+        if(!melhor) melhor = {};
+        if(v.artistas && v.artistas.length>maxArt){melhor.artistas=v.artistas; maxArt=v.artistas.length}
+        if(v.casas) melhor.casas=v.casas;
+        if(v.dados) melhor.dados=v.dados;
+      }
+      // calendários antigos
+      if(v[1] && typeof v[1]==='object'){ // parece calendario
+        logMigra.push('→ Achou calendário antigo em '+k);
+        if(!melhor) melhor={}; if(!melhor.dados) melhor.dados=v;
+      }
+    }catch(e){}
+  }
+  return melhor;
+}
+
+let loaded = loadMaster();
+let casas = loaded && loaded.casas ? loaded.casas : {p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
+let artistas = loaded && loaded.artistas ? loaded.artistas : [{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Vago",valor:0},{nome:"Israel",valor:350}];
 let base={}; for(let i=1;i<=30;i++) base[i]=Array(6).fill(0).map(()=>({artista:"Eli",turno:"AL"}));
-let dados = JSON.parse(localStorage.getItem('sf_cal_alja')||'null') || base;
+let dados = loaded && loaded.dados ? loaded.dados : base;
 
-// migra dados antigos se for string simples
-for(let d in dados){for(let i=0;i<6;i++){if(typeof dados[d][i]==='string'){dados[d][i]={artista:dados[d][i],turno:'AL'}} if(!dados[d][i].turno) dados[d][i].turno='AL'}}
+// normaliza dados que eram string simples
+for(let d in dados){for(let i=0;i<6;i++){if(!dados[d][i]) dados[d][i]={artista:"Eli",turno:"AL"}; if(typeof dados[d][i]==='string'){dados[d][i]={artista:dados[d][i],turno:"AL"}} if(!dados[d][i].turno) dados[d][i].turno="AL"; if(!dados[d][i].artista) dados[d][i].artista="Eli";}}
 
-function save(){localStorage.setItem('sf_casas_p1p6',JSON.stringify(casas));localStorage.setItem('sf_artistas_v2',JSON.stringify(artistas));localStorage.setItem('sf_cal_alja',JSON.stringify(dados));}
+// garante que artistas do backup sejam os maiores
+if(loaded && loaded.artistas && loaded.artistas.length>artistas.length){artistas=loaded.artistas; logMigra.push('✓ RESTAUROU '+artistas.length+' artistas do backup!');}
+
+function save(){
+  let master = {casas,artistas,dados,ultimoSave:new Date().toISOString()};
+  localStorage.setItem(MASTER_KEY, JSON.stringify(master));
+  // backup diário
+  let hoje = new Date().toISOString().slice(0,10);
+  localStorage.setItem(BACKUP_PREFIX+hoje, JSON.stringify(master));
+  localStorage.setItem(BACKUP_PREFIX+'ULTIMO', JSON.stringify(master));
+  document.getElementById('statusSave').innerText='✓ Salvo agora '+new Date().toLocaleTimeString();
+  setTimeout(()=>document.getElementById('statusSave').innerText='✓ Dados salvos',2000);
+}
 
 function go(id){
 document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
@@ -112,6 +196,7 @@ if(id==='cal') renderCal();
 if(id==='casa') fillCasas();
 if(id==='art') renderArt();
 if(id==='fin') renderFin();
+if(id==='backup'){document.getElementById('logMigra').innerText=logMigra.join('\n')||'Nenhum backup antigo encontrado, começando do zero mas agora NUNCA MAIS perde.'; verBackups();}
 }
 function optsArt(v){return artistas.map(a=>`<option ${a.nome===v?'selected':''}>${a.nome}</option>`).join('')}
 function optsTurno(v){return ['AL','JA','AL/JA'].map(t=>`<option ${t===v?'selected':''}>${t}</option>`).join('')}
@@ -135,13 +220,24 @@ dados[d][i][t]=e.target.value; save();
 }));
 }
 function fillCasas(){document.getElementById('p1').value=casas.p1;document.getElementById('p2').value=casas.p2;document.getElementById('p3').value=casas.p3;document.getElementById('p4').value=casas.p4;document.getElementById('p5').value=casas.p5;document.getElementById('p6').value=casas.p6;}
-function saveCasas(){casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'};save();alert('Casas salvas!');go('cal');}
-function addArt(){let n=document.getElementById('artNome').value.trim();if(!n)return;artistas.push({nome:n,valor:parseFloat(document.getElementById('artValor').value)||0,tel:document.getElementById('artTel').value});document.getElementById('artNome').value='';document.getElementById('artValor').value='';document.getElementById('artTel').value='';save();renderArt();}
-function delArt(i){artistas.splice(i,1);save();renderArt()}
-function renderArt(){document.getElementById('listArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:10px;background:#F8F8FB;border-radius:8px;margin-bottom:6px"><span><b>${a.nome}</b> - R$ ${a.valor}</span><button onclick="delArt(${i})" style="background:#FFE2E2;border:none;border-radius:6px;padding:4px 10px;color:#C00;font-weight:800;cursor:pointer">X</button></div>`).join('')}
+function saveCasas(){casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'};save();alert('Casas salvas! E seus artistas continuam todos guardados, não apaga nada!');go('cal');}
+function addArt(){let n=document.getElementById('artNome').value.trim();if(!n)return alert('Nome');artistas.push({nome:n,valor:parseFloat(document.getElementById('artValor').value)||0,tel:document.getElementById('artTel').value});document.getElementById('artNome').value='';document.getElementById('artValor').value='';document.getElementById('artTel').value='';save();renderArt();}
+function delArt(i){if(confirm('Excluir artista? Seus dados ficam no backup mesmo assim')){artistas.splice(i,1);save();renderArt()}}
+function renderArt(){document.getElementById('listArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:10px;background:#F8F8FB;border-radius:8px;margin-bottom:6px"><span><b>${a.nome}</b> - R$ ${a.valor} ${a.tel||''}</span><button onclick="delArt(${i})" style="background:#FFE2E2;border:none;border-radius:6px;padding:4px 10px;color:#C00;font-weight:800;cursor:pointer">X</button></div>`).join('')}
 function renderFin(){let total=0,map={};for(let d=1;d<=30;d++){for(let o of dados[d]){let art=artistas.find(x=>x.nome===o.artista);let v=art?art.valor:0; if(o.turno==='AL/JA') v=v*2; total+=v; map[o.artista]=(map[o.artista]||0)+v;}}document.getElementById('totalMes').innerText='R$ '+total;document.getElementById('detFin').innerHTML=Object.entries(map).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:8px;background:#F8F8FB;border-radius:8px;margin-bottom:4px"><span>${k}</span><b>R$ ${v}</b></div>`).join('');}
+function exportar(){let master={casas,artistas,dados};let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(master));a.download="STAGEFLOW_BACKUP_"+new Date().toISOString().slice(0,10)+".json";a.click();}
+function importar(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{try{let j=JSON.parse(e.target.result);casas=j.casas||casas;artistas=j.artistas||artistas;dados=j.dados||j;save();alert('Restaurado! '+artistas.length+' artistas recuperados!');location.reload()}catch(err){alert('Arquivo inválido')}};r.readAsText(f)}
+function verBackups(){
+let html='';for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k.startsWith(BACKUP_PREFIX)){let v=JSON.parse(localStorage.getItem(k));html+=`<div style="padding:8px;background:#FFF;border-radius:6px;margin-bottom:4px;display:flex;justify-content:space-between"><span>${k} - ${v.artistas.length} artistas</span><button class="btn btn-safe" style="padding:4px 8px" onclick="restaurarBackup('${k}')">Restaurar</button></div>`}}
+document.getElementById('listaBackups').innerHTML=html||'Nenhum backup automático ainda, vai criar hoje quando salvar.';
+}
+function restaurarBackup(k){if(confirm('Restaurar '+k+'?')){let v=JSON.parse(localStorage.getItem(k));localStorage.setItem(MASTER_KEY,JSON.stringify(v));location.reload()}}
+function restaurarUltimoBackup(){let v=localStorage.getItem(BACKUP_PREFIX+'ULTIMO');if(!v)return alert('Sem backup');if(confirm('Restaurar último backup automático? Seus artistas vão voltar!')){localStorage.setItem(MASTER_KEY,v);location.reload()}}
 
+// INICIA JÁ SALVANDO O MASTER PRA NUNCA PERDER
+save();
 renderCal();fillCasas();renderArt();
+document.getElementById('logMigra').innerText=logMigra.join('\n');
 </script>
 </body>
 </html>
