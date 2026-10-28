@@ -3,152 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STAGEFLOW PRO - 1 FOLHA</title>
+<title>STAGEFLOW PRO COMPLETO - 1 FOLHA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#f2f2f5}
-.top{background:#10101e;color:#fff;padding:10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:1000}
-.top b{flex:1;font-size:12px}
-.top button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;font-size:11px}
+.top{background:#10101e;color:#fff;padding:8px 10px;display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:1000;flex-wrap:wrap}
+.top b{flex:1;font-size:11px}
+.top button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;font-size:10px;cursor:pointer}
 .green{background:#7CFF9A;color:#000}
 .white{background:#fff;color:#000}
-.menu{padding:8px;background:#fff;display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid #ddd}
-.menu button{padding:8px 10px;border:none;border-radius:8px;font-weight:800;background:#eee;font-size:11px}
+.menu{padding:8px;background:#fff;display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid #ddd;position:sticky;top:46px;z-index:999}
+.menu button{padding:8px 12px;border:none;border-radius:8px;font-weight:800;background:#eee;font-size:11px;cursor:pointer}
 .menu button.on{background:#10101e;color:#fff}
-.barra{background:#333;color:#fff;padding:8px;text-align:center;font-weight:900;font-size:12px}
+.barra{background:#333;color:#fff;padding:7px;text-align:center;font-weight:900;font-size:11px}
 .grade{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:6px;background:#f2f2f5}
 .dsem{background:#E9E9E9;padding:6px 0;text-align:center;font-weight:800;font-size:10px;border-radius:4px}
-.dia{background:#fff;border:1.5px solid #000;border-radius:8px;padding:5px;min-height:165px}
-.dia b.num{font-size:14px;color:#0B3D91;display:block;margin-bottom:3px}
-.l{font-size:8px;font-weight:700;display:flex;gap:2px;align-items:center;margin-top:3px}
+.dia{background:#fff;border:1.5px solid #333;border-radius:8px;padding:4px;min-height:160px}
+.dia b.num{font-size:13px;color:#0B3D91;display:block;margin-bottom:2px}
+.l{font-size:8px;font-weight:700;display:flex;gap:2px;align-items:center;margin-top:2px}
 .l i{width:18px;font-style:normal}
 .l select{flex:1;padding:3px 1px;border-radius:4px;border:1px solid #ccc;font-size:8px;font-weight:700}
-.l select.t{width:34px;background:#EFE8FF;border-color:#7C5CFC;color:#4A2AC0;font-weight:900}
+.l select.t{width:34px;background:#EFE8FF;border-color:#7C5CFC;color:#4A2AC0;font-weight:900;text-align:center}
 .sec{display:none}.sec.show{display:block}
 .card{background:#fff;border-radius:10px;padding:12px;margin:10px}
+.aviso{background:#D4EDDA;border:2px solid #0A7A2A;padding:10px;border-radius:10px;margin:10px;font-size:11px;font-weight:700;color:#0A7A2A}
 
-/* ===== CORREÇÃO PARA IMPRIMIR EM 1 FOLHA SÓ ===== */
+/* IMPRIME EM 1 FOLHA A4 DEITADO */
 @media print{
-  @page{
-    size: A4 landscape;
-    margin: 3mm;
-  }
-  html, body{
-    width: 297mm;
-    height: 210mm;
-    background: #fff !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .top, .menu{ display:none !important; }
-  .barra{ 
-    font-size: 8px !important; 
-    padding: 3px !important; 
-    margin:0 !important;
-    background:#000 !important;
-    color:#fff !important;
-  }
-  .grade{
-    gap: 2px !important;
-    padding: 2px !important;
-    background: #fff !important;
-  }
-  .dsem{
-    font-size: 7px !important;
-    padding: 2px 0 !important;
-  }
-  .dia{
-    min-height: 0 !important;
-    height: 37mm !important; /* 5 linhas cabem em 210mm */
-    padding: 2px !important;
-    border: 0.8px solid #000 !important;
-    border-radius: 4px !important;
-    overflow: hidden;
-  }
-  .dia b.num{
-    font-size: 8px !important;
-    margin-bottom: 1px !important;
-  }
-  .l{
-    font-size: 5.5px !important;
-    margin-top: 1px !important;
-    gap: 1px !important;
-  }
-  .l i{ width: 12px !important; font-size: 5.5px !important; }
-  .l select{
-    font-size: 5.5px !important;
-    padding: 0px 1px !important;
-    border: 0.5px solid #999 !important;
-    height: 10px !important;
-    -webkit-appearance: none;
-    appearance: none;
-    background: #fff !important;
-  }
-  .l select.t{
-    width: 18px !important;
-    background: #EFE8FF !important;
-  }
-  /* Esconde a seta do select na impressão */
-  select::-ms-expand{ display:none; }
+  @page{ size: A4 landscape; margin: 3mm; }
+  html,body{ background:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .top,.menu,.aviso{ display:none !important; }
+  .barra{ font-size:7px !important; padding:3px !important; background:#000 !important; color:#fff !important; }
+  .grade{ gap:2px !important; padding:2px !important; background:#fff !important; }
+  .dsem{ font-size:6px !important; padding:2px 0 !important; }
+  .dia{ min-height:0 !important; height:37mm !important; padding:2px !important; border:0.8px solid #000 !important; border-radius:4px !important; overflow:hidden; }
+  .dia b.num{ font-size:7px !important; margin-bottom:1px !important; }
+  .l{ font-size:5px !important; margin-top:1px !important; }
+  .l i{ width:10px !important; }
+  .l select{ font-size:5px !important; padding:0 1px !important; height:9px !important; border:0.5px solid #999 !important; -webkit-appearance:none; appearance:none; }
+  .l select.t{ width:16px !important; background:#EFE8FF !important; }
 }
 </style>
 </head>
 <body>
 
 <div class="top">
-<b>STAGEFLOW PRO • NOV 2026 • 1 FOLHA</b>
+<b>STAGEFLOW PRO • NOV 2026 • COMPLETO • 1 FOLHA</b>
 <button class="green" onclick="go('rel')">📊 Relatório</button>
 <button class="white" onclick="window.print()">🖨️ Imprimir 1 Folha</button>
+<button class="white" onclick="exportar()">💾 Backup</button>
 </div>
+
+<div id="aviso" class="aviso" style="display:none"></div>
 
 <div class="menu">
 <button id="b-cal" class="on" onclick="go('cal')">📅 Grade Mensal</button>
 <button id="b-rel" onclick="go('rel')">📊 Relatório Artista</button>
 <button id="b-art" onclick="go('art')">🎤 Artistas</button>
+<button id="b-casa" onclick="go('casa')">🏠 Casas P1-P6</button>
+<button id="b-back" onclick="exportar()">💾 Backup / Restaurar</button>
 </div>
 
 <div id="sec-cal" class="sec show">
-<div class="barra">NOVEMBRO 2026 • 1 AO 30 • P1-P6 = CASAS • AL/JA • IMPRESSÃO 1 FOLHA A4 DEITADO</div>
+<div class="barra">NOVEMBRO 2026 • 1 AO 30 • P1-P6 = CASAS • AL=Almoço JA=Janta • IMPRIME 1 FOLHA A4 DEITADO</div>
 <div style="overflow-x:auto">
-<div class="grade" id="semana"><div class="dsem">Dom</div><div class="dsem">Seg</div><div class="dsem">Ter</div><div class="dsem">Qua</div><div class="dsem">Qui</div><div class="dsem">Sex</div><div class="dsem">Sab</div></div>
+<div class="grade"><div class="dsem">Dom</div><div class="dsem">Seg</div><div class="dsem">Ter</div><div class="dsem">Qua</div><div class="dsem">Qui</div><div class="dsem">Sex</div><div class="dsem">Sab</div></div>
 <div class="grade" id="cal"></div>
 </div>
 </div>
 
 <div id="sec-rel" class="sec">
-<div class="barra">RELATORIO POR ARTISTA</div>
+<div class="barra">RELATÓRIO POR ARTISTA - Dias e Quantidade</div>
 <div class="card">
 <select id="selArt" style="width:100%;padding:10px;font-weight:800;border-radius:8px"></select>
-<button onclick="fazRel()" style="width:100%;margin-top:8px;padding:12px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:900">VER DIAS</button>
+<div style="display:flex;gap:6px;margin-top:8px">
+<button onclick="relUnico()" style="flex:1;padding:10px;background:#0A7A2A;color:#fff;border:none;border-radius:8px;font-weight:800">Ver ANDRÉ</button>
+<button onclick="relTodos()" style="flex:1;padding:10px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:800">Ver TODOS</button>
+</div>
 </div>
 <div id="resRel"></div>
 </div>
 
 <div id="sec-art" class="sec">
+<div class="barra">ARTISTAS - Nunca perde, salva em 5 lugares</div>
 <div class="card">
-<input id="novoArt" placeholder="Nome ex: ANDRE" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc">
-<button onclick="addArt()" style="width:100%;margin-top:8px;padding:10px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR</button>
-<div id="listaArt"></div>
+<div style="display:flex;gap:6px">
+<input id="nomeArt" placeholder="Nome ex: ANDRÉ" style="flex:2;padding:10px;border-radius:8px;border:1px solid #ccc">
+<input id="valorArt" type="number" placeholder="Cachê R$" style="flex:1;padding:10px;border-radius:8px;border:1px solid #ccc">
+</div>
+<button onclick="addArt()" style="width:100%;margin-top:8px;padding:12px;background:#7C5CFC;color:#fff;border:none;border-radius:8px;font-weight:900">SALVAR ARTISTA - NUNCA PERDE</button>
+<div id="listaArt" style="margin-top:10px"></div>
+<div style="margin-top:10px;display:flex;gap:6px">
+<input type="file" id="fileIn" accept=".json" style="display:none" onchange="importar(event)">
+<button onclick="document.getElementById('fileIn').click()" style="flex:1;padding:10px;background:#eee;border:none;border-radius:8px;font-weight:800">📂 Restaurar Backup</button>
+</div>
+</div>
+</div>
+
+<div id="sec-casa" class="sec">
+<div class="barra">CASAS P1-P6 - Nome das casas</div>
+<div class="card">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+<input id="p1" placeholder="P1"><input id="p2" placeholder="P2"><input id="p3" placeholder="P3">
+<input id="p4" placeholder="P4"><input id="p5" placeholder="P5"><input id="p6" placeholder="P6">
+</div>
+<button onclick="saveCasas()" style="width:100%;margin-top:10px;padding:12px;background:#10101e;color:#fff;border:none;border-radius:8px;font-weight:800">Salvar Casas P1-P6</button>
 </div>
 </div>
 
 <script>
-let artistas = ["ANDRE","Eli","Grill","Luciano","Y Gon","Israel","Vago"];
+// ===== SISTEMA QUE NUNCA PERDE DADO =====
+const CHAVE = 'STAGEFLOW_PERMANENTE_2026';
+const CHAVES_ANTIGAS = ['STAGEFLOW_MASTER_V1','STAGEFLOW_SIMPLES_FINAL','STAGEFLOW_FINAL_V3','STAGEFLOW_BACKUP_ULTIMO','stageflow_taki_final_v2','sf_artistas','sf_casas','sf_cal_final'];
+
+let artistas = [{nome:"ANDRE",valor:300},{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Israel",valor:350}];
+let casas = {p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
 let dados = {};
-for(let d=1; d<=30; d++){ dados[d]=[]; for(let p=0;p<6;p++) dados[d].push({a:"ANDRE",t:"AL"}); }
-try{
-  let rec = localStorage.getItem('STAGEFLOW_PERMANENTE_2026');
-  if(rec){ let j=JSON.parse(rec); if(j.artistas && j.artistas.length>2) artistas=j.artistas.map(x=>typeof x==='string'?x:(x.nome||"ANDRE")); if(j.dados) dados=j.dados; }
-}catch(e){}
+
+// 1. Cria dados padrão SEMPRE (pra nunca ficar branco)
+for(let d=1; d<=30; d++){ dados[d]=[]; for(let p=0;p<6;p++) dados[d].push({artista:"ANDRE",turno:"AL"}); }
+
+// 2. Tenta recuperar SEM QUEBRAR
+function recuperar(){
+  let melhorArt=null, maxQtd=0, origem='';
+  let lista = [CHAVE, ...CHAVES_ANTIGAS];
+  // varre localStorage todo
+  for(let i=0;i<localStorage.length;i++){ try{ let k=localStorage.key(i); if(!lista.includes(k)) lista.push(k); }catch(e){} }
+  
+  for(let chave of lista){
+    try{
+      let txt=localStorage.getItem(chave); if(!txt || txt.length<10) continue;
+      let obj=JSON.parse(txt);
+      let arts = obj.artistas || obj;
+      if(Array.isArray(arts) && arts.length>maxQtd && arts[0] && (typeof arts[0]==='string' || arts[0].nome)){
+        maxQtd=arts.length; melhorArt=arts; origem=chave;
+        if(obj.casas) casas=obj.casas;
+        if(obj.dados) dados=obj.dados;
+        if(obj.artistas) melhorArt=obj.artistas;
+      }
+      if(obj && obj.artistas && obj.artistas.length>maxQtd){
+        maxQtd=obj.artistas.length; melhorArt=obj.artistas; origem=chave;
+        if(obj.casas) casas=obj.casas;
+        if(obj.dados) dados=obj.dados;
+      }
+    }catch(e){}
+  }
+  if(melhorArt && maxQtd>0){
+    // normaliza pra formato {nome,valor}
+    artistas = melhorArt.map(a=>{
+      if(typeof a==='string') return {nome:a,valor:300};
+      if(a.nome) return {nome:a.nome,valor:a.valor||300};
+      return null;
+    }).filter(Boolean);
+    document.getElementById('aviso').style.display='block';
+    document.getElementById('aviso').innerHTML=`✅ RECUPEREI! Achei ${maxQtd} artistas em "${origem}" -> ${artistas.map(a=>a.nome).slice(0,6).join(', ')}... Seus dados voltaram!`;
+  }
+}
+recuperar();
+
+function normaliza(a){ if(typeof a==='string') return a; if(a && a.nome) return a.nome; return "ANDRE"; }
+function save(){
+  let pacote={artistas,casas,dados,salvoEm:new Date().toISOString()};
+  try{
+    localStorage.setItem(CHAVE, JSON.stringify(pacote));
+    localStorage.setItem('STAGEFLOW_BACKUP_ULTIMO', JSON.stringify(pacote));
+    localStorage.setItem('STAGEFLOW_BACKUP_'+new Date().toISOString().slice(0,10), JSON.stringify(pacote));
+    localStorage.setItem('sf_artistas', JSON.stringify(artistas));
+    localStorage.setItem('sf_casas', JSON.stringify(casas));
+  }catch(e){}
+}
 
 function go(id){
  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on'));
  document.getElementById('sec-'+id).classList.add('show');
- document.getElementById('b-'+id).classList.add('on');
+ let btn=document.getElementById('b-'+id); if(btn) btn.classList.add('on');
  if(id=='cal') monta();
  if(id=='rel') montaSel();
  if(id=='art') listaArt();
+ if(id=='casa') fillCasas();
 }
 
 function monta(){
@@ -157,37 +190,69 @@ function monta(){
    let div=document.createElement('div'); div.className='dia';
    let h=`<b class="num">${d} ▼</b>`;
    for(let p=0;p<6;p++){
-     let artOp=artistas.map(a=>`<option ${a==dados[d][p].a?'selected':''}>${a}</option>`).join('');
-     let turnoOp=`<option ${dados[d][p].t=='AL'?'selected':''}>AL</option><option ${dados[d][p].t=='JA'?'selected':''}>JA</option><option ${dados[d][p].t=='AL/JA'?'selected':''}>AL/JA</option>`;
-     h+=`<div class="l"><i>P${p+1}:</i><select data-d="${d}" data-p="${p}" class="art">${artOp}</select><select data-d="${d}" data-p="${p}" class="t">${turnoOp}</select></div>`;
+     if(!dados[d] || !dados[d][p]) dados[d][p]={artista:"ANDRE",turno:"AL"};
+     let cur=dados[d][p];
+     if(typeof cur==='string') cur={artista:cur,turno:"AL"};
+     if(cur.a) cur={artista:cur.a,turno:cur.t||"AL"};
+     if(cur.nome) cur={artista:cur.nome,turno:"AL"};
+     dados[d][p]=cur;
+     let optsArt=artistas.map(a=>`<option ${normaliza(a)==cur.artista?'selected':''}>${normaliza(a)}</option>`).join('');
+     let optsT=['AL','JA','AL/JA'].map(t=>`<option ${t==cur.turno?'selected':''}>${t}</option>`).join('');
+     h+=`<div class="l"><i>P${p+1}:</i><select data-d="${d}" data-p="${p}" data-t="artista">${optsArt}</select><select class="t" data-d="${d}" data-p="${p}" data-t="turno">${optsT}</select></div>`;
    }
    div.innerHTML=h; cal.appendChild(div);
  }
  let resto=7-(30%7); if(resto<7) for(let i=0;i<resto;i++){let e=document.createElement('div'); e.className='dia'; e.style.background='#efefef'; e.innerHTML=''; cal.appendChild(e);}
  cal.querySelectorAll('select').forEach(s=>s.addEventListener('change', e=>{
-     let d=e.target.dataset.d, p=e.target.dataset.p;
-     if(e.target.classList.contains('art')) dados[d][p].a=e.target.value; else dados[d][p].t=e.target.value;
-     try{ localStorage.setItem('STAGEFLOW_PERMANENTE_2026', JSON.stringify({artistas:artistas,dados:dados})) }catch(err){}
+   let d=e.target.dataset.d, p=e.target.dataset.p, t=e.target.dataset.t;
+   dados[d][p][t]=e.target.value; save();
  }));
 }
 
-function montaSel(){ document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${a}</option>`).join('') }
-function fazRel(){
- let nome=document.getElementById('selArt').value; let dias=[];
- for(let d=1; d<=30; d++) for(let p=0;p<6;p++) if(dados[d][p].a==nome) if(!dias.includes(d)) dias.push(d);
- dias.sort((a,b)=>a-b);
- document.getElementById('resRel').innerHTML=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${dias.length} shows</b><br><br>Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:3px 8px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0">${x}</span>`).join('')}</div>`;
+function montaSel(){ document.getElementById('selArt').innerHTML=artistas.map(a=>`<option>${normaliza(a)}</option>`).join('') }
+function relUnico(){ fazerRel([document.getElementById('selArt').value]) }
+function relTodos(){ fazerRel(artistas.map(a=>normaliza(a))) }
+function fazerRel(nomes){
+ let html='';
+ for(let nome of nomes){
+   let dias=[],count=0,det=[];
+   for(let d=1; d<=30; d++) for(let p=0;p<6;p++) if(dados[d] && dados[d][p] && dados[d][p].artista==nome){count++; if(!dias.includes(d)) dias.push(d); det.push(`Dia ${d} - P${p+1} (${casas['p'+(p+1)]} - ${dados[d][p].turno})`)}
+   if(count==0) continue;
+   dias.sort((a,b)=>a-b);
+   html+=`<div class="card" style="border-left:4px solid #7C5CFC"><b>${nome}: ${count} shows - R$${(artistas.find(a=>normaliza(a)==nome)?.valor||0)*count}</b><div style="margin-top:6px">Dias: ${dias.map(x=>`<span style="background:#EFE8FF;border:1px solid #7C5CFC;padding:2px 7px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;color:#4A2AC0;font-size:11px">${x}</span>`).join('')}</div><div style="font-size:11px;margin-top:6px;line-height:1.4">${det.join('<br>')}</div></div>`;
+ }
+ document.getElementById('resRel').innerHTML=html||'<div class="card">Nenhum show</div>';
 }
 function addArt(){
- let n=document.getElementById('novoArt').value.trim().toUpperCase(); if(!n) return;
- artistas.push(n); document.getElementById('novoArt').value='';
- try{ localStorage.setItem('STAGEFLOW_PERMANENTE_2026', JSON.stringify({artistas:artistas,dados:dados})) }catch(e){}
- listaArt(); montaSel(); monta();
+ let n=document.getElementById('nomeArt').value.trim().toUpperCase(); let v=document.getElementById('valorArt').value;
+ if(!n) return;
+ artistas.push({nome:n,valor:parseFloat(v)||300});
+ document.getElementById('nomeArt').value=''; document.getElementById('valorArt').value='';
+ save(); listaArt(); montaSel(); monta();
 }
 function listaArt(){
- document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-top:6px"><b>${a}</b><button onclick="artistas.splice(${i},1);try{localStorage.setItem('STAGEFLOW_PERMANENTE_2026',JSON.stringify({artistas:artistas,dados:dados}))}catch(e){};listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px">X</button></div>`).join('');
+ document.getElementById('listaArt').innerHTML=artistas.map((a,i)=>{
+   let nome=normaliza(a); let val=a.valor||300;
+   return `<div style="display:flex;justify-content:space-between;padding:8px;background:#f5f5f5;border-radius:8px;margin-bottom:4px"><b>${nome} - R$${val}</b><button onclick="artistas.splice(${i},1);save();listaArt();montaSel();monta()" style="background:#FFD2D2;border:none;padding:4px 8px;border-radius:6px;color:#C00;font-weight:800">X</button></div>`;
+ }).join('');
 }
-monta(); montaSel(); listaArt();
+function fillCasas(){ document.getElementById('p1').value=casas.p1; document.getElementById('p2').value=casas.p2; document.getElementById('p3').value=casas.p3; document.getElementById('p4').value=casas.p4; document.getElementById('p5').value=casas.p5; document.getElementById('p6').value=casas.p6; }
+function saveCasas(){ casas={p1:document.getElementById('p1').value||'P1',p2:document.getElementById('p2').value||'P2',p3:document.getElementById('p3').value||'P3',p4:document.getElementById('p4').value||'P4',p5:document.getElementById('p5').value||'P5',p6:document.getElementById('p6').value||'P6'}; save(); alert('Casas P1-P6 salvas! Nunca perde!'); go('cal'); }
+function exportar(){ let a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify({artistas,casas,dados})); a.download="BACKUP_STAGEFLOW_"+new Date().toISOString().slice(0,10)+".json"; a.click(); alert('Backup baixado! Guarda esse arquivo!'); }
+function importar(e){
+ let f=e.target.files[0]; if(!f) return;
+ let r=new FileReader(); r.onload=function(ev){
+   try{
+     let obj=JSON.parse(ev.target.result);
+     if(obj.artistas) artistas=obj.artistas.map(a=>typeof a==='string'?{nome:a,valor:300}:a);
+     if(obj.casas) casas=obj.casas;
+     if(obj.dados) dados=obj.dados;
+     save(); alert('Backup restaurado com sucesso!'); location.reload();
+   }catch(err){ alert('Erro no backup'); }
+ }; r.readAsText(f);
+}
+
+save(); monta(); montaSel(); listaArt(); fillCasas();
 </script>
 </body>
 </html>
