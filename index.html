@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - FINAL COMPLETO</title>
+<title>STAGEFLOW PRO - CALENDARIO COMPLETO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{display:flex;background:#F2F2F5;min-height:100vh}
@@ -12,25 +12,24 @@ body{display:flex;background:#F2F2F5;min-height:100vh}
 .menu button{width:100%;padding:13px;border:none;border-radius:8px;background:transparent;color:#9AA0B4;text-align:left;font-weight:700;margin-bottom:4px;cursor:pointer;font-size:13px}
 .menu button.active{background:#7C5CFC;color:#fff}
 .menu button.rel{background:#1E2A5A;color:#7CFF9A;border:1px solid #7C5CFC;font-weight:900}
-.menu button.rel.active{background:#7C5CFC;color:#fff}
 .main{flex:1;min-width:0}
-.top{padding:10px 12px;display:flex;gap:6px;align-items:center;background:#10101E;position:sticky;top:0;z-index:1000;flex-wrap:wrap}
+.top{padding:10px 12px;display:flex;gap:6px;align-items:center;background:#10101E;position:sticky;top:0;z-index:1000}
 .top .hamb{background:#fff;color:#10101E;border:none;width:44px;height:44px;border-radius:8px;font-size:22px;font-weight:900;cursor:pointer}
 .top .titulo{color:#fff;font-weight:900;flex:1;font-size:12px}
 .top button.act{padding:9px 11px;border:none;border-radius:8px;background:#fff;font-weight:800;cursor:pointer;font-size:11px}
-.header{background:#3D3D3D;color:#fff;padding:12px 16px;font-size:15px;font-weight:900}
+.header{background:#3D3D3D;color:#fff;padding:12px 16px;font-size:15px;font-weight:900;text-align:center}
 .sec{display:none}.sec.show{display:block}
-.wrap{overflow-x:auto}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:10px 12px;background:#F2F2F5;min-width:920px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:10px 12px;background:#F2F2F5}
 .week div{background:#E9E9E9;padding:11px 0;text-align:center;font-weight:800;font-size:11px;border-radius:6px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:0 12px 20px;background:#F2F2F5;min-width:920px}
-.cell{background:#fff;border:1.5px solid #555;border-radius:10px;padding:7px 6px;min-height:210px}
-.num{font-size:18px;font-weight:900;color:#0B3D91;margin-bottom:5px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#F2F2F5}
+.cell{background:#fff;border:1.5px solid #333;border-radius:10px;padding:8px 7px;min-height:210px}
+.num{font-size:18px;font-weight:900;color:#0B3D91;margin-bottom:5px;display:flex;justify-content:space-between}
+.num span{font-size:11px;color:#666;font-weight:700;margin-top:4px}
 .linha{display:flex;gap:3px;align-items:center;margin-top:4px;font-size:10px;font-weight:700}
 .linha b{min-width:22px}
-.sel-art{flex:1;border:1px solid #DDD;background:#F7F7FA;border-radius:6px;padding:5px 2px;font-size:10px;font-weight:700;cursor:pointer;min-width:0}
-.sel-turno{width:52px;border:1px solid #7C5CFC;background:#EFE8FF;border-radius:6px;padding:5px 1px;font-size:10px;font-weight:900;cursor:pointer;color:#4A2AC0;text-align:center}
-.box{padding:14px}.card{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.sel-art{flex:1;border:1px solid #DDD;background:#F7F7FA;border-radius:6px;padding:6px 2px;font-size:11px;font-weight:700;cursor:pointer;min-width:0}
+.sel-turno{width:54px;border:1px solid #7C5CFC;background:#EFE8FF;border-radius:6px;padding:6px 1px;font-size:11px;font-weight:900;cursor:pointer;color:#4A2AC0;text-align:center}
+.box{padding:14px}.card{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px}
 .row{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
 .row input,.row select{flex:1;min-width:100px;padding:10px;border:1px solid #DDD;border-radius:8px;font-size:12px}
 .btn{padding:10px 14px;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px}
@@ -38,6 +37,19 @@ body{display:flex;background:#F2F2F5;min-height:100vh}
 .btn-green{background:#0A7A2A;color:#fff}
 .item-rel{background:#F8F8FB;padding:12px;border-radius:10px;margin-bottom:8px;border-left:4px solid #7C5CFC}
 .dias span{background:#EFE8FF;padding:2px 7px;border-radius:12px;margin:2px;display:inline-block;font-weight:800;border:1px solid #7C5CFC;color:#4A2AC0;font-size:12px}
+
+/* CELULAR - CALENDARIO COMPLETO UM EMBAIXO DO OUTRO */
+@media(max-width:900px){
+  .sidebar{left:-300px}.sidebar.show{left:0}
+  .main{margin-left:0!important}
+  .week{display:none}
+  .cal{grid-template-columns:1fr!important;gap:12px}
+  .cell{min-height:auto;padding:12px}
+  .num{font-size:22px}
+  .sel-art{font-size:13px;padding:8px}
+  .sel-turno{font-size:13px;padding:8px;width:65px}
+  .linha{font-size:12px;margin-top:6px}
+}
 @media(min-width:901px){.sidebar{left:0}.main{margin-left:280px}.top .hamb{display:none}}
 </style>
 </head>
@@ -58,41 +70,29 @@ body{display:flex;background:#F2F2F5;min-height:100vh}
 <div class="main">
 <div class="top">
 <button class="hamb" onclick="document.getElementById('side').classList.toggle('show')">☰</button>
-<div class="titulo">STAGEFLOW PRO • NOV 2026</div>
+<div class="titulo">STAGEFLOW PRO • CALENDÁRIO COMPLETO 1 AO 30</div>
 <button class="act" style="background:#7CFF9A" onclick="go('rel')">📊 Relatório</button>
 <button class="act" onclick="window.print()">🖨️ Imprimir</button>
 </div>
 
 <div class="sec show" id="sec-cal">
-<div class="header">NOVEMBRO 2026 • P1-P6 = CASAS • AL=Almoço JA=Janta</div>
-<div class="wrap">
+<div class="header">NOVEMBRO 2026 • CALENDÁRIO COMPLETO • 1 AO 30 • SEM EFEITO LATERAL</div>
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
 <div class="cal" id="cal"></div>
 </div>
-</div>
 
 <div class="sec" id="sec-rel">
-<div class="header">📊 RELATÓRIO POR ARTISTA - Quantos shows e quais dias</div>
+<div class="header">📊 RELATÓRIO POR ARTISTA</div>
 <div class="box">
-<div class="card">
-<h3>Escolha o artista:</h3>
-<div class="row">
-<select id="selRelArt" style="font-size:14px;font-weight:800;padding:12px"></select>
-<button class="btn btn-green" onclick="gerarRelUnico()">Ver Relatório</button>
-<button class="btn btn-add" onclick="gerarRelTodos()">Ver TODOS</button>
-</div>
-</div>
-<div class="card" id="resultadoRel">
-<h3>Selecione um artista acima</h3>
-<p style="font-size:12px;color:#666">Ex: ANDRÉ: 15 shows - Dias 1,2,3,4,5,6,7...</p>
-</div>
+<div class="card"><div class="row"><select id="selRelArt" style="font-size:14px;font-weight:800;padding:12px"></select><button class="btn btn-green" onclick="gerarRelUnico()">Ver Relatório</button><button class="btn btn-add" onclick="gerarRelTodos()">Ver TODOS</button></div></div>
+<div class="card" id="resultadoRel"><h3>Escolha um artista</h3></div>
 </div>
 </div>
 
-<div class="sec" id="sec-casa"><div class="header">CASAS P1-P6 - Cadastro único</div><div class="box"><div class="card"><p style="font-size:11px;margin-bottom:10px">Esses nomes são os P1 a P6. Sem o Ca que você circulou. Limpo!</p><div class="row"><input id="p1" placeholder="P1"><input id="p2" placeholder="P2"><input id="p3" placeholder="P3"></div><div class="row"><input id="p4" placeholder="P4"><input id="p5" placeholder="P5"><input id="p6" placeholder="P6"></div><button class="btn btn-add" onclick="saveCasas()">💾 Salvar Casas</button></div></div></div>
-<div class="sec" id="sec-art"><div class="header">ARTISTAS</div><div class="box"><div class="card"><div class="row"><input id="artNome" placeholder="Nome - ex: ANDRÉ"><input id="artValor" type="number" placeholder="Cachê R$"><input id="artTel" placeholder="Tel"></div><button class="btn btn-add" onclick="addArt()">Salvar Artista</button></div><div class="card"><div id="listArt"></div></div></div></div>
+<div class="sec" id="sec-casa"><div class="header">CASAS P1-P6</div><div class="box"><div class="card"><div class="row"><input id="p1" placeholder="P1"><input id="p2" placeholder="P2"><input id="p3" placeholder="P3"></div><div class="row"><input id="p4" placeholder="P4"><input id="p5" placeholder="P5"><input id="p6" placeholder="P6"></div><button class="btn btn-add" onclick="saveCasas()">Salvar Casas</button></div></div></div>
+<div class="sec" id="sec-art"><div class="header">ARTISTAS</div><div class="box"><div class="card"><div class="row"><input id="artNome" placeholder="Nome - ex: ANDRÉ"><input id="artValor" type="number" placeholder="Cachê"><input id="artTel" placeholder="Tel"></div><button class="btn btn-add" onclick="addArt()">Salvar Artista</button></div><div class="card"><div id="listArt"></div></div></div></div>
 <div class="sec" id="sec-fin"><div class="header">FINANCEIRO</div><div class="box"><div class="card"><h3>Total: <span id="totalMes"></span></h3><div id="detFin"></div></div></div></div>
-<div class="sec" id="sec-backup"><div class="header">BACKUP</div><div class="box"><div class="card"><button class="btn btn-green" onclick="exportar()">📥 Baixar Backup</button> <button class="btn btn-add" onclick="document.getElementById('imp').click()">📤 Restaurar Arquivo</button><input type="file" id="imp" hidden accept=".json" onchange="importar(this)"><div id="logMigra" style="margin-top:10px;font-size:11px;background:#F5F5F5;padding:10px;border-radius:8px;white-space:pre-wrap"></div></div></div></div>
+<div class="sec" id="sec-backup"><div class="header">BACKUP</div><div class="box"><div class="card"><button class="btn btn-green" onclick="exportar()">📥 Baixar Backup</button> <button class="btn btn-add" onclick="document.getElementById('imp').click()">📤 Restaurar</button><input type="file" id="imp" hidden accept=".json" onchange="importar(this)"><div id="logMigra" style="margin-top:10px;font-size:11px;background:#F5F5F5;padding:10px;border-radius:8px;white-space:pre-wrap"></div></div></div></div>
 </div>
 </div>
 
@@ -100,25 +100,33 @@ body{display:flex;background:#F2F2F5;min-height:100vh}
 const MASTER_KEY='STAGEFLOW_MASTER_V1';
 const OLD_KEYS=['stageflow_taki_final_v2','stageflow_final_perfeito','sf_casas','sf_artistas','sf_cal_final','sf_cal_limpo','sf_cal_alja','sf_casas_p1p6','sf_artistas_v2','stageflow_taki','stageflow_pro','STAGEFLOW_BACKUP_ULTIMO'];
 let logMigra=[];
-function loadMaster(){
-  let master=JSON.parse(localStorage.getItem(MASTER_KEY)||'null');
-  if(master){logMigra.push('✓ MASTER: '+master.artistas.length+' artistas');return master;}
-  let melhor=null,maxArt=0;
-  for(let k of OLD_KEYS){try{let v=JSON.parse(localStorage.getItem(k)||'null');if(!v)continue;if(v.artistas&&v.artistas.length>maxArt){melhor=v;maxArt=v.artistas.length;logMigra.push('→ Achou '+k+' com '+v.artistas.length);}}catch(e){}}
-  for(let k of OLD_KEYS){try{let v=JSON.parse(localStorage.getItem(k)||'null');if(Array.isArray(v)&&v.length>maxArt){melhor={artistas:v, casas:{p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"}};maxArt=v.length;logMigra.push('→ Achou lista '+k+' com '+v.length);}}catch(e){}}
-  return melhor;
-}
+function loadMaster(){let master=JSON.parse(localStorage.getItem(MASTER_KEY)||'null');if(master){logMigra.push('✓ MASTER: '+master.artistas.length+' artistas');return master;}let melhor=null,maxArt=0;for(let k of OLD_KEYS){try{let v=JSON.parse(localStorage.getItem(k)||'null');if(!v)continue;if(v.artistas&&v.artistas.length>maxArt){melhor=v;maxArt=v.artistas.length;}}catch(e){}}return melhor;}
 let loaded=loadMaster();
 let casas=loaded&&loaded.casas?loaded.casas:{p1:"Cais",p2:"Vila Chopp",p3:"Grill",p4:"Bar do Zé",p5:"Omau",p6:"Vago"};
 let artistas=loaded&&loaded.artistas?loaded.artistas:[{nome:"ANDRÉ",valor:300},{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Israel",valor:350},{nome:"Vago",valor:0}];
 let base={}; for(let i=1;i<=30;i++) base[i]=Array(6).fill(0).map(()=>({artista:"ANDRÉ",turno:"AL"}));
 let dados=loaded&&loaded.dados?loaded.dados:base;
 for(let d in dados){for(let i=0;i<6;i++){if(!dados[d][i]) dados[d][i]={artista:"ANDRÉ",turno:"AL"}; if(typeof dados[d][i]==='string') dados[d][i]={artista:dados[d][i],turno:"AL"}; if(!dados[d][i].turno) dados[d][i].turno="AL";}}
-function save(){let m={casas,artistas,dados,ultimoSave:new Date().toISOString()};localStorage.setItem(MASTER_KEY,JSON.stringify(m));localStorage.setItem('STAGEFLOW_BACKUP_ULTIMO',JSON.stringify(m));localStorage.setItem('STAGEFLOW_BACKUP_'+new Date().toISOString().slice(0,10),JSON.stringify(m));document.getElementById('statusSave').innerText='✓ Salvo '+new Date().toLocaleTimeString();}
-function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));document.getElementById('sec-'+id).classList.add('show');document.getElementById('m-'+id).classList.add('active');document.getElementById('side').classList.remove('show');if(id==='cal')renderCal();if(id==='casa')fillCasas();if(id==='art')renderArt();if(id==='fin')renderFin();if(id==='rel')renderRelSelect();if(id==='backup')document.getElementById('logMigra').innerText=logMigra.join('\n')||'Começando do zero, mas agora nunca perde mais';}
+let diasSemana=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+function save(){let m={casas,artistas,dados,ultimoSave:new Date().toISOString()};localStorage.setItem(MASTER_KEY,JSON.stringify(m));localStorage.setItem('STAGEFLOW_BACKUP_ULTIMO',JSON.stringify(m));document.getElementById('statusSave').innerText='✓ Salvo '+new Date().toLocaleTimeString();}
+function go(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));document.getElementById('sec-'+id).classList.add('show');document.getElementById('m-'+id).classList.add('active');document.getElementById('side').classList.remove('show');if(id==='cal')renderCal();if(id==='casa')fillCasas();if(id==='art')renderArt();if(id==='fin')renderFin();if(id==='rel')renderRelSelect();if(id==='backup')document.getElementById('logMigra').innerText=logMigra.join('\n');}
 function optsArt(v){return artistas.map(a=>`<option ${a.nome===v?'selected':''}>${a.nome}</option>`).join('')}
 function optsTurno(v){return ['AL','JA','AL/JA'].map(t=>`<option ${t===v?'selected':''}>${t}</option>`).join('')}
-function renderCal(){const cal=document.getElementById('cal');cal.innerHTML='';for(let d=1;d<=30;d++){let a=dados[d];let el=document.createElement('div');el.className='cell';let html=`<div class="num">${d} ▼</div>`;for(let i=0;i<6;i++){html+=`<div class="linha"><b>P${i+1}:</b><select class="sel-art" data-d="${d}" data-i="${i}" data-t="artista">${optsArt(a[i].artista)}</select><select class="sel-turno" data-d="${d}" data-i="${i}" data-t="turno">${optsTurno(a[i].turno)}</select></div>`;}el.innerHTML=html;cal.appendChild(el);}let resto=7-(30%7);if(resto<7){for(let i=0;i<resto;i++){let e=document.createElement('div');e.className='cell';e.style.background='#EFEFEF';cal.appendChild(e);}}cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{dados[e.target.dataset.d][e.target.dataset.i][e.target.dataset.t]=e.target.value;save();}));}
+function renderCal(){
+const cal=document.getElementById('cal');cal.innerHTML='';
+for(let d=1;d<=30;d++){
+let a=dados[d];
+let diaSem = diasSemana[(d-1)%7]; // Novembro 2026 começa domingo
+let el=document.createElement('div');el.className='cell';
+let html=`<div class="num"><div>${d} ▼</div><span>${diaSem}</span></div>`;
+for(let i=0;i<6;i++){
+html+=`<div class="linha"><b>P${i+1}:</b><select class="sel-art" data-d="${d}" data-i="${i}" data-t="artista">${optsArt(a[i].artista)}</select><select class="sel-turno" data-d="${d}" data-i="${i}" data-t="turno">${optsTurno(a[i].turno)}</select></div>`;
+}
+el.innerHTML=html;
+cal.appendChild(el);
+}
+cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{dados[e.target.dataset.d][e.target.dataset.i][e.target.dataset.t]=e.target.value;save();}));
+}
 function renderRelSelect(){let sel=document.getElementById('selRelArt');sel.innerHTML=artistas.map(a=>`<option value="${a.nome}">${a.nome}</option>`).join('');}
 function gerarRelUnico(){gerarRelLista([document.getElementById('selRelArt').value]);}
 function gerarRelTodos(){gerarRelLista(artistas.map(a=>a.nome));}
@@ -129,7 +137,7 @@ function addArt(){let n=document.getElementById('artNome').value.trim().toUpperC
 function delArt(i){artistas.splice(i,1);save();renderArt();renderRelSelect()}
 function renderArt(){document.getElementById('listArt').innerHTML=artistas.map((a,i)=>`<div style="display:flex;justify-content:space-between;padding:10px;background:#F8F8FB;border-radius:8px;margin-bottom:6px"><span><b>${a.nome}</b> - R$ ${a.valor}</span><button onclick="delArt(${i})" style="background:#FFE2E2;border:none;border-radius:6px;padding:4px 10px;color:#C00;font-weight:800;cursor:pointer">X</button></div>`).join('')}
 function renderFin(){let total=0,map={};for(let d=1;d<=30;d++){for(let o of dados[d]){let art=artistas.find(x=>x.nome===o.artista);let v=art?art.valor:0;if(o.turno==='AL/JA')v=v*2;total+=v;map[o.artista]=(map[o.artista]||0)+v;}}document.getElementById('totalMes').innerText='R$ '+total;document.getElementById('detFin').innerHTML=Object.entries(map).map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:8px;background:#F8F8FB;border-radius:8px;margin-bottom:4px"><span>${k}</span><b>R$ ${v}</b></div>`).join('');}
-function exportar(){let m={casas,artistas,dados};let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(m));a.download="stageflow_backup_"+new Date().toISOString().slice(0,10)+".json";a.click();}
+function exportar(){let m={casas,artistas,dados};let a=document.createElement('a');a.href="data:text/json;charset=utf-8,[STRIPPED] Date().toISOString().slice(0,10)+".json";a.click();}
 function importar(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{try{let j=JSON.parse(e.target.result);casas=j.casas||casas;artistas=j.artistas||artistas;dados=j.dados||j;save();alert('Restaurado!');location.reload()}catch(err){alert('Arquivo inválido')}};r.readAsText(f)}
 save();renderCal();fillCasas();renderArt();renderRelSelect();
 </script>
