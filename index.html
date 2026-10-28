@@ -3,75 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STAGEFLOW PRO - FINAL PERFEITO</title>
+<title>STAGEFLOW PRO - COMPLETO</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{display:flex;background:#fff;min-height:100vh}
-.sidebar{width:260px;background:#10101E;color:#fff;position:fixed;left:-280px;top:0;height:100vh;padding:16px 12px;z-index:2000;display:flex;flex-direction:column;transition:.3s}
+body{display:flex;background:#F2F2F5;min-height:100vh}
+.sidebar{width:260px;background:#10101E;color:#fff;position:fixed;left:-280px;top:0;height:100vh;padding:16px 12px;z-index:2000;display:flex;flex-direction:column;transition:.3s;overflow-y:auto}
 .sidebar.show{left:0}
-.logo{font-weight:800;font-size:18px;margin-bottom:20px}
-.menu button{width:100%;padding:11px;border:none;border-radius:8px;background:transparent;color:#9AA0B4;text-align:left;font-weight:600;margin-bottom:2px;cursor:pointer}
+.logo{font-weight:900;font-size:18px;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.logo i{width:28px;height:28px;background:#7C5CFC;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:5px}
+.logo i b{background:#fff;border-radius:2px}
+.menu{flex:1}
+.menu button{width:100%;padding:12px 12px;border:none;border-radius:8px;background:transparent;color:#9AA0B4;text-align:left;font-weight:700;margin-bottom:3px;cursor:pointer;font-size:13px}
 .menu button.active{background:#7C5CFC;color:#fff}
-.main{flex:1;min-width:0;background:#fff}
+.main{flex:1;min-width:0;background:#F2F2F5}
 .top{padding:10px 12px;display:flex;gap:8px;align-items:center;background:#10101E;position:sticky;top:0;z-index:1000}
 .top .hamb{background:#fff;color:#10101E;border:none;width:44px;height:44px;border-radius:8px;font-size:22px;font-weight:900;cursor:pointer}
-.top .titulo{color:#fff;font-weight:800;flex:1;font-size:14px}
-.top button.action{padding:10px 14px;border:none;border-radius:8px;background:#fff;font-weight:800;cursor:pointer;font-size:12px}
-.header{background:#3D3D3D;color:#fff;padding:14px 18px;font-size:20px;font-weight:900;letter-spacing:.5px}
+.top .titulo{color:#fff;font-weight:900;flex:1;font-size:14px}
+.top button.act{padding:10px 14px;border:none;border-radius:8px;background:#fff;font-weight:800;cursor:pointer;font-size:12px}
+.header{background:#3D3D3D;color:#fff;padding:14px 18px;font-size:18px;font-weight:900}
+.sec{display:none}.sec.show{display:block}
 .wrap{overflow-x:auto}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#F5F5F5;min-width:800px}
-.week div{background:#E9E9E9;padding:12px 0;text-align:center;font-weight:700;font-size:13px;border-radius:4px;color:#333}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#F5F5F5;min-width:800px}
-.cell{background:#fff;border:1.2px solid #999;border-radius:6px;padding:8px 6px;min-height:145px}
-.cell.empty{background:#EFEFEF;border-color:#DDD}
-.num{font-size:22px;font-weight:900;color:#0B3D91;display:flex;align-items:center;gap:4px;margin-bottom:4px}
-.num span{font-size:12px}
-.linha{font-size:9.5px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#222}
-.linha select{border:none;background:transparent;width:100%;font-size:9.5px;font-weight:600;cursor:pointer;color:#222}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px 12px;background:#F2F2F5;min-width:850px}
+.week div{background:#E9E9E9;padding:12px 0;text-align:center;font-weight:800;font-size:12px;border-radius:6px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0 12px 20px;background:#F2F2F5;min-width:850px}
+.cell{background:#fff;border:1.2px solid #999;border-radius:8px;padding:8px 6px;min-height:168px}
+.cell.empty{background:#EFEFEF}
+.num{font-size:20px;font-weight:900;color:#0B3D91;margin-bottom:4px}
+.linha{font-size:9.2px;line-height:1.3;display:flex;gap:2px;margin-top:3px;align-items:center}
+.linha b{min-width:18px}
+.linha select{border:1px solid #E5E5E5;background:#F7F7FA;border-radius:5px;padding:2px 3px;width:100%;font-size:9px;font-weight:700;cursor:pointer}
 
+/* TELAS CASAS E ARTISTAS */
+.box{padding:18px}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card h3{font-size:16px;margin-bottom:12px}
+.row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.row input{flex:1;min-width:120px;padding:10px 12px;border:1px solid #DDD;border-radius:8px;font-size:13px}
+.btn{padding:10px 16px;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-size:13px}
+.btn-add{background:#7C5CFC;color:#fff}
+.btn-del{background:#FFE2E2;color:#C00}
+.list{display:grid;gap:8px}
+.item{background:#F8F8FB;padding:10px 12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
 @media(min-width:901px){.sidebar{left:0}.main{margin-left:260px}.top .hamb{display:none}}
-@media(max-width:900px){
-.wrap{overflow-x:auto}
-.week,.cal{min-width:700px}
-.cell{min-height:135px}
-}
-@media print{
-@page{size:A4 landscape;margin:8mm}
-.sidebar,.top{display:none!important}
-.main{margin-left:0!important}
-.wrap{overflow:visible}
-.week,.cal{min-width:0}
-.cell{min-height:110px}
-}
+@media print{@page{size:A4 landscape;margin:6mm}.sidebar,.top{display:none!important}.main{margin-left:0!important}}
 </style>
 </head>
 <body>
 <div class="sidebar" id="side">
-<div class="logo">Stageflow Pro</div>
+<div class="logo"><i><b></b><b></b><b></b><b></b></i> Stageflow Pro</div>
 <div class="menu">
-<button>Dashboard</button>
-<button class="active">Agendamento Mensal</button>
-<button>Artistas</button>
-<button>Casas</button>
-<button>Financeiro</button>
-<button>Relatorios</button>
-<button>Configuracoes</button>
+<button id="m-dash" onclick="go('dash')">Dashboard</button>
+<button id="m-cal" class="active" onclick="go('cal')">Agendamento Mensal</button>
+<button id="m-art" onclick="go('art')">Artistas</button>
+<button id="m-casa" onclick="go('casa')">Casas / Restaurantes</button>
+<button id="m-fin" onclick="go('fin')">Financeiro</button>
+<button id="m-rel" onclick="go('rel')">Relatórios</button>
 <div style="margin-top:12px;display:flex;gap:6px">
 <button style="background:#2A2A3A;color:#fff" onclick="exportar()">Exportar</button>
 <button style="background:#2A2A3A;color:#fff" onclick="document.getElementById('imp').click()">Importar</button>
 <input type="file" id="imp" hidden accept=".json" onchange="importar(this)">
 </div>
 </div>
-<div style="margin-top:auto;background:#1A1A2E;padding:10px;border-radius:10px;font-size:12px">JD - Joao Duarte - Admin</div>
+<div style="margin-top:auto;background:#1A1A2E;padding:10px;border-radius:10px;font-size:12px">JD - Joao Duarte</div>
 </div>
 
 <div class="main">
 <div class="top">
 <button class="hamb" onclick="document.getElementById('side').classList.toggle('show')">☰</button>
-<div class="titulo">STAGEFLOW PRO</div>
-<button class="action" onclick="window.print()">Imprimir Horizontal</button>
-<button class="action" onclick="exportar()">Exportar</button>
+<div class="titulo" id="topTitle">STAGEFLOW PRO • NOVEMBRO 2026</div>
+<button class="act" onclick="window.print()">🖨️ Imprimir</button>
 </div>
+
+<!-- CALENDARIO -->
+<div class="sec show" id="sec-cal">
 <div class="header">STAGEFLOW PRO • CALENDÁRIO NOVEMBRO 2026</div>
 <div class="wrap">
 <div class="week"><div>Domingo</div><div>Segunda</div><div>Terça</div><div>Quarta</div><div>Quinta</div><div>Sexta</div><div>Sábado</div></div>
@@ -79,34 +83,129 @@ body{display:flex;background:#fff;min-height:100vh}
 </div>
 </div>
 
+<!-- ARTISTAS -->
+<div class="sec" id="sec-art">
+<div class="header">ARTISTAS • Cadastro com Cachê</div>
+<div class="box">
+<div class="card">
+<h3>+ Novo Artista</h3>
+<div class="row">
+<input id="artNome" placeholder="Nome do Artista - ex: Eli">
+<input id="artValor" type="number" placeholder="Cachê R$ - ex: 350">
+<input id="artTel" placeholder="Telefone / Pix">
+</div>
+<button class="btn btn-add" onclick="addArt()">Salvar Artista</button>
+</div>
+<div class="card">
+<h3>Artistas Cadastrados</h3>
+<div class="list" id="listArt"></div>
+</div>
+</div>
+</div>
+
+<!-- CASAS -->
+<div class="sec" id="sec-casa">
+<div class="header">CASAS / RESTAURANTES</div>
+<div class="box">
+<div class="card">
+<h3>+ Nova Casa</h3>
+<div class="row">
+<input id="casaNome" placeholder="Nome - ex: Cais">
+<input id="casaEnd" placeholder="Endereço">
+<input id="casaCont" placeholder="Contato">
+</div>
+<button class="btn btn-add" onclick="addCasa()">Salvar Casa</button>
+</div>
+<div class="card">
+<h3>Casas Cadastradas</h3>
+<div class="list" id="listCasa"></div>
+</div>
+</div>
+</div>
+
+<!-- FINANCEIRO E DASH -->
+<div class="sec" id="sec-fin"><div class="header">FINANCEIRO</div><div class="box"><div class="card"><h3>Total do mês: <span id="totalMes">R$ 0</span></h3><div id="detFin"></div></div></div></div>
+<div class="sec" id="sec-dash"><div class="header">DASHBOARD</div><div class="box"><div class="card"><h3>Bem-vindo, Taki!</h3><p style="font-size:13px;margin-top:8px">Use o menu lateral: Artistas e Casas pra cadastrar. Depois vai no Calendário e monta Novembro 2026.<br><br>📌 Dica: No celular clica no ☰ pra abrir o menu.</p></div></div></div>
+<div class="sec" id="sec-rel"><div class="header">RELATÓRIOS</div><div class="box"><div class="card"><h3>Relatório por Artista</h3><div id="rel"></div></div></div></div>
+</div>
+
 <script>
-const opcoes=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"];
-let base={}; for(let i=1;i<=30;i++) base[i]=["Cais - Eli","Vila Chopp - Grill","Grill - Luciano","Bar do Zé - Y Gon","Omau - Vago","Vago - Israel"];
-let dados=JSON.parse(localStorage.getItem('stageflow_final_perfeito')||'null')||base;
-function opts(v){return opcoes.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}
-function render(){
+// DADOS
+let casas = JSON.parse(localStorage.getItem('sf_casas')||'null') || [{nome:"Cais"},{nome:"Vila Chopp"},{nome:"Grill"},{nome:"Bar do Zé"},{nome:"Omau"},{nome:"Vago"}];
+let artistas = JSON.parse(localStorage.getItem('sf_artistas')||'null') || [{nome:"Eli",valor:300},{nome:"Grill",valor:300},{nome:"Luciano",valor:300},{nome:"Y Gon",valor:300},{nome:"Vago",valor:0},{nome:"Israel",valor:350}];
+let base={}; for(let i=1;i<=30;i++) base[i]=Array(6).fill(0).map(()=>({casa:"Cais",artista:"Eli"}));
+let dados = JSON.parse(localStorage.getItem('sf_cal_final')||'null') || base;
+
+function save(){localStorage.setItem('sf_casas',JSON.stringify(casas));localStorage.setItem('sf_artistas',JSON.stringify(artistas));localStorage.setItem('sf_cal_final',JSON.stringify(dados));}
+
+function go(id){
+document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
+document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+document.getElementById('sec-'+id).classList.add('show');
+document.getElementById('m-'+id).classList.add('active');
+document.getElementById('side').classList.remove('show');
+if(id==='cal') renderCal();
+if(id==='art') renderArt();
+if(id==='casa') renderCasa();
+if(id==='fin') renderFin();
+if(id==='rel') renderRel();
+}
+
+function optsCasa(v){return casas.map(c=>`<option ${c.nome===v?'selected':''}>${c.nome}</option>`).join('')}
+function optsArt(v){return artistas.map(a=>`<option ${a.nome===v?'selected':''}>${a.nome}</option>`).join('')}
+
+function renderCal(){
 const cal=document.getElementById('cal'); cal.innerHTML='';
-for(let dia=1;dia<=30;dia++){
-let a=dados[dia];
+for(let d=1;d<=30;d++){
+let a=dados[d];
 let el=document.createElement('div');el.className='cell';
-el.innerHTML=`<div class="num">${dia} <span>▼</span></div>
-<div class="linha"><b>P1:</b> <select data-d="${dia}" data-i="0">${opts(a[0])}</select></div>
-<div class="linha"><b>P2:</b> <select data-d="${dia}" data-i="1">${opts(a[1])}</select></div>
-<div class="linha"><b>P3:</b> <select data-d="${dia}" data-i="2">${opts(a[2])}</select></div>
-<div class="linha"><b>P4:</b> <select data-d="${dia}" data-i="3">${opts(a[3])}</select></div>
-<div class="linha"><b>P5:</b> <select data-d="${dia}" data-i="4">${opts(a[4])}</select></div>
-<div class="linha"><b>P6:</b> <select data-d="${dia}" data-i="5">${opts(a[5])}</select></div>`;
+let html=`<div class="num">${d} ▼</div>`;
+for(let i=0;i<6;i++){
+html+=`<div class="linha"><b>P${i+1}:</b><select data-d="${d}" data-i="${i}" data-t="casa">${optsCasa(a[i].casa)}</select><select data-d="${d}" data-i="${i}" data-t="art">${optsArt(a[i].artista)}</select></div>`;
+}
+el.innerHTML=html;
 cal.appendChild(el);
 }
 for(let i=0;i<5;i++){let e=document.createElement('div');e.className='cell empty';cal.appendChild(e);}
 cal.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
-dados[e.target.dataset.d][e.target.dataset.i]=e.target.value;
-localStorage.setItem('stageflow_final_perfeito',JSON.stringify(dados));
+let d=e.target.dataset.d,i=e.target.dataset.i,t=e.target.dataset.t;
+dados[d][i][t]=e.target.value; save();
 }));
 }
-render();
-function exportar(){let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(dados));a.download="stageflow-novembro-2026.json";a.click()}
-function importar(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{localStorage.setItem('stageflow_final_perfeito',e.target.result);location.reload()};r.readAsText(f)}
+
+function addCasa(){
+let n=document.getElementById('casaNome').value.trim(); if(!n) return alert('Digite o nome');
+casas.push({nome:n,end:document.getElementById('casaEnd').value,cont:document.getElementById('casaCont').value});
+document.getElementById('casaNome').value='';document.getElementById('casaEnd').value='';document.getElementById('casaCont').value='';
+save(); renderCasa();
+}
+function addArt(){
+let n=document.getElementById('artNome').value.trim(); if(!n) return alert('Digite o nome');
+artistas.push({nome:n,valor:parseFloat(document.getElementById('artValor').value)||0,tel:document.getElementById('artTel').value});
+document.getElementById('artNome').value='';document.getElementById('artValor').value='';document.getElementById('artTel').value='';
+save(); renderArt();
+}
+function delCasa(i){if(confirm('Excluir?')){casas.splice(i,1);save();renderCasa()}}
+function delArt(i){if(confirm('Excluir?')){artistas.splice(i,1);save();renderArt()}}
+
+function renderCasa(){
+document.getElementById('listCasa').innerHTML=casas.map((c,i)=>`<div class="item"><span><b>${c.nome}</b> ${c.end||''}</span><button class="btn btn-del" onclick="delCasa(${i})">X</button></div>`).join('');
+}
+function renderArt(){
+document.getElementById('listArt').innerHTML=artistas.map((a,i)=>`<div class="item"><span><b>${a.nome}</b> - R$ ${a.valor||0} ${a.tel||''}</span><button class="btn btn-del" onclick="delArt(${i})">X</button></div>`).join('');
+}
+function renderFin(){
+let total=0, map={};
+for(let d=1;d<=30;d++){for(let p of dados[d]){let art=artistas.find(x=>x.nome===p.artista);let v=art?art.valor:0; total+=v; map[p.artista]=(map[p.artista]||0)+v;}}
+document.getElementById('totalMes').innerText='R$ '+total;
+document.getElementById('detFin').innerHTML=Object.entries(map).map(([k,v])=>`<div class="item"><span>${k}</span><b>R$ ${v}</b></div>`).join('');
+}
+function renderRel(){renderFin();document.getElementById('rel').innerHTML=document.getElementById('detFin').innerHTML}
+
+function exportar(){let all={casas,artistas,dados};let a=document.createElement('a');a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(all));a.download="stageflow-backup.json";a.click()}
+function importar(inp){let f=inp.files[0];if(!f)return;let r=new FileReader();r.onload=e=>{try{let j=JSON.parse(e.target.result);casas=j.casas||casas;artistas=j.artistas||artistas;dados=j.dados||j;save();location.reload()}catch(err){alert('Arquivo inválido')}};r.readAsText(f)}
+
+renderCal();renderCasa();renderArt();
 </script>
 </body>
 </html>
